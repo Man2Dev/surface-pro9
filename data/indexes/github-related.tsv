@@ -1,0 +1,320 @@
+# Tier 2 to 5: GitHub issues and PRs in the linux-surface org that could relate to the Surface Pro 9 without naming it.
+# tier 2: names the Surface Pro 8 (closest sibling: same IPU6 + OV5693/OV13858/VD55G0 cameras, ITHC touch, SAM KIP keyboard,
+#         Slim Pen 2) or Alder Lake / 12th gen.
+# tier 3: shared subsystem keywords (ithc, ipu6, ov13858, vd55g0, flex keyboard, slim pen, soc_button_array, pinctrl_tigerlake,
+#         hpiosize, interrupt storm, enable_psr, quickspi/intel-thc, secure core, dracut, keyboard backlight, surface_battery,
+#         microphone, haptic), kernel repo PRs, iptsd open issues and PRs. Old 2019 to 2022 items are kept only if still open.
+# tier 4: Fedora packaging related titles. tier 5: initramfs / luks / tablet mode / s0ix / hibernate titles.
+# Same id/kind/state conventions as github-sp9.tsv. Titles truncated to 72 characters. created "-" = not captured (later rows).
+tier	id	kind	state	created	updated	title	tags
+2	aarch64-arch-mkimg#8	PR	C	2023-06-09	2023-06-10	Feat/mirror update	sp8
+2	intel-precise-touch#8	I	O	2021-02-18	2026-11-07	Support for Touch Host Controller (Tigerlake+)	sp8,ithc,thc
+2	intel-precise-touch#13	I	C	2021-07-16	2021-07-20	A question about future development for touch/stylus aspects of the surf	sp8
+2	intel-precise-touch#16	I	O	2022-01-31	2026-11-07	Pen calibration	sp8,libwacom
+2	intel-precise-touch#32	PR	O	2024-12-21	2026-11-07	increase timeout in ipts_control_wait_flush	sp8
+2	iptsd#44	I	O	2021-10-30	2022-12-23	Surface Pro 4: IPTSD fails with "iptsd.service: Main process exited"	sp8,ithc,iptsd
+2	iptsd#55	I	C	2022-02-23	2022-09-01	Pen tilt support	sp8,iptsd
+2	iptsd#59	I	C	2022-06-24	2022-06-26	SP8 - cannot compile ipts	sp8,ithc,fedora,iptsd
+2	iptsd#76	PR	C	2022-09-02	2022-11-22	Add support for metadata feature report	sp8,ithc,iptsd
+2	iptsd#104	PR+m	C	2023-01-04	2023-01-21	Improve scripts and fix error	sp8,fedora,iptsd
+2	iptsd#122	I	NP	2023-04-07	2023-04-13	Touch and pen stop working after sleep	sp8,iptsd
+2	iptsd#124	I	C	2023-04-20	2023-05-19	[SP8] Failure during startup	sp8,iptsd
+2	iptsd#142	I	C	2023-09-12	2023-09-21	iptsd performs weirdly at edge cases	sp8,iptsd
+2	iptsd#155	I	C	2024-02-21	2026-01-09	Multi Monitor Setup	sp8,iptsd,libwacom
+2	iptsd#161	I	O	2024-04-08	2025-02-22	Random dropouts with Surface Pen 2 on Arch	sp8,iptsd
+2	iptsd#163	I	O	2024-06-01	2026-09-25	iptsd@.service unit file loses access to the ipts device unit service	sp8,ithc,iptsd
+2	iptsd#171	I	O	2024-09-15	2026-04-26	the new contact detection defaults are bad	sp8,fedora,iptsd
+2	iptsd#175	I	C	2024-10-08	2025-03-24	Pen pointer is not in the point where the pen is on SP8	sp8,iptsd,libwacom
+2	iptsd#185	I	O	2024-12-26	2025-01-08	Interface freezes when resizing a window with a stylus	sp8,iptsd
+2	iptsd#206	I	O	2026-01-27	2026-02-15	unable to install on SP8 Ubuntu 22.04	sp8,iptsd
+2	iptsd#213	I	O	2026-05-10	2026-07-14	SP8: Stylus handwriting stroke start/stop lagging and low pulling	sp8,iptsd,libwacom
+2	iptsd#218	I	O	2026-07-27	2026-07-27	DisableOnStylus can split one touch gesture into multiple sequences	sp8,iptsd
+2	iptsd#220	I	O	2026-08-23	2026-08-23	udev: Ignore raw Intel Touch Host Controller input nodes to prevent dupl	sp8,ithc,fedora,iptsd
+2	iptsd#221	PR	O	2026-08-30	2026-08-30	udev: hide raw ithc input nodes duplicated by iptsd	sp8,ithc,fedora,iptsd
+2	iptsd#222	I	O	2026-09-08	2026-09-08	Pen pointer is not in the point where the pen is on SP8	sp8,fedora,iptsd
+2	iptsd#224	PR	O	2026-09-25	2026-09-25	udev: Keep the systemd tag across change events	sp8,ithc,iptsd
+2	iptsd#226	I	C	2026-10-02	2026-10-02	Touches are interrupted when a contact is missed for a single frame	sp8,ithc,iptsd
+2	iptsd#227	PR	C	2026-10-02	2026-10-02	contacts/tracking: Retain lost contacts for a few frames	sp8,iptsd
+2	iptsd#229	I	O	2026-10-09	2026-10-14	udev rule probes every hidraw node, including USB HID; a blocking probe	sp8,iptsd
+2	kernel#110	PR+m	C	2021-10-27	2021-10-27	Add Surface Aggregator Module support for the Surface Pro 8	sp8,tabletmode
+2	kernel#111	PR+m	C	2021-10-31	2021-10-31	Clean up recently introduced support for Surface Pro 8	sp8
+2	#61	I	O	2020-01-24	2020-05-21	Hardware buttons not working due to missing module dependency, GPIO erro	sp8,buttons
+2	#411	I	C	2021-03-07	2022-11-04	Pen/Touch Support for Surface Pro 7+	sp8,ithc,thc,fedora
+2	#415	I	O	2021-03-15	2026-11-10	SP7: RTC changes don't persist across reboot	sp8
+2	#532	I	O	2021-08-10	2022-11-24	Surface Laptop 4 Intel (SL4): Touchscreen doesn't work	sp8,sl5,ithc,iptsd
+2	#616	I	C	2021-10-26	2021-10-31	Surface Pro 8 - Surface Pro Signature Keyboard and touchscreen don't work	sp8,fedora,tabletmode
+2	#620	I	C	2021-10-31	2021-11-02	[SLS] Request for Testing: KIP Subsystem on Surface Laptop Studio	sp8,sl5,tabletmode
+2	#735	I	C	2022-02-08	2022-06-12	Emit SW_TABLET_MODE when folding a Surface Pro Typecover	sp8,kbbacklight,tabletmode
+2	#818	I	O	2022-05-12	2023-06-06	SP8 touchscreen and pen support	sp8,ithc,pen,psr,fedora,libwacom
+2	#821	I	C	2022-05-16	2023-01-06	Bad shim signature on Fedora 36, SP7+.	sp8,fedora
+2	#848	I	C	2022-06-07	2022-06-21	SP8 Tablet mode	sp8,ithc,tabletmode
+2	#851	I	C	2022-06-10	2022-07-05	SLS Tablet Mode	sp8,ithc,buttons,libwacom,tabletmode
+2	#859	I	C	2022-06-20	2022-06-29	SP8 120Hz Ubuntu	sp8,ithc,psr
+2	#861	I	C	2022-06-22	2022-06-26	SP8 - No sensors (INT3472 ?)	sp8,int3472,tabletmode
+2	#862	I	C	2022-06-22	2026-10-23	SP8 - Screen flickering	sp8,psr
+2	#864	I	C	2022-06-24	2022-06-25	No Automatic Screen Rotation on SP8	sp8
+2	#865	I	O	2022-06-25	2022-12-26	[SP8][tips] Suspend and Hibernate	sp8,ithc,sleep
+2	#868	I	C	2022-07-01	2022-07-01	Update ithc: Linux driver for Intel Touch Host Controller	sp8,ithc
+2	#881	I	C	2022-08-01	2022-09-13	SP8 - Screen flickering [Ubuntu 22.04]	sp8
+2	#903	I	O	2022-08-19	2024-09-08	Auto Screen Rotation on Wayland	sp8,tabletmode
+2	#905	I	NP	2022-08-19	2022-08-22	SLS/SP8: Implement Display Resolution/Refresh Rate alike OEM configuration	sp8,fedora
+2	#911	I	C	2022-08-22	2023-09-15	[SP8] Keyboard does not work on LUKS password entry	sp8,buttons,initramfs
+2	#987	I	C	2022-11-15	2026-11-08	IPTSD Fails to start: Failed to open /dev/ipts/0	sp8,ithc,fedora,libwacom
+2	#1026	I	C	2023-01-02	2023-05-25	Surface Laptop Studio Touchpad and Keyboard Randomly Freeze	sp8,sl5,fedora,pen
+2	#1044	I	O	2023-01-25	2023-01-25	LUKS password prompt at boot should auto shutdown after inactivity	sp8,initramfs
+2	#1083	I	O	2023-03-04	2023-03-15	Longterm Kernel Support Discussion	adl,fedora
+2	#1084	I	C	2023-03-05	2023-04-20	[Alder Lake] Intel Thread Director and battery life / performance	adl,fedora
+2	#1131	I	O	2023-05-06	2023-06-08	surface laptop 4 intel touchscreen stop working after sleep	sp8,fedora
+2	#1137	I	O	2023-05-13	2023-06-09	Fedora38: display link drivers do not work with Surface kernel	sp8,fedora
+2	#1140	I	O	2023-05-17	2023-05-17	Surface Pro 8 - Audio laggy often	sp8,fedora
+2	#1153	I	O	2023-06-04	2026-09-24	[SP8] Security failures	sp8
+2	#1161	I	NP	2023-06-10	2026-02-15	Unpredictable difficulties waking up from sleep	sp8,ithc,fedora
+2	#1163	I	C	2023-06-11	2023-06-25	dnf upgrade kernel-surface protected	sp8,fedora
+2	#1165	I	C	2023-06-12	2023-06-13	[Fedora] no such file or directory for default-kernel.{path,service}	sp8,fedora
+2	#1167	I	NP	2023-06-13	2026-01-13	Type Cover powered on but no input received	sp8,fedora
+2	#1171	I	NP	2023-06-16	2026-01-13	Touch and pen stopped working after resume from sleep	sp8,ithc,fedora
+2	#1173	I	NP	2023-06-21	2026-01-13	Device totally unresponsive	sp8,fedora,tabletmode
+2	#1174	I	C	2023-06-21	2024-04-05	Fans not working	sp8,fedora,tabletmode
+2	#1181	I	O	2023-07-08	2026-08-22	Kernel panics in ipts when shutting down	sp8,ov5693,int3472,buttons,fedora
+2	#1182	I	C	2023-07-08	2023-07-08	[Enhancement] to make writing more natural	sp8,pen
+2	#1188	I	C	2023-07-15	2023-07-15	IPC_CLASSES config does not get set	adl,fedora
+2	#1207	I	C	2023-08-01	2024-06-28	[Surface 8 Pro] Touchscreen and pen does not work after update to 6.4.7	sp8,ithc
+2	#1208	I	O	2023-08-01	2025-12-19	SP7: Occasional hard freezes / stutters / lag	sp8,psr,fedora
+2	#1273	I	C	2023-10-18	2023-10-20	[SP8] No palm-rejection under linux after windows and firmware updates	sp8,ithc,fedora,iptsd
+2	#1282	I	O	2023-10-27	2026-07-08	Touchpad jumps	sp8,fedora,sleep
+2	#1322	I	O	2023-12-15	2023-12-15	Support for VRR from latest Intel Arc drivers	sp8
+2	#1336	I	O	2024-01-03	2026-08-19	SP8 freezes randomly	sp8,psr,fedora
+2	#1341	I	C	2024-01-05	2024-11-09	Screen autorotate stopped working (iio-sensor-proxy fails to read sensor)	sp8
+2	#1350	I	C	2024-01-28	2024-10-27	SP8 Type Cover not detected during disk encryption	sp8,fedora,initramfs
+2	#1376	I	C	2024-02-18	2024-03-16	Surface Pro 8 stuck at Surface logo	sp8
+2	#1384	I	C	2024-03-01	2024-03-26	[SP8] Hardware buttons are not functional	sp8,buttons,initramfs
+2	#1387	I	O	2024-03-04	2024-04-02	Fedora Blackscreen on Install	sp8,fedora
+2	#1389	I	O	2024-03-07	2024-05-02	Intel GPU Driver failure (intel-ipu6-dkms)	sp8,ipu6
+2	#1412	I	O	2024-04-01	2024-08-21	kernel 6.8.1 hibernate failure on arch	sp8,int3472,s0ix,sleep
+2	#1413	I	O	2024-04-02	2024-06-03	GUI freezes: [drm] *ERROR* [CRTC:98:pipe A] flip_done timed out	sp8,ithc,ov13858,int3472
+2	#1414	I	O	2024-04-04	2024-07-21	Surface Pro 8 - Pen impossible to use	sp8
+2	#1415	I	O	2024-04-07	2024-04-23	Surface pen click actions triggered on touch	sp8
+2	#1420	I	C	2024-04-12	2024-04-16	Timed Out Waiting for DTX on Bootup	sp8
+2	#1424	I	O	2024-04-17	2024-07-11	[SL4I] Power button and suspend not working on Arch	sp8,ithc,sleep
+2	#1425	I	O	2024-04-18	2025-02-05	Does the camera work on SP7?	sp8,ipu6
+2	#1436	I	O	2024-05-04	2024-05-04	Is it possible to use my integrated camera on SP8 Linux?	sp8
+2	#1439	I	O	2024-05-06	2024-05-08	Libcamera no longer works on latest kernel	sp8
+2	#1449	I	O	2024-05-15	2024-05-15	[SP8] close lid doesnt do anything when not plugged in	sp8
+2	#1458	I	O	2024-06-02	2024-08-06	[SP8] Coil Whine / Buzzing / Hissing / Clicking Noise	sp8
+2	#1473	I	O	2024-06-17	2025-03-08	Cannot enter passphrase to unlock luks disk after kernel upgrade to 6.9.	sp8,initramfs
+2	#1497	I	O	2024-07-18	2026-11-10	Surface Pro 8 loses system time on power off	sp8,fedora
+2	#1498	I	C	2024-07-19	2024-07-19	surface-control obsolete for just setting power modes?	sp8
+2	#1510	I	C	2024-07-30	2024-08-04	6.10 rebase request	sp8,ithc
+2	#1531	I	C	2024-08-12	2024-08-17	IPU6 Module Missing for Arch 6.10 Surface Kernel	sp8,ipu6,ov13858,ov5693
+2	#1564	I	O	2024-09-17	2024-09-17	Surface Laptop 5 - Touch to scroll is equivalent to click and drag	adl,sl5
+2	#1567	I	C	2024-09-20	2024-09-21	Phantom/Ghost Touches on Surface Pro 8 Recently	sp8
+2	#1584	I	O	2024-10-03	2026-08-17	[SL5] Automatic brightness control not working with GNOME	adl,sl5,fedora
+2	#1599	I	O	2024-10-29	2024-10-29	Waking up from DPMS state sometimes flickers the display	sp8,sleep
+2	#1613	I	O	2024-11-05	2024-11-05	The touch input is messed up on surface pro 8 on arch linux.	sp8
+2	#1619	PR	C	2024-11-15	2024-12-10	Debian Kernel to 6.11.8 and ipu6 Fix	sp8,ipu6
+2	#1631	I	O	2024-12-12	2025-01-07	Fedora stuck on loading screen after installing surface kernel on SP8	sp8,ipu6,fedora
+2	#1632	I	O	2024-12-13	2024-12-13	Cannot wake SP8 from sleep using type cover	sp8,ithc,ipu6
+2	#1634	I	O	2024-12-14	2026-08-12	Cameras issues after 6.12.3 surface 2 update	sp8,ipu6,ov5693,int3472
+2	#1640	I	O	2024-12-20	2025-06-27	Wi-Fi Adapter Missing After Latest Updates on Debian & Variants	sp8
+2	#1642	I	C	2024-12-22	2024-12-22	[SPro8] with debian 12 causes the brightness to change in a loop	sp8
+2	#1655	I	C	2025-01-02	2025-11-20	[SP8] Typecover sometimes stops working	sp8,fedora
+2	#1658	I	O	2025-01-08	2026-11-10	BUG: rtc can't be changed from system	sp8,battery
+2	#1694	I	C	2025-02-23	2026-02-25	[SP11] Support for Surface Pro 11 with Intel	sp8,flexkb,fedora,pen
+2	#1722	I	O	2025-03-30	2025-03-30	[SP8] Low Quality / tinny speaker sound on OpenSUSE Tumbleweed	sp8
+2	#1791	I	O	2025-06-17	2025-12-26	system freeze irregularly	sp8,psr,fedora,sleep
+2	#1842	I	C	2025-09-01	2025-09-01	Surface Pro 8 - Debian - Keyboard problem	sp8
+2	#1843	I	O	2025-09-02	2025-09-02	Surface Pro 8 has stylus issues (premature eraser click) on hyprland	sp8
+2	#1846	I	O	2025-09-02	2026-11-03	intel-ipu6-dkms install fails on 6.15.1-surface-2	sp8,ipu6,ov13858,ov5693
+2	#1856	I	O	2025-09-23	2026-03-04	Surface Slim Pen 2 Jitter in Krita on SLS with CachyOS, KDE Plasma	sp8,pen,iptsd
+2	#1866	I	O	2025-10-10	2025-10-10	APT Repository apt.surfacelinux.com is currently unreachable	sp8
+2	#1895	I	O	2025-11-07	2026-02-09	Volume Up & Down Keys Functioning Despite Fn being toggled	sp8
+2	#1912	I	O	2025-11-20	2025-11-20	[Surface Pro 8] Booting while plugged in limits cpu frequency	sp8
+2	#1914	I	O	2025-11-22	2026-10-06	6.17.1-surface-2 kernel on Ubuntu 25.10: Power and Volume Buttons do not work	sp8,buttons,initramfs
+2	#1942	I	C	2026-01-01	2026-01-07	Surface Pro 8 process hangs when accessing camera	sp8
+2	#1973	I	O	2026-01-23	2026-02-17	iwlwifi crash on resume from suspend - Alder Lake-P CNVi WiFi	adl,fedora
+2	#2039	I	C	2026-03-24	2026-03-25	SP8: Type Cover not working at LUKS prompt + post-boot fix (Fedora)	sp8,fedora,initramfs
+2	#2079	PR	C	2026-04-26	2026-10-18	Add patches for 7.0	sp8,ipu6,fedora,libwacom
+2	#2118	I	C	2026-05-08	2026-10-18	6.19 is EOL	sp8,ithc
+2	#2123	PR	C	2026-05-11	2026-11-04	patches/6.19: cameras: add dw9719 i2c_device_id table fix	sp8,ov5693,fedora
+2	#2136	I	O	2026-05-18	2026-05-18	Kernel panic (NULL pointer dereference) in ipts module during iptsd restart	sp8
+2	#2139	I	C	2026-05-20	2026-10-19	Linux Surface not working with Surface Pro 8 with Fedora 44	sp8,fedora
+2	#2140	I	O	2026-05-21	2026-11-02	Surface Pro 7: No accelerometer - ISH init fails + SAM registry missing	sp8
+2	#2153	I	O	2026-05-28	2026-10-08	Surface Pro 10 Rear Camera (OV13858) Working + Front Camera (IMX681) Working	sp8,ipu6,ov13858,vd55g0,int3472
+2	#2166	I	O	2026-06-06	2026-08-31	Surface Pro 6: OV5693 (front) and OV8865 (rear) cameras produce green output	sp8,ipu6,ov13858,ov5693
+2	#2169	PR	C	2026-06-09	2026-10-18	patches/6.19: cameras: fix ov8865 stale mode when sensor is held powered	sp8,fedora
+2	#2187	I	O	2026-06-23	2026-06-24	Do I need the Surface Kernel?	sp8,fedora
+2	#2193	I	O	2026-06-28	2026-06-28	Surface Pro 8 + third-party MPP 2.0 stylus generates unexpected events	sp8
+2	#2215	I	O	2026-07-27	2026-07-27	[SP7][6.19.8] Kernel panic in __dma_tx_complete during s2idle suspend	sp8
+2	#2231	I	O	2026-08-14	2026-08-14	SP 10 Fails to Sleep	sp8,ipu6,flexkb
+2	#2234	I	O	2026-08-19	2026-11-10	ov5693 on IPU6 (Surface Pro 8): 2x-binned 1296x972 readout returns zero frames	sp8,ipu6,ov5693,fedora
+2	#2251	I	O	2026-08-27	2026-11-10	Surface Pro 8: RTC resets at every boot. Workaround: set the SAM clock	sp8,initramfs,tabletmode
+2	#2261	I	O	2026-08-31	2026-11-03	Surface Pro 10: stylus triggers "read DMA buffer failed" in intel-thc-dma	sp8,irqstorm,thc
+2	#2262	PR	C	2026-09-01	2026-09-01	Add patches for 7.2	sp8,ithc
+2	#2269	I	C	2026-09-03	2026-11-12	Surface Pro 7+/8 IPTSD Fix (vibecoded, use it at your own risk)	sp8
+2	#2279	I	C	2026-09-14	2026-09-26	[SL3 Intel] S0ix breaks after reboot, works again after poweroff/hibernate	adl,sl5,s0ix,sleep
+2	#2294	I	O	2026-10-03	2026-10-06	[SP8] Type Cover keyboard/touchpad dead after resume from hibernation	sp8,initramfs,sleep
+2	#2299	I	O	2026-10-09	2026-10-14	ipts: controller fails to resume with -EAGAIN after a short suspend	sp8,tabletmode
+2	#2302	PR	O	2026-10-15	2026-10-15	libcamera tuning/implementation on SP8	sp8
+2	#2363	I	O	2026-11-07	2026-11-12	Surface pro 8 no battery	sp8,fedora
+2	#2373	PR+m	C	2026-11-08	2026-11-12	Fedora: Switch to 7.3.3-1	sp8,ithc,ipu6,fedora,battery
+2	surface-pro-x#21	I	O	2022-06-11	2026-10-31	Support for Audio Subsystem	sp8,audio
+2	surface-uefi-firmware#48	I	O	2026-08-27	2026-08-27	repack.sh packs the wrong payload for components with a Payload/ subdir	sp8
+3	acpidumps#31	I	C	2025-08-23	2025-12-30	MS Surface Pro 10 for Business	irqstorm,thc,acpi
+3	intel-precise-touch#14	I	O	2021-09-16	2026-11-07	Reverse-Engineering Gen7+ Pen Data Format	ithc,fedora,iptsd
+3	intel-precise-touch#33	I	O	2024-12-25	2026-11-07	ipts suspend failure	int3472,buttons,battery
+3	iptsd#43	I	O	2021-09-10	2022-11-06	any news on touch support for SP7+?	ithc,iptsd
+3	iptsd#89	I	O	2022-10-10	2023-02-27	Detect spam touches and then reset	ithc,iptsd
+3	iptsd#91	I	O	2022-10-23	2022-10-29	Need to disable multi-touch	ithc,iptsd
+3	iptsd#99	I	O	2022-11-28	2023-06-25	Surface Slim Pen 2 on SLS: mis-behaviour on soft pressure of eraser	ithc,pen,iptsd
+3	iptsd#102	I	O	2022-12-30	2023-02-14	Side button random presses Slim pen 2	pen,iptsd
+3	iptsd#119	I	O	2023-03-16	2023-04-24	Add motion prediction	iptsd
+3	iptsd#120	I	O	2023-04-01	2024-12-21	Announcements and updates for downstreams	iptsd,libwacom
+3	iptsd#121	I	O	2023-04-04	2023-04-11	Touch screen creates erratic input when using pen while laying the hand on it	iptsd
+3	iptsd#134	I	O	2023-06-04	2023-11-13	How to disable auto-start of the iptsd@* service?	ithc,iptsd
+3	iptsd#164	I	O	2024-07-16	2026-04-08	iptsd freezes the OS (?) and unable to stop service	fedora,iptsd
+3	iptsd#165	I	O	2024-08-01	2024-08-01	Touch stops working after touching the screen with Surface Pen	fedora,iptsd
+3	iptsd#177	I	O	2024-10-30	2026-08-11	No calibration samples are taken	iptsd
+3	iptsd#180	I	O	2024-11-12	2025-06-12	[Surface Pro 10] iptsd Doesn't Detect Any Devices	iptsd,pen
+3	iptsd#186	PR+m	C	2025-02-16	2025-02-18	Implement DFT partial update bundling	iptsd
+3	iptsd#190	I	O	2025-03-11	2025-06-08	iptsd prevents hibernation and sleep with suspend-then-hibernate	iptsd,s0ix,sleep
+3	iptsd#194	I	O	2025-04-30	2025-04-30	Stylus signals while hovering over the Touchscreen	iptsd
+3	iptsd#195	I	O	2025-07-10	2026-11-07	MPP stylus causes "missing/bad" frames	iptsd
+3	iptsd#196	PR	C	2025-07-24	2025-12-29	Added explicit section to not disable the stylus	iptsd
+3	iptsd#198	I	O	2025-08-12	2026-02-13	Diagnostic tool iptsd-dump is unusable on Ubuntu 24.04	iptsd
+3	iptsd#199	I	O	2025-09-24	2025-09-24	Surface Slim Pen 2 Jitter in Krita on SLS with CachyOS, KDE Plasma	pen,iptsd
+3	iptsd#201	I	O	2025-11-07	2025-12-30	Touchscreen not working on Kubuntu 25.10	iptsd
+3	iptsd#203	PR+m	C	2025-12-19	2025-12-29	update iptsd subproject wraps	iptsd
+3	iptsd#204	PR+m	C	2025-12-26	2025-12-29	Fix typo in configuration loader breaking contact aspect logic	iptsd
+3	iptsd#205	PR+m	C	2025-12-27	2025-12-29	Neighboring pixel suppression for better multi-touch gestures	iptsd
+3	iptsd#208	I	O	2026-02-23	2026-02-23	Touchpad: premature click release during multi-finger drag	iptsd
+3	iptsd#209	I	O	2026-03-15	2026-03-15	[SLS] Stylus problem on multi-monitor setups	iptsd,libwacom
+3	iptsd#219	PR	O	2026-08-20	2026-08-20	iptsd@.service stops itself ~6s after start on cold boot due to StopWhenUnneeded	fedora,iptsd
+3	iptsd#225	PR	O	2026-09-29	2026-11-07	touch: preserve button state across contact lifts	iptsd,pen
+3	iptsd#231	PR	O	2026-10-28	2026-10-28	minor wiki update	iptsd
+3	iptsd#233	PR	O	2026-11-04	2026-11-07	daemon: debounce rubber and button flags to avoid spurious stylus lifts	iptsd
+3	iptsd#234	PR	O	2026-11-07	2026-11-07	contacts/detection: Add adaptive neutral mode	iptsd
+3	kernel#58	PR+m	C	-	2026-03-12	mwifiex: add fw reset quirks for Surface devices	s0ix
+3	kernel#132	PR	C	-	2023-04-28	HID based IPTS and ITHC support	ithc,fedora,sleep
+3	kernel#133	PR+m	C	-	2023-04-28	HID based IPTS and ITHC support, 6.1 edition	ithc
+3	kernel#135	PR+m	C	-	2023-03-02	platform/x86: int3472: Add GPIOs to Surface Go 3 Board data	int3472
+3	kernel#136	PR+m	C	-	2023-03-11	platform/x86: int3472: Remap reset GPIO for INT347E	int3472
+3	kernel#137	PR+m	C	-	2023-03-23	Add support for camera LEDs on Surface Go platforms	
+3	kernel#138	PR+m	C	-	2023-03-23	Revert LED support for the Go2	
+3	kernel#139	PR+m	C	-	2023-04-28	Update IPTS from module repo	
+3	kernel#140	PR+m	C	-	2023-05-11	Correct fix for memory pagefault when using cameras	
+3	kernel#142	PR+m	C	-	2023-07-20	Update IPTS from module repo	
+3	kernel#143	PR+m	C	-	2023-10-23	Update ITHC from module repo	ithc
+3	kernel#146	PR+m	C	-	2024-03-12	Fix camera issues in 6.7.x on SGo2	
+3	kernel#148	PR	C	-	2024-03-19	Spx/v6.8	
+3	kernel#149	PR+m	C	-	2024-03-28	Use upstream dw9719 driver	
+3	kernel#151	PR+m	C	-	2024-04-20	hid: ithc: Update from quo/ithc-linux	ithc
+3	kernel#152	PR+m	C	-	2024-04-30	platform/surface: aggregator: Defer probing when serdev is not ready	fedora,initramfs
+3	kernel#154	PR+m	C	-	2024-06-11	Make surface_fan_hwmon_is_visible static to avoid compiler warning	
+3	kernel#158	PR+m	C	-	2025-10-06	Added patch to allow optional hibernate during lockdown	sleep
+3	kernel#159	PR+m	C	-	2025-03-19	Add support for Surface Pro 11	
+3	kernel#162	PR	O	-	2026-09-25	platform/surface: Add s2idle/hibernate fix for Surface Laptop 5	sl5,s0ix,sleep
+3	kernel#163	PR	O	-	2026-03-13	ipu4p	ov5693
+3	kernel#164	PR	O	-	2026-08-12	Patch enabling speakers, mic, camera, suspend and hibernate (SP12)	sleep
+3	kernel#168	PR+m	C	-	2026-11-09	media: i2c: Expand gain values for ov5693	ov5693
+3	kernel#172	PR+m	C	-	2026-11-09	Input: soc_button_array: defer MSHW0040 probe until GPIO is ready	buttons,initramfs
+3	kernel#173	PR	O	-	2026-11-11	platform/surface: aggregator_tabletsw: accept zero-padded source-l	flexkb,tabletmode
+3	kernel#176	PR	O	-	2026-08-12	RFC: media: add IMX681/SONY0681 support tested on Surface Pro 12	ov13858,sleep
+3	kernel#178	PR	O	-	2026-11-07	hid: ipts: Fix double list_del race in ipts_mei_search()	
+3	kernel#179	PR	O	-	2026-10-20	platform/surface: Add driver for Surface GPU power controller	fedora,initramfs
+3	kernel#183	PR	C	-	2026-10-31	hid: ipts: Fix unkillable iptsd during suspend, and recover from f	sleep
+3	kernel#185	PR	O	-	2026-11-05	HID: intel-thc-hid: Use page count when copying read DMA buffer	thc
+3	kernel#186	PR	O	-	2026-11-03	Add front camera support for Surface Laptop 1/2 (OV9734)	int3472
+3	kernel#187	PR	O	-	2026-11-09	hid: ipts: Bound the stop path and free the context by reference	
+3	kernel#188	PR	O	-	2026-11-08	IPTS sleep improvements	sleep
+3	kernel#189	PR	O	-	2026-11-09	mwifiex: pcie: cancel card work before clearing card->adapter	
+3	kernel#190	PR	O	-	2026-11-10	platform/surface: aggregator_registry: Add thermal sensors and fan	
+3	kernel#192	I	O	-	2026-11-12	Surface Pro 7: s2idle suspend hard freezes since Nov 12, no resume	psr,sleep
+3	libwacom-surface#12	I	C	-	2023-05-26	Surface Pro 7+ support	ithc,libwacom
+3	#5	PR	C	-	2026-05-07	Add the ability to load different IPTS firmware per SKU	sl5,thc
+3	#289	I	O	-	2021-10-06	Microphone static after suspend	fedora,audio,sleep
+3	#400	I	O	-	2026-08-01	Disk encryption unlock prompt on boot - no on-screen keyboard	ithc,fedora,initramfs
+3	#469	I	C	-	2023-10-29	Keyboard backlight cannot be turned on	sl5,int3472,buttons,initramfs,kbbacklight,sleep
+3	#752	I	O	-	2022-06-03	Touch and Pen for SLS	ithc,sleep
+3	#885	I	O	-	2022-08-04	randomly losing power button and volume buttons	buttons
+3	#913	I	O	-	2022-09-06	[SP7] Pen not working, do we still need the forked iptsd?	ithc,int3472,fedora,initramfs,tabletmode
+3	#1001	I	O	-	2023-01-29	OSK during plymouth luks key entry is not available (no unlock pos	ithc,initramfs,pen,iptsd,tb,sleep
+3	#1101	I	O	-	2025-02-26	System hang while shutdown or reboot	ithc,buttons,battery,tb
+3	#1233	I	C	-	2023-08-29	Slim pen 2 constant random button presses	pen,libwacom
+3	#1266	I	C	-	2023-10-16	modinfo fails to find drivers for kernel 6.5.5 and 6.5.6	ithc,initramfs,tb
+3	#1271	I	C	-	2024-04-21	SAM driver fails to load (depending on the device, Battery status,	int3472,buttons,initramfs,tabletmode,tb,sleep
+3	#1300	I	C	-	2023-11-22	Keyboard and Touchpad no longer detected with Surface Kernel 6.5.9	sl5,ithc,buttons,initramfs,tb
+3	#1378	I	C	-	2024-04-20	Possible S0ix regression with update to 6.7	ithc,ov5693,int3472,buttons,initramfs,iptsd,s0ix,sleep
+3	#1432	I	O	-	2026-03-01	Support for Surface Laptop 6	sl5,ithc,thc
+3	#1457	PR+m	C	-	2024-06-09	Add patches for 6.9	fedora,kbbacklight,tabletmode
+3	#1481	I	O	-	2024-10-07	Surface Pro 7 Hardware Buttons Occassionally don't work	buttons,initramfs
+3	#1590	I	O	-	2026-11-07	Surface Laptop 7th Edition Support	ithc,fedora,initramfs,battery,audio,pen,iptsd,tb,sleep
+3	#1621	I	C	-	2024-12-29	6.12 - Rebase request	ipu6,fedora
+3	#1688	PR+m	C	-	2025-04-19	Adding patches for Kernel 6.14	ithc
+3	#1747	I	O	-	2025-06-28	Touchscreen not working on Surface Laptop 6 (Intel) after 6.14.2-s	thc
+3	#1770	PR	C	-	2025-06-13	Adding patches for 6.15-rc6	ithc,int3472,thc,sleep
+3	#1799	I	C	-	2026-10-19	[SP10] Dead touchscreen on arch 6.15 kernel	ithc,thc
+3	#1841	I	O	-	2026-09-01	MS Surface Pro 10 / touch screen stops working after a short while	thc,libwacom
+3	#1852	I	O	-	2026-09-11	Current support status for Surface Pro 11 for Business (Intel vers	ov13858,int3472,buttons,fedora,kbbacklight,audio,tabletmode,s0ix,tb,sleep
+3	#1876	I	O	-	2026-08-30	[Data] Surface Pro 11 (Intel Core Ultra 7 266V, Business Model)	ipu6,ov13858,vd55g0,fedora,audio,tabletmode,tb,sleep
+3	#1935	I	C	-	2026-08-31	Surface Laptop Studio 2 Touchpad Dead on Arch v6.17.1-arch1	ithc,fedora,initramfs,pen,tabletmode,iptsd
+3	#1951	I	O	-	2026-03-08	Camera failing after update to Ubuntu 6.18.2-surface-1 / v4l2loopb	ipu6
+3	#1989	I	C	-	2026-04-19	SP10 Touchscreen and Stylus Issues	ithc,thc
+3	#1990	PR	O	-	2026-10-06	Patch enabling speakers, mic, camera, suspend and hibernate (SP12)	ov13858,vd55g0,int3472,fedora,audio,sleep
+3	#2013	PR	O	-	2026-10-16	Add IPU4 and IPU4P drivers	ipu6,ov5693
+3	#2064	I	O	-	2026-05-22	Keyboard not always available after boot	fedora,initramfs
+3	#2072	I	O	-	2026-04-23	Surface Pro 10: Camera pipeline reaches STREAMON but fails with EP	ipu6,ov13858
+3	#2081	I	O	-	2026-11-02	Bus factor: Do something about the loss of activity from 3 of the	ipu6,fedora
+3	#2122	I	O	-	2026-05-13	Oops: general protection fault ipts_mei_recv+0x124/0x160	ov5693,int3472,buttons,battery,tb
+3	#2154	I	O	-	2026-11-06	Surface Go 4 IPU6 camera status: rear OV8865 detected/partially st	ipu6,ov5693,int3472,fedora
+3	#2158	I	O	-	2026-09-01	Surface Pro 10 (Meteor Lake): s2idle suspend/resume fixes	ipu6,buttons,thc
+3	#2159	PR	O	-	2026-05-31	contrib: Add Surface Pro 10 suspend/resume fixes	ipu6,buttons,thc
+3	#2163	PR	C	-	2026-10-19	6.19: reset QuickSPI touch IC on resume to fix dead touchscreen	thc,sleep
+3	#2170	I	O	-	2026-08-08	[SL6 Intel] Touchscreen dies after first touch frame: intel_quickspi	ithc,thc
+3	#2203	I	O	-	2026-07-14	Surface Laptop Studio 2: Realtek ALC274 internal microphone falls	fedora,audio
+3	#2242	I	O	-	2026-08-23	WebRTC / Zoom: V4L2 64-device limit on IPU6 Surface devices	ipu6,ov5693
+3	#2263	I	O	-	2026-11-04	[SL7 Intel] s2idle hangs on ~50% of suspends, NOT the SAM UART	irqstorm,tb,sleep
+3	#2267	PR	O	-	2026-10-07	contrib: Surface Pro 11 (Intel): camera tuning and face login	ov13858,vd55g0
+3	#2278	I	O	-	2026-09-11	Surface Laptop 5 s2idle resume: ACPI fixed event PowerButton/Sleep	sl5,buttons,battery,sleep
+3	#2286	I	O	-	2026-10-21	Status of the project	ipu6,fedora
+3	#2289	PR	O	-	2026-11-03	contrib: Surface Book 3 IPU4P cameras (Front/Back + IR Howdy)	ipu6,ov5693,int3472,fedora
+3	#2290	I	O	-	2026-10-15	Camera not working after update	ipu6
+3	#2293	I	O	-	2026-10-08	Surface Laptop 6 (Intel): Touchscreen dies intermittently	thc
+3	#2303	I	O	-	2026-10-17	[SL4 Intel] Intermittent BAT1: driver failed to report present	battery,s0ix
+3	#2331	I	O	-	2026-10-25	Surface Pro 10 for Business (Meteor Lake): GPU clock clamped by firmware	buttons,psr
+3	#2355	PR	O	-	2026-11-03	Debian: install the private IPU6 headers in the linux-headers package	ipu6
+3	#2358	PR	O	-	2026-11-04	contrib: Surface virtual camera (libcamera to v4l2loopback) for Zoom	ipu6,initramfs
+4	libwacom-surface#17	PR+m	C	-	2024-11-02	Fedora 41 artifact download missing in release job	fedora
+4	libwacom-surface#18	PR	C	-	2025-04-19	Fedora 39 EOL	fedora
+4	#120	I	O	-	2020-03-13	Set up LTS builds for Fedora.	fedora
+4	#161	I	O	-	2020-04-18	Fedora Silverblue	fedora
+4	#997	I	O	-	2022-12-03	Fedora: Updating kernels impossible if akmods packages are in use	fedora
+4	#1038	I	O	-	2023-01-20	Fedora surface new kernel skipped due to nvidia drivers	fedora
+4	#1054	I	C	-	2023-03-05	Fedora Default Kernel Updater doesn't work at all	fedora
+4	#1086	I	O	-	2023-07-16	Using Nobara Linux on Surface Pro 4	fedora
+4	#1150	PR+m	C	-	2023-06-02	contrib/fedora-default-kernel: Make more robust and add rEFInd support	fedora
+4	#1152	PR+m	C	-	2026-10-18	Replace fedora package with kernel-ark	fedora
+4	#1159	I	O	-	2023-09-15	PSA: Update to Linux 6.3.6 and 6.3.7-3 on Fedora requires manual intervention	fedora
+4	#1197	I	C	-	2023-07-24	Shorten metadata expiry date on Fedora Silverblue.	fedora
+4	#1198	PR+m	C	-	2026-10-18	Increase the available space on the GitHub runners, Update Fedora	fedora
+4	#1244	I	C	-	2023-09-14	Fedora Repo 404 and kernel update issue	fedora
+4	#1351	I	O	-	2024-02-26	Fedora Versions Incorrectly Upgraded on Bootloader [Surface Pro 7]	fedora
+4	#1362	I	O	-	2024-02-04	[SP7] [NOTABUG] Tablet mode workaround on Wayland (Fedora 39)	fedora,tabletmode
+4	#1532	I	O	-	2024-08-12	Cant upgrade to Fedora 40	fedora
+4	#1616	PR+m	C	-	2024-12-22	Build Fedora in Actions without Secure boot	fedora
+4	#1728	I	O	-	2025-04-10	What to do about getting kernel headers on Fedora?	fedora
+4	#1888	I	C	-	2026-01-08	Fedora 43 support	fedora
+4	#1890	PR+m	C	-	2025-12-30	pkg/fedora: adding support for fedora 43	sl5,fedora
+4	#1937	I	O	-	2025-12-24	[Fedora KDE 43] Generic kernel sets to default after updating kernel	fedora
+4	#1972	I	C	-	2026-01-23	Fedora Repos not updated to reflect 6.18.5-1 release	fedora
+4	#2055	I	C	-	2026-10-18	No Fedora release since 6.18.8-1	fedora
+4	#2082	I	C	-	2026-04-30	fedora 43 workflow error at dist-configs-check	fedora
+4	#2142	PR+m	C	-	2026-10-18	fix: suppress background git maintenance during fedora kernel-ark	fedora
+4	#2143	I	C	-	2026-10-18	Fedora 43 workflow at repo clone, fails at build stage	fedora
+4	#2164	PR	C	-	2026-06-04	pkg/fedora: Add support for fedora 44	fedora
+4	#2196	I	O	-	2026-07-12	Automatically keep up with Fedora releases	fedora
+4	repo#15	I	C	-	2025-05-05	Fedora 42 Repo is missing iptsd	fedora
+4	surface-dtx-daemon#20	PR+m	C	-	2025-10-10	pkg: update Fedora package to use systemd macros	fedora
+5	#1482	I	O	-	2026-04-18	Surface Pro 7: Enabling s0ix (S3) Support via DSDT modification	s0ix,sleep
+5	#1544	PR	C	-	2024-08-25	Added patch to allow optional hibernate during lockdown	sleep
+5	#1573	I	O	-	2024-09-28	Missing initramfs when updating kernel	fedora,initramfs
+5	#1934	I	O	-	2026-01-08	suspend-then-hibernate not working	sleep

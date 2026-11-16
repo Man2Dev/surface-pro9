@@ -1,0 +1,78 @@
+# Closed but unmerged pull requests in the linux-surface org (human authors; 45 bot PRs left out). Snapshot 2026-11-13.
+# Source: GitHub search is:pr is:closed is:unmerged per repo, each PR page read for the closing comments, PR heads fetched
+#   with git (refs/pull/*/head) and compared with every patches/ dir on master (tools/closed_pr_novel.py) and with mainline v7.4-rc3.
+# outcome: integrated (applied by hand or via linux-surface/kernel) | moved (resubmitted to the right repo) | superseded-upstream |
+#   superseded-pr | superseded-maintainer | superseded-automation | duplicate | rejected | rejected-better-place | withdrawn |
+#   abandoned | obsolete | partly-integrated | partly-integrated-rest-orphaned | promised-never-resubmitted | withdrawn-promised-followup | resubmitted
+# sp9: direct | sibling | none. Orphaned code worth keeping: orphaned-patches/.
+repo	pr	author	created	closed	closed_by	outcome	sp9	note
+iptsd	227	cunninghamcard-bit	2026-10-02	2026-10-02	author	promised-never-resubmitted	sibling	contacts/tracking: Retain lost contacts for a few frames (fixes iptsd#226, SP8 swipes broken when a contact is missed for one frame). Author: will resubmit after more testing; never did. Rebases cleanly on master 9c7a554 (git am -3); saved in orphaned-patches/. Same ITHC/iptsd path as SP9.
+linux-surface	2210	RowdyRagamuffin	2026-07-24	2026-07-24	author	promised-never-resubmitted	direct	Linux 7.0 series for SP9. Author: will resubmit once everything works; no later PR exists. Only novel piece worth keeping: 'drivers/hid/ithc: Fix PM suspend/resume to preserve hid_device across s2idle' (keeps struct ithc and the hid_device across suspend instead of devres_release_group, to stop iptsd holding /dev/hidraw from deadlocking on wake). Saved in orphaned-patches/; applies to v7.3-surface ITHC (dry run). Rest is AI-assisted build churn (pci-me, quickspi, int3472 edits).
+kernel	74	MaxLeiter	2020-12-22	2021-05-05	qzed	partly-integrated-rest-orphaned	none	apds9960 MSHW0184: ACPI ID applied (23b180c, also upstream); proximity near_level attribute: maintainer invited a new PR, none came. SB3/SL3/SP7 only.
+kernel	105	nakato	2021-09-19	2021-09-20	author	withdrawn-promised-followup	none	SAM: reconfigure GPIO interrupt on probe (AMD SL4 wake power draw). Author agreed it is a hack and would raise it with the GPIO maintainers; no follow-up found.
+kernel	183	jaydens-tasty-slop	2026-10-31	2026-10-31	author	resubmitted	none	IPTS unkillable iptsd during suspend; reopened as kernel#188 'IPTS sleep improvements' (open). IPTS (MEI) devices, not SP9.
+linux-surface	2155	djmulder	2026-05-29	2026-05-29	author	resubmitted	sibling	SP10 cameras on 7.0 (IMX681, int3472 GPIO 0x08/0x10, ov13858 reset GPIO); continued as #2156 (open). int3472 POWER1 and DOVDD are now in mainline v7.4.
+intel-precise-touch	35	antoniovazquezblanco	2026-08-21	2026-11-07	author	moved	none	IPTS kthread_stop task_struct reference; moved to kernel#187.
+iptsd	196	mwozniczak	2025-07-24	2025-12-29	qzed	rejected	none	Config section; the real key is Disable, default already false.
+iptsd	191	bryce-hoehn	2025-03-20	2025-04-20	author	abandoned	none	Script path.
+iptsd	136	hmtheboy154	2023-06-16	2023-06-16	StollD	rejected	none	Eigen 3.4 initializer lists; no functional change.
+iptsd	116	typeriter	2023-02-25	2023-02-26	StollD	wrong-repo	none	macOS IPTSDaemon question.
+iptsd	115	danielzgtg	2023-02-24	2023-05-19	StollD	obsolete	none	Advanced detector speedup; detector removed.
+iptsd	76	quo	2022-09-02	2022-11-21	StollD	integrated	sibling	Metadata feature report (screen size from device); reworked and merged by StollD.
+iptsd	47	werdahias	2021-12-04	2022-08-23	StollD	closed-stale	none	OpenRC support.
+iptsd	27	qzed	2020-12-12	2020-12-12	qzed	superseded-pr	none	Raw capture tool; replaced by #28.
+iptsd	25	GrayHatter	2020-12-05	2020-12-30	StollD	superseded-maintainer	none	Build/install scripts; done on master.
+kernel	182	CmdrShepardsPie	2026-10-23	2026-10-24	author	superseded-upstream	direct	SAM defer probe while the wakeup GPIO is unavailable; replaced by Wu Enqiang v2 on platform-driver-x86, pulled into linux-surface 7.3.
+kernel	177	dragged9698	2026-08-30	2026-11-09	qzed	rejected-better-place	direct	ov13858 180 degree flip on SP9 in the sensor driver; maintainer: belongs in the ipu-bridge quirk (kernel#170). Mainline v7.4 has the SP9 upside-down quirks.
+kernel	148	AquaBx	2024-03-19	2024-03-19	author	abandoned	none	Surface Pro X v6.8 branch, no description.
+kernel	145	iwanders	2023-12-17	2024-03-09	StollD	integrated	direct	Fan profile switching; cherry-picked to 6.6/6.7 and sent upstream.
+kernel	132	StollD	2022-12-11	2023-01-21	StollD	superseded-pr	direct	HID based IPTS and ITHC; replaced by #133. Thread: quo will not upstream ITHC himself and would hand it over; ITHC needs formatting work before upstream.
+kernel	119	pjungkamp	2022-02-25	2022-05-16	author	superseded-pr	none	Type Cover tablet switch (hid-multitouch); re-sent against 5.17-surface-devel, in linux-surface.
+kernel	118	djrscally	2022-02-22	2022-08-12	qzed	superseded-upstream	none	OV7251 IR sensor (older Surfaces); ACPI support in mainline 5.19.
+kernel	86	djrscally	2021-03-07	2021-05-05	qzed	integrated	sibling	ov5693 and int3472 updates; taken from the upstream submissions into v5.12-surface-devel.
+kernel	83	djrscally	2021-02-16	2021-02-18	author	superseded-pr	none	OV7251; replaced by #118.
+kernel	80	djrscally	2021-01-28	2021-02-13	author	superseded-pr	sibling	ov5693 improvements; folded into #86.
+kernel	78	djrscally	2021-01-15	2021-01-21	qzed	integrated	none	IPU3 cameras; merged manually (dcf274e).
+kernel	51	kitakar5525	2020-05-15	2020-05-16	author	withdrawn	none	4.19 ioremap_uc reverts not needed.
+kernel	49	kitakar5525	2020-05-11	2020-05-11	author	withdrawn	none	4.19 PWM HID, not needed on Surface 3.
+kernel	48	kitakar5525	2020-05-11	2020-05-11	author	withdrawn	none	4.19 IPU3 S0ix, needs more patches.
+kernel	28	kitakar5525	2020-01-11	2020-01-11	author	superseded-pr	none	Surface 3 OEMB quirk; replaced by #29.
+libwacom-surface	26	halfcyan	2026-09-20	2026-10-18	qzed	superseded-maintainer	direct	libwacom 2.20; superseded by 5851f1c, which also moved .tablet sizes from inches to millimetres (SP9: Width 275, Height 183). Images still shipping Width=10/Height=6 are wrong on libwacom 2.19+.
+libwacom-surface	25	orthogonaleety	2026-05-25	2026-10-18	qzed	superseded-maintainer	direct	libwacom 2.18 and Fedora 44; superseded by #26 and 5851f1c.
+libwacom-surface	18	otjamin	2024-10-31	2025-04-19	qzed	superseded-maintainer	none	Fedora 39 EOL.
+linux-surface	2362	sjagoe	2026-11-06	2026-11-08	qzed	superseded-automation	none	6.18.62 rebase; maintainer now runs a daily automated rebase and compile test.
+linux-surface	2301	hubertges	2026-10-10	2026-10-18	qzed	integrated	direct	7.3 port; integrated via the kernel repo.
+linux-surface	2297	tic-sebastian	2026-10-07	2026-10-07	author	duplicate	direct	Fedora 44 workflow, opened by mistake.
+linux-surface	2262	fildunsky	2026-09-01	2026-09-01	author	duplicate	direct	7.2 series, duplicate of #2233 (independently identical).
+linux-surface	2241	luqqas96	2026-08-23	2026-08-29	author	superseded-upstream	sibling	SP7+ ov8865 DVDD pin; replaced by JakobBerg's generic POWER1 -> dvdd series. Mainline v7.4 int3472 maps POWER1 (0x08) to dvdd.
+linux-surface	2233	Apiznel	2026-08-18	2026-10-18	qzed	integrated	direct	7.2 series; integrated via the kernel repo. Thread has an SP9 test report (CmdrShepardsPie: Fedora 43, 7.2.10, Secure Boot) and an SP5 user's commit with all three cameras and the IR illuminator (rylos fork, never sent as a PR).
+linux-surface	2222	cogwheel	2026-08-05	2026-10-23	danielzgtg	partly-integrated	none	Debian package names; reordering taken in 79fbc95, amd64 suffix left out.
+linux-surface	2179	sjagoe	2026-06-16	2026-10-18	qzed	integrated	none	6.18.56 rebase.
+linux-surface	2178	Apiznel	2026-06-14	2026-10-13	danielzgtg	superseded-pr	direct	7.1 series; superseded by #2233.
+linux-surface	2171	naeemarsalan	2026-06-11	2026-10-26	author	superseded-upstream	direct	ov5693 MIPI_CTRL00 for IPU6 (Pro 8/9, Go 4). Replaced by Rimoli's upstream series (bit 5 only, clock-noncontinuous bridge property, media 0e12587945f6) and kernel#180. Thread has the SP9, SP8, SP7+ and Go 4 test data and register sweeps.
+linux-surface	2169	toor11	2026-06-09	2026-10-18	qzed	integrated	none	ov8865 stale mode (rear camera green screen, IPU3); in the kernel repo under reworded subjects and posted upstream (Jurison Murati).
+linux-surface	2164	libanp	2026-06-04	2026-06-04	author	duplicate	direct	Fedora 44 workflow, duplicate of #2092.
+linux-surface	2163	d3z-the-dev	2026-06-02	2026-10-19	qzed	superseded-upstream	none	QuickSPI reset touch IC on resume (SP10); pulled in via upstream in the 7.2 update.
+linux-surface	2123	toor11	2026-05-11	2026-10-18	qzed	integrated	none	dw9719 i2c_device_id table; also upstream since 7.1.6.
+linux-surface	2119	Apiznel	2026-05-08	2026-10-18	qzed	integrated	none	6.18.35 rebase.
+linux-surface	2092	aquacash5	2026-04-30	2026-10-18	qzed	integrated	direct	Fedora 44 workflow.
+linux-surface	2079	Apiznel	2026-04-26	2026-10-18	qzed	integrated	direct	7.0 series (changes GPIO 0x10 to 0x11 in 0013-cameras per #2057); integrated via the kernel repo.
+linux-surface	2066	bagratte	2026-04-18	2026-04-30	StollD	integrated	none	CI disk space step; applied manually (29c7e6e).
+linux-surface	2038	technobirb	2026-03-24	2026-06-04	author	duplicate	none	Same as 29c7e6e.
+linux-surface	1933	LegendaryFire	2025-12-22	2025-12-31	qzed	superseded-maintainer	none	6.18 patches; maintainer did the update himself.
+linux-surface	1790	tabletseeker	2025-06-13	2025-06-21	qzed	integrated	none	6.15 patches; merged manually after fixing corrupted patches.
+linux-surface	1770	tabletseeker	2025-05-15	2025-06-13	author	superseded-pr	none	6.15-rc6; followed by #1790.
+linux-surface	1693	otjamin	2025-02-21	2025-11-20	author	abandoned	none	Minor kernel update workflow; author left. The maintainer later automated daily rebases (see #2362).
+linux-surface	1619	lala-rob	2024-11-15	2024-12-10	qzed	superseded-maintainer	sibling	IPU6 interrupt fix (Gruszka); already applied in 6.11.11.
+linux-surface	1614	otjamin	2024-11-05	2024-12-10	qzed	superseded-maintainer	direct	Fedora 6.11.6 update; maintainer moved to 6.11.11.
+linux-surface	1544	jeduardo	2024-08-24	2024-08-25	author	moved	direct	lockdown_hibernate; resubmitted to the kernel repo (kernel#158), now linux-surface 0001.
+linux-surface	1430	qzed	2024-04-30	2024-06-11	qzed	superseded-upstream	direct	SAM EPROBE_DEFER when serdev not ready; superseded by Hans de Goede's patch (lore 20240509141549.63704-1-hdegoede@redhat.com) and commit 312dae7. The 2026 wakeup-GPIO variant (#2219) is a separate bug.
+linux-surface	529	Tyler-2	2021-08-09	2021-08-09	author	rejected	none	IRC channel doc; support is Matrix only.
+linux-surface	462	zoltantamasvajda	2021-06-02	2021-06-03	qzed	moved	none	Surface Go touchscreen battery quirk; merged as kernel#100.
+linux-surface	38	Blasio	2020-01-07	2020-01-08	archseer	obsolete	none	Service file removed.
+linux-surface	17	archseer	2019-11-07	2019-11-10	qzed	moved	none	PTP touchpad detection; merged in the kernel repo.
+linux-surface	11	xeiraex	2019-09-26	2019-10-03	qzed	integrated	none	jakeday#473 fixes.
+linux-surface	5	StollD	2019-08-17	2019-09-17	StollD	superseded-pr	none	IPTS firmware per SKU; replaced by #7.
+linux-surface	2	kitakar5525	2019-07-30	2019-07-30	author	superseded-pr	none	Replaced by #3.
+surface-control	27	danielzgtg	2026-04-30	2026-04-30	author	superseded	none	CVE hotfix while kernel builds were broken.
+surface-uefi-firmware	32	hackerb9	2023-10-13	2023-10-15	author	closed-after-review	sibling	Repack script polishing; positive review, then closed by the author without a merge.

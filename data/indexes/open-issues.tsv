@@ -1,0 +1,294 @@
+# Open issues in the linux-surface org that mention the SP9 (tier s) or a sibling with the same hardware path (tier r). Snapshot 2026-11-14.
+# Source: every issue page read in the browser (embedded timeline JSON); threads longer than 30 comments read in full through the REST API. Method: tools/browser/README.md.
+# last = date of the newest comment; maint = date of the newest reply by a maintainer (qzed, StollD, danielzgtg, quo, kitakar5525), "-" if none.
+# class: could-close (already fixed somewhere) | patch-pending (fix exists in a PR, a gist or on a list) | workaround | unsolved | needs-info | question | tracker | other (no SP9 lesson) | sibling (not classified, see the issue)
+# Summary: docs/research/open-issues.md
+id	tier	created	last	comments	maint	author	class	note	title
+intel-precise-touch#4	s	2020-06-03	2026-11-07	214	2022-10-12	StollD	tracker	IPTS gen7 history; 2026-11 note that bug reports now go to linux-surface/kernel	IPTS on Surface Gen7
+intel-precise-touch#9	s	2021-03-08	2026-11-07	5	2021-03-09	danielzgtg	other	IPTS polling (SP4 to SP7)	Avoid polling and other inefficiencies
+intel-precise-touch#27	s	2023-11-11	2026-11-07	2	2023-12-09	MediciPrime	unsolved	Slim Pen 2 haptics on SP9; see #1066	Slim Pen 2 Haptic Feedback
+iptsd#24	s	2020-11-28	2020-11-28	0	-	3elDU	other	-	Ghost touch and (oftenly) double click appearing instead of regular click
+iptsd#166	s	2024-08-02	2025-10-25	17	2024-10-02	sound-friend	unsolved	DisableOnStylus leaves some touches; StollD: lower stylus signal threshold	DisableOnStylus does not disable all touch inputs
+iptsd#173	s	2024-09-24	2026-03-25	2	-	xieve	workaround	SP9 Slim Pen 2 palm rejection: xieve compares DisableOnStylus and DisableOnPalm and proposes better defaults and docs	Palm rejection for stylus users: Documentation, possibly improvements
+iptsd#178	s	2024-11-02	2025-10-02	3	-	nixnx	unsolved	button/eraser fires after pen release in iptsd 3.0.x, iptsd 2.1 does not; open iptsd#233 targets it	[SB3, SG2] Erratic Button/Eraser Signals After Pen Release
+iptsd#183	s	2024-12-05	2025-01-17	5	-	woiwoiwoiwoi	other	SP7 openSUSE pen setup	Surface Pen / Stylus not working on Opensuse Tumbleweed
+iptsd#189	s	2025-03-05	2025-03-05	0	-	derkrasseleo	needs-info	SP9 stylus stopped, iptsd runs in touchscreen mode; no reply	Stylus not working anymore on SP9
+iptsd#228	s	2026-10-08	2026-10-14	2	-	OctoDevStudios	patch-pending	udev runs iptsd-check-device on every hidraw and stalls 6 s on non-ITHC nodes; generic rule proposed (see iptsd#229). Matters for the Fedora package	iptsd-check-device causes 6s bus timeout on AMD Surface Laptop 4 SPI touchscreen
+kernel#165	s	2026-05-24	2026-05-24	0	-	eduduckgmbh	could-close	anonymous OVTI5693 ACPI ID patch; mainline v7.4 has the ID	Front Camera Fix
+#96	s	2020-02-22	2026-01-25	88	2026-01-25	archseer	tracker	release announcements (SP9 cameras experimental in 6.17.13-2)	Announcements and updates
+#168	s	2020-04-23	2026-10-13	29	2024-01-31	kachapman	workaround	tinny speakers: EasyEffects presets; petm5 posted an SP9 impulse response; StollD suggests an asahi-audio style package. See antoinecellerier/speaker-tuning-to-easyeffects	Sound is Tinny and hollow - SB2 15"
+#205	s	2020-06-08	2024-04-13	7	2024-04-13	KAMiKAZOW	tracker	upstream status tracker, last qzed update 2024-04	Upstream status
+#206	s	2020-06-10	2021-04-04	10	2020-06-16	sphh	other	-	SP3 sometimes does not wake up from suspend
+#221	s	2020-06-26	2026-08-25	34	2021-12-10	QuadPiece	other	SP7 thermal throttling, thermald config	SP7: Surface Pro 7 does not thermal throttle correctly
+#273	s	2020-08-29	2024-09-17	19	2023-05-11	panagiac	workaround	touch after resume (older IPTS); quo 2023: hidraw is recreated on wake, so the iptsd instance changes, that is normal	Touchscreen stops working after Resume
+#313	s	2020-10-23	2021-01-07	14	2021-01-07	raspbeguy	other	SP4: intel_iommu disabled IPTS	touchscreen not working on sp4
+#326	s	2020-11-04	2021-05-18	52	2020-11-26	kitakar5525	other	IPU3 camera data collection	Camera support: help wanted for collecting data on your device
+#341	s	2020-11-17	2020-12-25	1	-	rubuntu247	other	-	Surface pro 5 (2017) usb / external camera won't work
+#342	s	2020-11-18	2024-09-01	8	2021-02-15	danielzgtg	workaround	cover drops for seconds (Go, SP7); unl0kr for LUKS	Type Cover disconnects for a few seconds
+#390	s	2021-01-23	2021-02-19	3	-	danielzgtg	other	-	Firmware Error Record Reference
+#418	s	2021-03-19	2022-07-09	2	2021-03-19	danielzgtg	other	-	usb3 can't bind after unbinding (config #1 error -22)
+#461	s	2021-05-31	2021-10-16	8	2021-10-16	avanisubbiah	other	SL3 500 MHz below 10 % battery (EC)	Surface Laptop 3 locked to 500 MHz when booting below 10% charge
+#486	s	2021-06-30	2025-09-24	30	2022-03-13	fematarazzo	other	openSUSE packaging	Support for openSuse
+#553	s	2021-09-02	2021-10-21	16	2021-10-21	Valerio1474	other	SP7 IPTS	What kind of help I can provide to improve IPTS for Surface Pro 7?
+#652	s	2021-11-29	2021-12-08	13	-	Crashdummyy	other	SP7 shutdown: intel_iommu=off	[5.15.5] Shutdown not working anymore ( SP7 )
+#825	s	2022-05-21	2025-11-07	24	-	gurrgur	workaround	SP8/SP9 120 Hz: on X11 set mode and rate together (xrandr --mode 2880x1920 --rate 120); one SP9 report of a black screen at 120 Hz (2024)	SP8 120Hz mode not available
+#846	s	2022-06-06	2024-01-17	21	2022-06-22	aleasto	other	tablet mode with cover removed is the desktop's job (KWin does it)	Tablet mode is off when keyboard is not attached
+#899	s	2022-08-17	2023-05-09	2	-	rforzachamp821	unsolved	SP9 external 4K only at 30 Hz over USB-C (one report)	Surface Book 3 HDMI 2.0-capable USB C port only supporting 4k30hz max
+#1010	s	2022-12-16	2026-06-21	86	2022-12-27	mbrennwa	workaround	SL5 (same ADL-P): second suspend hangs because the SOF audio DSP 8086:51c8 stays in D0 after the first resume; snd_intel_dspcfg.dsp_driver=1 (legacy HDA) fixed it. Test on SP9; upstream target SOF	Surface Laptop 5 does not sleep well
+#1051	s	2023-02-03	2024-04-07	5	-	euiat	other	SP6	SP6: Touchscreen and Typecover not working after sleep
+#1056	s	2023-02-10	2023-02-10	0	-	torgeros	other	-	[SP5] Touchpad Scrolling random direction inversion
+#1058	s	2023-02-15	2026-06-21	43	2023-02-24	qzed	workaround	SL5/SP9 shutdown: PCI quirk in linux-surface 0011; pci=hpiosize=0 also fixes shutdown on SP9 (petm5) and SL5 (2026-06)	SL5/SP9 does not power off properly
+#1064	s	2023-02-19	2025-11-01	26	2025-10-10	petm5	could-close	SP9 camera tracker; works via PR 1867, petm5 branch and mainline 7.4 (front needs the binned-mode patch)	SP9: Camera support
+#1066	s	2023-02-19	2026-08-16	18	2023-03-31	petm5	unsolved	Slim Pen 2 haptics over BT HID output report 65 (Simple Haptics Controller); old lore series by acz@semihalf never merged; test program exists (GHisnotrealGIT)	Stylus haptic feedback support
+#1070	s	2023-02-22	2023-02-24	2	2023-02-24	petm5	workaround	SP9 GRUB resets once with Secured-core on: turn Secured-core off	Grub reboots the first time with Secured Core enabled
+#1078	s	2023-02-27	2023-04-10	7	2023-03-07	datmischa	could-close	SP9 touch dead when booted as EFI stub: ITHC "invalid dma rx data"; same report quo/ithc-linux#26, where quo found THC reg 0x1128 bit 5 and committed 18afc6f (2024-04). Retest before closing	[SP9] Touchscreen not working with efi stub kernel
+#1094	s	2023-03-15	2025-05-15	13	2023-03-16	carminelau	other	SP4 camera	Surface PRO4 Camera not working
+#1098	s	2023-03-20	2025-12-01	7	-	louist103	other	SP7 thermals	Poor thermal performance on Surface pro 7
+#1099	s	2023-03-21	2023-03-21	0	-	ghost	needs-info	SP9 Ubuntu pen, no logs	SP9 Ubuntu 22.04 Pen not recognised
+#1110	s	2023-03-30	2025-04-08	5	2023-12-09	ZestyRice	workaround	cover touchpad lag after idle: USB autosuspend udev rule (USB covers; SP9 cover is on SAM, check before applying)	Typecover touchpad cursor movement delay
+#1111	s	2023-03-31	2026-09-24	26	2023-05-12	PhilDevProg	workaround	Go 3 shutdown; workaround in thread	Go 3: Doesn't shutdown properly after using it
+#1113	s	2023-04-03	2024-04-24	16	2023-05-24	plover43	workaround	SP9 shutdown panic in do_exit (WARN irqs_disabled); removing TLP fixed it for one SP9 user, not another	[SP9] Kenel panic prevents shutdown
+#1126	s	2023-04-25	2023-04-25	1	2023-04-25	skymage23	could-close	SP9 Debian LUKS: answered with the Disk-Encryption wiki	Keyboard not detected in initramfs on Debian.
+#1141	s	2023-05-18	2026-01-21	28	2023-06-11	theneosloth	workaround	SP9 rotation only with cover: works with the linux-surface kernel (2026-01); qzed traced missing tablet-mode events	SP9: Screen rotation only works with typecover attached on Fedora 38
+#1149	s	2023-06-02	2023-06-02	5	2023-06-02	f0o	other	SP9 5G (ARM)	SP9 SQ3 Support
+#1162	s	2023-06-11	2026-06-22	164	2024-06-05	Ramen-LadyHKG	workaround	NX firmware: Fedora froze at Microsoft logo; StollD merged a kernel workaround (linux-surface 0001) and reported it to Red Hat	Fedora fails to boot after firmware update, freezes on Microsoft logo
+#1164	s	2023-06-11	2023-07-07	1	-	alexeymezenin	unsolved	SP9 cannot wake from suspend (2023)	[SP9] Can't turn on tablet when it's suspended
+#1178	s	2023-07-05	2023-11-19	9	-	khenty	workaround	SP9 BT mouse drops: autosuspend udev rule	Bluetooth mouse's connection drops quickly
+#1179	s	2023-07-06	2024-08-05	54	2023-07-09	gauthamrdy	workaround	stuck on logo after MOK enrol; UEFI key reset steps in thread	Stuck on Windows logo after installing Ubuntu on Surface
+#1183	s	2023-07-09	2025-05-19	32	2023-11-28	connerebbinghaus	workaround	SP9 no wake after closing the cover: pci=hpiosize=0 helped some, not all (2024-12)	[Surface Pro 9] Cannot wake from suspend if type cover was closed.
+#1200	s	2023-07-28	2023-07-28	1	2023-07-28	plover43	question	SP9 brightness curve; qzed: perceived brightness is not linear	SP9 Display brightness mapping
+#1221	s	2023-08-15	2023-08-15	1	2023-08-15	kug1977	patch-pending	SP9 Fedora LUKS solved by adding modules; qzed asked for an upstream dracut hook that detects Surface devices. That is the dracut item in docs/roadmap.md	[SP9] Start Fedora 38 LUKS with Surface Pro Signature Keyboard [SOLVED]
+#1224	s	2023-08-18	2025-05-06	10	-	tinywretch	workaround	SP9 no wake: fixed for one user on 6.11.4, intermittent for others	[SP9] Won't wake up from suspend, boot up and restarts are fine.
+#1272	s	2023-10-18	2026-10-20	173	2025-10-06	deb75	other	SLS2	Surface laptop studio 2
+#1274	s	2023-10-19	2024-08-17	96	2023-11-22	awptechnologies	workaround	NX firmware: MokManager freeze, fixed in newer shim/MokManager	Enrolling secureboot keys makes the device freeze on the Microsoft logo after firmware update
+#1277	s	2023-10-23	2023-10-24	1	-	paulmorabito	could-close	SP9 hot when touched without cover; ITHC fix #1252	Surface Pro 9 gets hot when using touch screen and disconnected from keyboard
+#1302	s	2023-11-20	2023-11-20	1	-	ghost	workaround	SP9 BT mouse, see #1178	[SP9] Bluetooth mouse won't stay connected
+#1327	s	2023-12-20	2023-12-25	1	-	plover43	workaround	SP9 Fedora: new surface kernel not default; grubby --set-default	[SP9] Fedora 38 Latest Surface kernel not selected upon update
+#1382	s	2024-02-26	2024-02-26	1	2024-02-26	tm-poc	question	governors: intel_pstate offers performance and powersave only	Governors missing? "Balanced" etc?
+#1388	s	2024-03-06	2024-04-25	4	-	Dani3I	workaround	third party pen clicks: hover click was enabled	Surface Pro 7: pen "clicks buttons by itself" while drawing
+#1392	s	2024-03-11	2026-10-25	21	2024-03-15	FearlessSpiff	could-close	SP9 buttons race: fixed in mainline by ed22ad5fdbdb (7.3; stable 7.2.8, 6.18.54, 6.12.112), verified on SP9 by CmdrShepardsPie 2026-10-25. linux-surface 0009 now redundant	Hardware buttons on SP9 not working anymore after updating to arch-6.7.9-1
+#1396	s	2024-03-14	2024-03-24	1	-	zash1958	other	SP5 modem	Surface Pro 5 modem starts and finishes up after 1-2 seconds
+#1402	s	2024-03-18	2025-12-14	7	-	brokoli18	workaround	Firefox ignores touch after sleep (SP9 too): restart Firefox or the rtcwake trick in thread	Firefox does not detect touch input after sleep
+#1442	s	2024-05-08	2024-09-21	7	-	Xerxes0198	workaround	SLS2 power off: pci=hpiosize=0	SLS2 - Debian - Device won't completely power off
+#1445	s	2024-05-09	2024-06-15	2	-	petm5	unsolved	SP9 fan runs during suspend; see platform_profile fan standby patch	[Surface Pro 9] Fan still running during suspend
+#1453	s	2024-05-27	2025-02-25	4	-	kigawa01	unsolved	SP9 MokManager does not start	[SP9] Mokmanager does not start
+#1460	s	2024-06-06	2024-06-25	2	2024-06-25	kwai-chang	needs-info	SP9 USB ethernet	cable network sometimes not work
+#1470	s	2024-06-17	2024-09-10	2	-	Cal-Nine	unsolved	touchscreen locks up while the magnetic Surface charger is connected	Touchscreen locks up if Surface charger is attached
+#1484	s	2024-06-30	2024-07-04	9	2024-07-03	mabdiyan	question	Kali SP9 camera and OSK	virtual keyboard and camera does not work on surface pro 9 with kali linux 2024
+#1487	s	2024-07-09	2026-03-13	9	2024-07-12	FinecoFinit	workaround	SP8 cover after suspend; quo: never set ithc activeltr=1 idleltr=1, defaults are 100/100000	[Surface Pro 8] keyboard is not working after suspend
+#1494	s	2024-07-16	2024-07-16	1	-	MarkStokes-outlook	other	SP2	Support for Surface Pro 2?
+#1500	s	2024-07-21	2025-04-29	2	2024-08-04	imk82	question	LTS kernel: qzed has no time for two series (2024); now 6.12 and 6.18 branches exist	Release for latest LTS kernel
+#1503	s	2024-07-25	2024-12-25	6	-	dev-nis	workaround	SP9 Wi-Fi drops on connect: pin linux-firmware 20240610 (iwlwifi 89.e9cec78e.0) helped one user; older report	[SP9] Wi-Fi instantly switches off when trying to connect to anything
+#1504	s	2024-07-26	2025-02-09	1	-	trcrsired	other	OneNote PWA	[OneNote] OneNote PWA cannot differentiate pen and hand and eraser
+#1507	s	2024-07-28	2025-10-22	4	-	BeautifulMind-INTJ	workaround	SLS2 power off: pci=hpiosize=0	Arch on Surface Laptop Studio 2 doesn't power off
+#1516	s	2024-08-05	2025-03-21	54	2024-08-06	aeroglass7	could-close	6.10 IPU6 page fault: fixed by Stanislaw Gruszka's patch (lore 20241031102321.409454-1-stanislaw.gruszka@linux.intel.com); 6.13 boots	[Kernel 6.10]: Page fault in IPU6
+#1540	s	2024-08-20	2024-09-11	16	-	JJ-82	could-close	6.10 boot with ipu6 (see #1516)	Kernel 6.10 will only boot with secure boot turned off
+#1546	s	2024-08-25	2024-11-16	17	-	Beef94	other	GDM black screen (SP4, Ubuntu)	[Surface Pro 4] black screen with cursor after login Ubuntu 24
+#1554	s	2024-09-07	2024-09-11	14	-	joryma	needs-info	SP9 Ubuntu battery status	[SP9 With Ubuntu] Battery status not showing
+#1580	s	2024-10-01	2026-10-11	18	2025-03-13	ReidenXerx	unsolved	charge limit: qzed says the 80 % limiter is EC controlled; Jelle van der Waa works on a common charge_types API; Surface Go EC charge window driver posted 2026-10. Link to kernel#167 and Cloveian battery-charge-limit	Battery limit
+#1588	s	2024-10-10	2026-08-31	24	2026-01-07	Cal-Nine	patch-pending	pen at 66 Hz: Muvkina (SP9) processes position on every DFT window for about 266 to 300 Hz, patch attached, tilt and pressure still rough. Candidate iptsd PR after cleanup	Surface Pen Jagged Fast Lines (low poll rate)
+#1604	s	2024-10-30	2025-08-19	4	-	Codeuser09	unsolved	Silverblue rpm-ostree override posttrans fails (SP9 F41 report)	Installation failure, posttrans of rpm-ostree override
+#1609	s	2024-11-02	2024-11-03	1	-	N1tro5	could-close	SP9 Pop 6.10 boot: ipu6 blacklist	Pop!_OS doesnt get to login page after switch to surface-linux kernel
+#1612	s	2024-11-04	2024-11-28	1	-	mabdiyan	could-close	SP9 Kali boot: ipu6 (see #1516)	Not work with new kali and surface pro 9
+#1647	s	2024-12-27	2024-12-30	3	-	maremike	other	SP8 Debian video stalls	[SP8] Debian 12: watching and skipping videos in a browser crashes
+#1651	s	2025-01-01	2025-01-01	0	-	Valerio1474	needs-info	SP9 cover dead sometimes at boot or after resume; no logs. Matches the SAM serial hub probe race (#2219)	Keyboard and touchpad are unresponsive sometime on boot and after session
+#1664	s	2025-01-18	2026-10-09	8	-	ZenerDeveloper	workaround	SP10 shutdown: pci=hpiosize=0 for some	[SP10] Shutdown Doesn't Work
+#1690	s	2025-02-17	2025-03-15	6	-	derkrasseleo	could-close	Fedora 41 ISO hangs on SP9 (ipu6 in 6.11); Everything ISO or F40 then upgrade. Check the F45 ISO in phase 0	Can't boot Fedora 41 iso on SP9
+#1698	s	2025-02-24	2025-06-22	4	-	Robolandio	unsolved	SL6 and SP9 F41 shutdown leaves device on	Surface Laptop 6 Shutdown Issue in Ubuntu
+#1702	s	2025-03-06	2026-08-29	11	-	AntonioHinds	other	SP7+ cameras all working (dmanresa, JakobBerg series on lore)	Surface Pro 7+ Cameras not working
+#1710	s	2025-03-14	2026-11-10	102	2025-04-19	7HE-W0R1D	other	SL7	[SL7] Support for Surface Laptop 7 with Intel Ultra 2
+#1719	s	2025-03-24	2025-06-27	3	-	beneeno	needs-info	SP9 Plasma: Fn key locked the pointer to a window; linux-surface 0015 hid-surface (BTN_0 filter, 6.17.13-2) targets this, not confirmed by the reporter; later Fn+arrow Home/End report not rechecked	[SP9] FN button stops mouse input in other windows
+#1725	s	2025-04-03	2025-04-03	0	-	tabletseeker	unsolved	SP8/SP9 shutdown leaves white backlight spots; PR announced, not found	[SP8,SP9] Shutdown causes backlight bleeding / ghosting spots on the display
+#1726	s	2025-04-05	2026-11-10	3	-	fab4281	patch-pending	SP9 fan floor left by Windows: SAM FAN 0x0b is SetMinFanRpm (Cloveian 2026-11-10); sending 0x0b 0 at probe from the platform profile driver would fix it. Upstreamable	Surface Pro 9: Fan running at high speed (~3800 RPM) despite low temperatures
+#1732	s	2025-04-13	2025-05-02	1	-	Logiquo	workaround	SP9 Ubuntu ISO freeze: older ISO	[SP9] Ubuntu freeze when boot from USB install image.
+#1742	s	2025-04-19	2025-04-20	1	-	readme666	workaround	SP9 bad shim signature: reinstall MOK package and enrol	Surface Pro 9: cannot boot properly when secure boot is enabled
+#1753	s	2025-04-25	2025-08-21	8	-	Lolle2000la	could-close	SP9 ov13858 -22: link frequency check; mainline 7.4 has the right entry; petm5 saw -EREMOTEIO afterwards	Surface Pro 9 Camera probing failed: ov13858 i2c-OVTID858:00 probe failed
+#1794	s	2025-06-21	2025-07-01	3	-	teachernightowl	workaround	SP9 Debian 12 AX211 after kernel swap: firmware script in thread	WiFi Is Not Working on Surface Pro with Intel AX211
+#1800	s	2025-06-24	2026-07-13	7	-	sef-alt	workaround	not charging: turn off the UEFI battery limit (SP9 confirmed)	battery/ not charging
+#1805	s	2025-06-30	2026-05-01	22	-	sevenzip2	patch-pending	SL5/SP9 no wake: logind.conf plus pci=hpiosize=0 (SL5); kernel#162 (SL5 module: INTC1055 pin 213 PADCFG0 corrupted in s2idle fires GPE 0x52) is open, qzed prefers userspace. SP9 has the same pinctrl and GPE	After updating I can't wake up suspended device [SL5]
+#1811	s	2025-07-07	2026-05-01	12	-	halfnathan1200	workaround	SP9: disable lid handling; logind HandleLidSwitch plus pci=hpiosize=0 works on SL5; blacklisting surface_gpe does not help	(Surface Pro 9) Disable the lid open/close functionality
+#1837	s	2025-08-19	2025-08-19	0	-	halfnathan1200	needs-info	SP9 battery stuck at full while discharging	Battery indicates full, even when actually discharging (Surface Pro 9)
+#1838	s	2025-08-21	2026-02-06	1	-	humangoose-ux	other	Debian dpkg	Error message during upgrades on Debian after installing linux-image-surface
+#1845	s	2025-09-02	2026-02-10	11	2025-10-12	AegerUSA	patch-pending	SP9 Fedora boot hangs about 2 min: surface_hid probes the hard-coded pen stash node 01:15:02:02:00, gets an empty descriptor and fails with -EPROTO. qzed: should fail with -ENODEV. Small upstream surface_hid patch; also Fedora 43 report	[SP9] Fedora 42 Hanging on boot with surface_hid
+#1857	s	2025-09-24	2026-09-05	1	-	opalmay	workaround	unl0kr UI in mkinitcpio on SP9: DRM pieces missing, framebuffer fallback	[SP9] Getting Unl0kr Working - UI Not Showing
+#1862	s	2025-10-08	2025-10-29	2	-	gtxg16	question	touch better without iptsd on GNOME 48 (single touch HID path)	[SP9] NOT using iptsd results in better touch, gnome 48
+#1864	s	2025-10-09	2026-09-22	12	-	KJELD-LRNT	workaround	SL6, SP11 power off: pci=hpiosize=0 acpi=force reboot=acpi acpi_sleep=nonvs acpi_osi="Windows 2020"	[SL6] Surface Laptop 6 does not fully power off, hangs in S0ix after shutdown
+#1865	s	2025-10-09	2025-11-01	16	2025-10-10	toorajtaraz	could-close	SP9 camera working (toorajtaraz, PR 1867); superseded by mainline 7.4	[SP9] I MADE THE CAMERA WORK
+#1872	s	2025-10-13	2025-12-30	3	2025-12-30	tmdag	could-close	SP9 Fedora akmods with kernel-surface: fixed by 9db9d9b2e1 (qzed 2025-12-30)	akmods/dnf5 fails to install kernel modules on Fedora 42 (dependency resolution)
+#1878	s	2025-10-18	2025-10-18	0	-	gtxg16	unsolved	SP9 EndeavourOS dracut: fatal module dm_mod not found on every update	fatal module dm_mod not found every time i update kernel
+#1892	s	2025-11-01	2025-11-01	0	-	amidukr	could-close	SP9 ov5693 notes; superseded	Camera ov5693 driver kernel module on Ubuntu, 6.17.1-surface-2 and Surface Pro 9
+#1893	s	2025-11-01	2026-11-10	9	-	pythonpoet	other	SP8 front camera via PipeWire on stock Arch kernel (2026-11-10)	Surface Pro 8 camera support
+#1901	s	2025-11-12	2026-04-20	14	-	Cloveian	other	SP11 suspend; fixed in 7.0	[SP11] Suspend / Power Management Not Working Properly on Surface Pro 11 (Intel)
+#1910	s	2025-11-16	2026-03-09	16	-	kraemerlukas314	unsolved	SP9 NixOS and Fedora 43: no wake if the lid moves during suspend; button fix via pinctrl in initramfs	Can't wake from suspend (NixOS, Surface Pro 9)
+#1919	s	2025-11-26	2025-12-02	1	-	Ebecktash	patch-pending	SP9 surface_gpe finds no device (MX Linux, NixOS): DMI match, see #2257	surface_gpe: no compatible Microsoft Surface device found on Surface Pro 9
+#1927	s	2025-12-07	2026-01-21	11	2025-12-22	mdopp	tracker	maintainer time; qzed promised to look for helpers	is this repo dead?
+#2056	s	2026-04-08	2026-04-13	1	-	hphilm	could-close	camera patch rework for 7.0 (2a7b765); done for 7.3	'Add camera support for Surface Pro 9' needs adjustments for Kernel 7.0
+#2144	s	2026-05-22	2026-09-22	8	-	zR-JB	other	SP12: lid wake via GPE 0x30, same rear sensor assembly as SP9	Surface Pro 12 Intel (MSHW0743 / Panther Lake) Linux enablement tracker
+#2160	s	2026-06-02	2026-11-13	4	-	AlexGuo1998	workaround	SP9 iio-sensor-proxy claim timeouts: accel and light report on change only and SAM HID cannot fetch input reports, so sysfs reads wait 5 s; udev rule setting hysteresis 0 fixes it (Fedora 45, proxy 3.9). Upstream: iio-sensor-proxy#432 (needs a freedesktop account)	iio-sensor-proxy not working - Surface Laptop Studio (1st gen)
+#2192	s	2026-06-26	2026-07-25	1	-	surrealo	question	Wacom W9000 driver does not apply (SP1/SP2 only)	Linux 7.2 Adds New Driver For Wacom W9000 Pen-Enabled Touchscreens
+#2219	s	2026-08-03	2026-10-26	2	-	dannyfaris	patch-pending	SAM serial hub -EINVAL instead of -EPROBE_DEFER; confirmed on SP9; Wu Enqiang v2 on platform-driver-x86	surface_serial_hub: probe fails with -EINVAL instead of -EPROBE_DEFER when the wakeup GPIO is not ready
+#2232	s	2026-08-15	2026-11-03	8	-	wayne-0720	workaround	SL5 and SP9 stop charging: toggle the UEFI battery limit on, boot, then off (two SP9 reports)	Surface Laptop 5 intermittently stops charging
+#2242	s	2026-08-23	2026-08-28	3	-	luqqas96	workaround	IPU6 registers 64 video nodes so v4l2loopback lands past WebRTC limits; LD_PRELOAD shim repo by luqqas96	WebRTC / Zoom: V4L2 64-device limit on IPU6 Surface devices drops virtual camera
+#2257	s	2026-08-30	2026-10-24	3	-	dragged9698	patch-pending	surface_gpe DMI vendor with leading space on some SP9 units; gist patch tested for matching by CmdrShepardsPie on a unit without the space	surface_gpe: SP9 lid-open wake broken, DMI sys_vendor has leading space
+#2258	s	2026-08-30	2026-08-30	0	-	dragged9698	unsolved	SP9 s2idle hangs in pm_fs_sync with btrfs	SP9: s2idle hang in pm_fs_sync / sync_inodes_sb (btrfs), frozen UI until hard reset
+#2361	s	2026-11-06	2026-11-13	1	-	jojohar72-saxony	needs-info	Fedora 45 on SP9 dual boot: only Windows Boot Manager shows after install	Fedora installation on Surface pro 9
+#2367	s	2026-11-07	2026-11-07	0	-	qvidal01	unsolved	SP9 ithc_legacy_init -110 on every boot, touch never worked on that unit (UEFI 22.107.143)	Surface Pro 9 (Intel): touchscreen and pen dead, ithc_legacy_init failed
+#2371	s	2026-11-08	2026-11-09	1	-	jgeorgeson	unsolved	SP9 Fedora 45: USB keyboard on Surface Dock gives no input	Surface Pro 9 Fedora 45 Dock USB no input from keyboard
+surface-aggregator-module#59	s	2021-11-05	2024-03-02	19	2023-12-30	qzed	could-close	thermal sensors driver, tested on SP9 by iwanders, now upstream	Support for Thermal Subsystem
+surface-aggregator-module#64	s	2022-10-31	2023-01-06	25	2023-01-06	quo	tracker	SAM firmware reverse engineering	SAM firmware reverse engineering
+surface-gpe#3	s	2023-12-15	2023-12-17	3	2023-12-16	Lucrtz	patch-pending	SP9 Business lid wake; entry added locally, wake still failed for the reporter	Surface Pro 9 Business: Suspend/wake up with lid does not work properly
+surface-gpe#8	s	2026-09-14	2026-09-14	0	-	javon27	patch-pending	SP7+ missing entry (GPE 0x4B); same shape as the SP9 entry	Missing device table entry for Surface Pro 7+ (Surface_Pro_7+_1960)
+surface-hotplug#9	s	2026-11-11	2026-11-11	1	-	larsschellhas	other	SB3 dGPU	Wiki "Runtime Power Management": modeset=0, Vulkan variable and detach guard
+surface-pro-x#7	s	2022-06-07	2026-11-03	55	2026-11-03	qzed	other	SPX; qzed asked valpackett to upstream with his Signed-off-by (2026-11-03)	General Discussion
+surface-pro-x#9	s	2022-06-07	2023-02-22	6	2023-02-22	qzed	other	SPX RTC	Support for Real-Time Clock via SAM
+surface-pro-x#43	s	2022-11-09	2024-03-04	138	2023-10-18	nickdepinet	other	WDK 2023	Windows Dev Kit 2023 Boot Work
+surface-pro-x#46	s	2024-03-04	2024-08-20	199	2024-08-20	tilator	other	SP9 5G (ARM)	MS Surface 9 Pro 5G
+surface-uefi-firmware#51	s	2026-09-06	2026-09-06	1	-	technobirb	unsolved	SP9 firmware update from Linux applied one of five capsules; see surface-uefi-firmware#48 (repack picks wrong payload)	failed to run update on reboot: expected 10.162.52737 and got 178441729
+intel-precise-touch#8	r	2021-02-18	2026-11-07	37	2022-05-09	Matombo	sibling	-	Support for Touch Host Controller (Tigerlake+)
+intel-precise-touch#16	r	2022-01-31	2026-11-07	3	-	han-so1omon	sibling	-	Pen calibration
+iptsd#44	r	2021-10-30	2022-12-23	14	2022-12-17	Semperverus	sibling	-	Surface Pro 4: IPTSD fails with "iptsd.service: Main process exited"
+iptsd#161	r	2024-04-08	2025-02-22	2	-	derkrasseleo	workaround	Slim Pen 2 dropouts: raise [DFT] Mpp2ButtonMinMag above 50000	Random dropouts with Surface Pen 2 on Arch
+iptsd#163	r	2024-06-01	2026-09-25	7	2024-06-05	samvde	patch-pending	service loses its device after a udev change event (rule matches add only); open iptsd#224	iptsd@.service unit file loses access to the ipts device unit service
+iptsd#171	r	2024-09-15	2026-04-26	7	-	X2E4VXpZKv	workaround	contact detection defaults from dd0c322 too strict; wiki calibration override	the new contact detection defaults are bad
+iptsd#185	r	2024-12-26	2025-01-08	1	-	btotr	sibling	-	Interface freezes when resizing a window with a stylus
+iptsd#206	r	2026-01-27	2026-02-15	1	-	g66it	sibling	-	unable to install on SP8 Ubuntu 22.04
+iptsd#213	r	2026-05-10	2026-07-14	1	-	lroehrig	sibling	-	SP8: Stylus handwriting stroke start/stop lagging and low pulling
+iptsd#218	r	2026-07-27	2026-07-27	0	-	serika12345	unsolved	DisableOnStylus splits gestures after proximity out	DisableOnStylus can split one touch gesture into multiple sequences
+iptsd#220	r	2026-08-23	2026-08-23	0	-	luqqas96	patch-pending	duplicate raw ITHC input nodes; open iptsd#221	udev: Ignore raw Intel Touch Host Controller input nodes to prevent dupl
+iptsd#222	r	2026-09-08	2026-09-08	0	-	gattolfo98	sibling	-	Pen pointer is not in the point where the pen is on SP8
+iptsd#229	r	2026-10-09	2026-10-14	2	-	sangesi	patch-pending	udev rule probes every hidraw including USB; a blocking probe can lock the user out (SP6); matters for the Fedora package	udev rule probes every hidraw node, including USB HID; a blocking probe
+#61	r	2020-01-24	2020-05-21	6	2020-01-28	hpfr	sibling	-	Hardware buttons not working due to missing module dependency, GPIO erro
+#415	r	2021-03-15	2026-11-10	13	2022-12-12	quo	workaround	RTC changes lost (SP7/SP8): SAM holds the clock and can be set from userspace (2026-11-10). Check whether SP9 keeps time	SP7: RTC changes don't persist across reboot
+#532	r	2021-08-10	2022-11-24	14	2021-11-09	Tyler-2	sibling	-	Surface Laptop 4 Intel (SL4): Touchscreen doesn't work
+#818	r	2022-05-12	2023-06-06	139	2023-06-06	luca-viggiani	sibling	-	SP8 touchscreen and pen support
+#865	r	2022-06-25	2022-12-26	3	-	dr-Styki	sibling	-	[SP8][tips] Suspend and Hibernate
+#903	r	2022-08-19	2024-09-08	25	2022-08-23	reulew	sibling	-	Auto Screen Rotation on Wayland
+#1044	r	2023-01-25	2023-01-25	0	-	tlf30	sibling	-	LUKS password prompt at boot should auto shutdown after inactivity
+#1083	r	2023-03-04	2023-03-15	11	2023-03-07	WolfWings	sibling	-	Longterm Kernel Support Discussion
+#1131	r	2023-05-06	2023-06-08	2	-	hpjpm	sibling	-	surface laptop 4 intel touchscreen stop working after sleep
+#1137	r	2023-05-13	2023-06-09	4	2023-05-19	masroorz	sibling	-	Fedora38: display link drivers do not work with Surface kernel
+#1140	r	2023-05-17	2023-05-17	0	-	valentin38315	sibling	-	Surface Pro 8 - Audio laggy often
+#1153	r	2023-06-04	2026-09-24	2	2023-06-04	nicheosala	sibling	-	[SP8] Security failures
+#1181	r	2023-07-08	2026-08-22	31	2023-07-15	ishland	sibling	-	Kernel panics in ipts when shutting down
+#1208	r	2023-08-01	2025-12-19	9	-	KhaaL	workaround	random freezes: i915.enable_psr=0	SP7: Occasional hard freezes / stutters / lag
+#1282	r	2023-10-27	2026-07-08	10	-	bugaevc	sibling	-	Touchpad jumps
+#1322	r	2023-12-15	2023-12-15	0	-	Jacksery	sibling	-	Support for VRR from latest Intel Arc drivers
+#1336	r	2024-01-03	2026-08-18	4	-	FedericoCacciari	sibling	-	SP8 freezes randomly
+#1387	r	2024-03-04	2024-04-02	6	-	michelheyn	sibling	-	Fedora Blackscreen on Install
+#1389	r	2024-03-07	2024-05-02	1	-	michelheyn	sibling	-	Intel GPU Driver failure (intel-ipu6-dkms)
+#1412	r	2024-04-01	2024-07-11	26	2024-06-30	lcyf9102s	could-close	hibernate fixed in 6.9.7	kernel 6.8.1 hibernate failure on arch
+#1413	r	2024-04-02	2024-06-03	6	2024-04-03	niklas-simon	sibling	-	GUI freezes: [drm] *ERROR* [CRTC:98:pipe A] flip_done timed out
+#1414	r	2024-04-04	2024-07-21	3	-	SwagSpaad	sibling	-	Surface Pro 8 - Pen impossible to use
+#1415	r	2024-04-07	2024-04-07	0	-	rommeswi	sibling	-	Surface pen click actions triggered on touch
+#1424	r	2024-04-17	2024-07-11	6	-	senioria	sibling	-	[SL4I] Power button and suspend not working on Arch
+#1425	r	2024-04-18	2025-02-05	4	-	aeroglass7	sibling	-	Does the camera work on SP7?
+#1436	r	2024-05-04	2024-05-04	0	-	AnesTheDataGuy	sibling	-	Is it possible to use my integrated camera on SP8 Linux?
+#1439	r	2024-05-06	2024-05-08	3	2024-05-07	brokoli18	sibling	-	Libcamera no longer works on latest kernel
+#1449	r	2024-05-15	2024-05-15	2	-	mindtheegab	sibling	-	[SP8] close lid doesnt do anything when not plugged in
+#1458	r	2024-06-02	2024-08-06	2	-	tabletseeker	sibling	-	[SP8] Coil Whine / Buzzing / Hissing / Clicking Noise
+#1473	r	2024-06-17	2025-03-08	3	2024-06-28	jilroy	sibling	-	Cannot enter passphrase to unlock luks disk after kernel upgrade to 6.9.
+#1497	r	2024-07-18	2026-11-10	10	2024-10-25	rommeswi	workaround	clock lost on power off (SP8), see #415	Surface Pro 8 loses system time on power off
+#1564	r	2024-09-17	2024-09-17	0	-	aliahmed58	sibling	-	Surface Laptop 5 - Touch to scroll is equivalent to click and drag
+#1584	r	2024-10-03	2026-08-17	2	-	olwig	sibling	-	[SL5] Automatic brightness control not working with GNOME
+#1599	r	2024-10-29	2024-10-29	0	-	dynek	sibling	-	Waking up from DPMS state sometimes flickers the display
+#1613	r	2024-11-05	2024-11-05	2	-	napookooo	sibling	-	The touch input is messed up on surface pro 8 on arch linux.
+#1631	r	2024-12-12	2024-12-30	13	-	maremike	sibling	-	Fedora stuck on loading screen after installing surface kernel on SP8
+#1632	r	2024-12-13	2024-12-13	0	-	Xirado	sibling	-	Cannot wake SP8 from sleep using type cover
+#1634	r	2024-12-14	2026-08-12	9	-	Moryason	sibling	-	Cameras issues after 6.12.3 surface 2 update
+#1640	r	2024-12-20	2025-06-27	13	2024-12-23	washere	sibling	-	Wi-Fi Adapter Missing After Latest Updates on Debian & Variants
+#1658	r	2025-01-08	2026-11-10	6	2025-08-24	Magacreo	workaround	RTC, see #415	BUG: rtc can't be changed from system
+#1722	r	2025-03-30	2025-03-30	0	-	DavideDaCol	sibling	-	[SP8] Low Quality / tinny speaker sound on OpenSUSE Tumbleweed
+#1791	r	2025-06-17	2025-12-26	12	-	velocity08	sibling	-	system freeze irregularly
+#1843	r	2025-09-02	2025-09-02	0	-	Tower-Yikk	sibling	-	Surface Pro 8 has stylus issues (premature eraser click) on hyprland
+#1846	r	2025-09-02	2026-11-03	4	2026-10-14	technosf	sibling	-	intel-ipu6-dkms install fails on 6.15.1-surface-2
+#1856	r	2025-09-23	2026-03-04	5	-	KazeEnji	sibling	-	Surface Slim Pen 2 Jitter in Krita on SLS with CachyOS, KDE Plasma
+#1866	r	2025-10-10	2025-10-10	1	2025-10-10	Silkra889	sibling	-	APT Repository apt.surfacelinux.com is currently unreachable
+#1895	r	2025-11-07	2026-02-09	3	-	BorretSquared	sibling	-	Volume Up & Down Keys Functioning Despite Fn being toggled
+#1912	r	2025-11-20	2025-11-20	0	-	TheSmilingTurtle	sibling	-	[Surface Pro 8] Booting while plugged in limits cpu frequency
+#1914	r	2025-11-22	2026-10-06	8	-	DerEber	workaround	SP8 buttons: pinctrl module load; superseded by ed22ad5fdbdb on 7.3 and stable	6.17.1-surface-2 kernel on Ubuntu 25.10: Power and Volume Buttons do not work
+#1973	r	2026-01-23	2026-02-17	4	-	pb-kh	workaround	ADL-P CNVi iwlwifi crash on resume: iwlmvm power_scheme=1 makes it rarer	iwlwifi crash on resume from suspend - Alder Lake-P CNVi WiFi
+#2136	r	2026-05-18	2026-05-18	0	-	lixiaowww	sibling	-	Kernel panic (NULL pointer dereference) in ipts module during iptsd restart
+#2140	r	2026-05-21	2026-11-02	7	2026-05-28	bongyoen	sibling	-	Surface Pro 7: No accelerometer - ISH init fails + SAM registry missing
+#2153	r	2026-05-28	2026-10-08	14	-	djmulder	sibling	-	Surface Pro 10 Rear Camera (OV13858) Working + Front Camera (IMX681) Working
+#2166	r	2026-06-06	2026-08-31	6	-	Mattttttttttttttttttttttttttttttt	sibling	-	Surface Pro 6: OV5693 (front) and OV8865 (rear) cameras produce green output
+#2187	r	2026-06-23	2026-06-24	2	-	B48D81EFCC	question	Fedora 44 SP7: orthogonaleety lists cons of the linux-surface kernel on F44	Do I need the Surface Kernel?
+#2193	r	2026-06-28	2026-06-28	0	-	nahidakang-sys	sibling	-	Surface Pro 8 + third-party MPP 2.0 stylus generates unexpected events
+#2215	r	2026-07-27	2026-07-27	0	-	serika12345	unsolved	SP7 panic in __dma_tx_complete during s2idle (intel-lpss, idma64, surface_serial_hub)	[SP7][6.19.8] Kernel panic in __dma_tx_complete during s2idle suspend
+#2231	r	2026-08-14	2026-08-14	0	-	ZenerDeveloper	sibling	-	SP 10 Fails to Sleep
+#2234	r	2026-08-19	2026-11-10	3	-	Erlend2k	patch-pending	ov5693 binned mode zero-byte buffers; fails only with flips on (SP8, 2026-11-10), matching the SP9 data	ov5693 on IPU6 (Surface Pro 8): 2x-binned 1296x972 readout returns zero frames
+#2251	r	2026-08-27	2026-11-10	1	-	nicheosala	workaround	SP8 RTC from userspace, see #415	Surface Pro 8: RTC resets at every boot. Workaround: set the SAM clock
+#2261	r	2026-08-31	2026-11-03	7	-	ffaon	sibling	-	Surface Pro 10: stylus triggers "read DMA buffer failed" in intel-thc-dma
+#2294	r	2026-10-03	2026-10-06	2	-	pentop	patch-pending	SP8 cover dead after hibernate: SAM event source enable times out (-110) on restore; retrying after 200 ms works. Upstreamable SAM fix; SP9 uses the same restore path	[SP8] Type Cover keyboard/touchpad dead after resume from hibernation
+#2299	r	2026-10-09	2026-10-14	4	-	sangesi	workaround	IPTS resume -EAGAIN leaves iptsd in D state; systemd OnFailure= recovery	ipts: controller fails to resume with -EAGAIN after a short suspend
+#2363	r	2026-11-07	2026-11-12	2	-	NousYTMW	sibling	-	Surface pro 8 no battery
+surface-pro-x#21	r	2022-06-11	2026-11-12	15	2025-03-18	qzed	sibling	-	Support for Audio Subsystem
+surface-uefi-firmware#48	r	2026-08-27	2026-08-27	0	-	nicheosala	sibling	-	repack.sh packs the wrong payload for components with a Payload/ subdir
+intel-precise-touch#14	r	2021-09-16	2026-11-07	28	2023-02-25	qzed	sibling	-	Reverse-Engineering Gen7+ Pen Data Format
+intel-precise-touch#33	r	2024-12-25	2026-11-07	3	2026-01-07	danielzgtg	sibling	-	ipts suspend failure
+iptsd#43	r	2021-09-10	2022-11-06	1	-	-	sibling	-	any news on touch support for SP7+?
+iptsd#89	r	2022-10-10	2023-02-27	37	2023-02-27	danielzgtg	sibling	-	Detect spam touches and then reset
+iptsd#91	r	2022-10-23	2022-10-29	15	2022-10-29	horvathcsabalaszlo	sibling	-	Need to disable multi-touch
+iptsd#99	r	2022-11-28	2023-06-25	10	2023-01-31	NP-chaonay	sibling	-	Surface Slim Pen 2 on SLS: mis-behaviour on soft pressure of eraser
+iptsd#102	r	2022-12-30	2023-02-14	3	2022-12-30	Haislich	sibling	-	Side button random presses Slim pen 2
+iptsd#119	r	2023-03-16	2023-04-24	2	2023-04-24	danielzgtg	sibling	-	Add motion prediction
+iptsd#120	r	2023-04-01	2024-12-21	18	2024-12-01	StollD	tracker	announcements for packagers; subscribe for the Fedora package	Announcements and updates for downstreams
+iptsd#121	r	2023-04-04	2023-04-11	2	2023-04-04	lululock71	sibling	-	Touch screen creates erratic input when using pen while laying the hand on it
+iptsd#134	r	2023-06-04	2023-11-13	3	2023-11-13	analytic-bias	workaround	iptsd refuses to freeze on suspend: mask iptsd@.service	How to disable auto-start of the iptsd@* service?
+iptsd#164	r	2024-07-16	2026-04-08	4	-	horvathcsabalaszlo	sibling	-	iptsd freezes the OS (?) and unable to stop service
+iptsd#165	r	2024-08-01	2024-08-01	0	-	DigitalBaguette	sibling	-	Touch stops working after touching the screen with Surface Pen
+iptsd#177	r	2024-10-30	2026-08-11	4	-	NXTler	sibling	-	No calibration samples are taken
+iptsd#180	r	2024-11-12	2025-06-12	1	-	ZenerDeveloper	sibling	-	[Surface Pro 10] iptsd Doesn't Detect Any Devices
+iptsd#190	r	2025-03-11	2025-06-08	1	-	jaydenmilne	unsolved	iptsd blocks suspend-then-hibernate	iptsd prevents hibernation and sleep with suspend-then-hibernate
+iptsd#194	r	2025-04-30	2025-04-30	1	-	NXTler	sibling	-	Stylus signals while hovering over the Touchscreen
+iptsd#195	r	2025-07-10	2026-11-07	3	-	tmarkov	unsolved	MPP stylus lift and retouch; two button detection paths disagree (tmarkov 2026-11-07)	MPP stylus causes "missing/bad" frames
+iptsd#198	r	2025-08-12	2026-02-13	2	-	raynew	sibling	-	Diagnostic tool iptsd-dump is unusable on Ubuntu 24.04
+iptsd#199	r	2025-09-24	2025-09-24	0	-	KazeEnji	sibling	-	Surface Slim Pen 2 Jitter in Krita on SLS with CachyOS, KDE Plasma
+iptsd#201	r	2025-11-07	2025-12-30	2	-	YamiYukiSenpai	sibling	-	Touchscreen not working on Kubuntu 25.10
+iptsd#208	r	2026-02-23	2026-02-23	1	-	pathetic	sibling	-	Touchpad: premature click release during multi-finger drag
+iptsd#209	r	2026-03-15	2026-03-15	0	-	Gitzzly	sibling	-	[SLS] Stylus problem on multi-monitor setups
+kernel#192	r	-	2026-11-12	0	-	nicomies	needs-info	SP7 s2idle hard freeze since 2026-11-12 on 7.3.3 and 7.2.15; watch for SP9	Surface Pro 7: s2idle suspend hard freezes since Nov 12, no resume
+#289	r	-	2021-10-06	2	-	tmarkov	sibling	-	Microphone static after suspend
+#400	r	-	2026-07-31	27	2021-02-26	afalout	workaround	LUKS on-screen keyboard: unl0kr with iptsd in the initramfs	Disk encryption unlock prompt on boot - no on-screen keyboard
+#752	r	-	2022-06-01	7	2022-02-20	makinbacon21	sibling	-	Touch and Pen for SLS
+#885	r	-	2022-08-04	1	-	aacebedo	sibling	-	randomly losing power button and volume buttons
+#913	r	-	2022-09-06	17	2022-08-25	edofullin	sibling	-	[SP7] Pen not working, do we still need the forked iptsd?
+#1001	r	-	2023-01-29	32	2022-12-13	assasukasse	workaround	OSK at LUKS: needs uinput and iptsd in the initramfs	OSK during plymouth luks key entry is not available (no unlock pos
+#1101	r	-	2025-02-26	7	2023-04-15	hyang1974	sibling	-	System hang while shutdown or reboot
+#1432	r	-	2026-02-25	23	2024-06-15	leenozara	sibling	-	Support for Surface Laptop 6
+#1481	r	-	2024-10-07	4	2024-07-02	Cal-Nine	workaround	button race on SP7; superseded by ed22ad5fdbdb	Surface Pro 7 Hardware Buttons Occassionally don't work
+#1590	r	-	2026-11-07	353	2025-03-26	fotnite-vevo	sibling	-	Surface Laptop 7th Edition Support
+#1747	r	-	2025-06-28	2	2025-06-28	arsham-gheibi	sibling	-	Touchscreen not working on Surface Laptop 6 (Intel) after 6.14.2-s
+#1841	r	-	2026-09-01	9	-	h2dden	sibling	-	MS Surface Pro 10 / touch screen stops working after a short while
+#1852	r	-	2026-09-11	11	-	FluorescentHallucinogen	sibling	-	Current support status for Surface Pro 11 for Business (Intel vers
+#1876	r	-	2026-08-30	59	-	leihua-dev	sibling	-	[Data] Surface Pro 11 (Intel Core Ultra 7 266V, Business Model)
+#1951	r	-	2026-03-08	3	2026-01-07	JeckPeppinger	sibling	-	Camera failing after update to Ubuntu 6.18.2-surface-1 / v4l2loopb
+#2064	r	-	2026-05-22	3	-	galactose310	unsolved	keyboard not always there after boot (SL); probe race family	Keyboard not always available after boot
+#2072	r	-	2026-04-23	0	-	JesseOgunlaja	sibling	-	Surface Pro 10: Camera pipeline reaches STREAMON but fails with EP
+#2081	r	-	2026-11-02	22	2026-10-14	danielzgtg	tracker	bus factor; danielzgtg got the Triage role 2026-10-13	Bus factor: Do something about the loss of activity from 3 of the
+#2122	r	-	2026-05-13	2	2026-05-13	danielzgtg	sibling	-	Oops: general protection fault ipts_mei_recv+0x124/0x160
+#2154	r	-	2026-11-06	2	-	Fugu0141	sibling	-	Surface Go 4 IPU6 camera status: rear OV8865 detected/partially st
+#2158	r	-	2026-06-26	1	-	djmulder	sibling	-	Surface Pro 10 (Meteor Lake): s2idle suspend/resume fixes
+#2170	r	-	2026-08-08	1	-	nemi78	sibling	-	[SL6 Intel] Touchscreen dies after first touch frame: intel_quickspi
+#2203	r	-	2026-07-14	0	-	Verynameboi	sibling	-	Surface Laptop Studio 2: Realtek ALC274 internal microphone falls
+#2263	r	-	2026-11-04	4	-	walkingchimp	patch-pending	SL7 s2idle hang, candidate fix in 7.2.13-1-surface	[SL7 Intel] s2idle hangs on ~50% of suspends, NOT the SAM UART
+#2278	r	-	2026-09-11	0	-	IMightGitIt	sibling	-	Surface Laptop 5 s2idle resume: ACPI fixed event PowerButton/Sleep
+#2286	r	-	2026-10-21	9	2026-09-30	groengpx	sibling	-	Status of the project
+#2290	r	-	2026-10-15	5	-	exiledyorkie	sibling	-	Camera not working after update
+#2293	r	-	2026-10-08	3	-	poloroidone	sibling	-	Surface Laptop 6 (Intel): Touchscreen dies intermittently
+#2303	r	-	2026-10-17	0	-	loryanstrant	sibling	-	[SL4 Intel] Intermittent BAT1: driver failed to report present
+#2331	r	-	2026-10-25	0	-	technosf	sibling	-	Surface Pro 10 for Business (Meteor Lake): GPU clock clamped by firmware
+#120	r	-	2020-03-13	0	-	qzed	sibling	-	Set up LTS builds for Fedora.
+#161	r	-	2020-04-18	5	2020-04-18	Catley94	sibling	-	Fedora Silverblue
+#997	r	-	2022-12-03	1	2022-12-03	Cyborgscode	could-close	Fedora akmods blocking updates; packaging reworked in 6.3.7 (#1159)	Fedora: Updating kernels impossible if akmods packages are in use
+#1038	r	-	2023-01-20	1	-	burg1ollo866	sibling	-	Fedora surface new kernel skipped due to nvidia drivers
+#1086	r	-	2023-07-16	5	2023-03-06	chris122380	sibling	-	Using Nobara Linux on Surface Pro 4
+#1159	r	-	2023-09-15	8	2023-06-16	StollD	tracker	Fedora packaging change 6.3.7, manual dnf steps	PSA: Update to Linux 6.3.6 and 6.3.7-3 on Fedora requires manual intervention
+#1351	r	-	2024-02-26	1	-	laframpton	sibling	-	Fedora Versions Incorrectly Upgraded on Bootloader [Surface Pro 7]
+#1362	r	-	2024-02-04	0	-	attiladonath	sibling	-	[SP7] [NOTABUG] Tablet mode workaround on Wayland (Fedora 39)
+#1532	r	-	2024-08-12	0	-	Streammet	sibling	-	Cant upgrade to Fedora 40
+#1728	r	-	2025-04-10	1	-	rexendevar	sibling	-	What to do about getting kernel headers on Fedora?
+#1937	r	-	2025-12-24	2	-	Chakiki97	workaround	Fedora: generic kernel becomes default; UPDATEDEFAULT=no in /etc/sysconfig/kernel with kernel-surface-default-watchdog	[Fedora KDE 43] Generic kernel sets to default after updating kernel
+#2196	r	-	2026-07-12	2	-	aquacash5	tracker	automate Fedora releases; done since (package status #2318)	Automatically keep up with Fedora releases
+#1482	r	-	2026-04-18	6	-	nine7nine	sibling	-	Surface Pro 7: Enabling s0ix (S3) Support via DSDT modification
+#1573	r	-	2024-09-28	0	-	I-I-IT	sibling	-	Missing initramfs when updating kernel
+#1934	r	-	2026-01-08	8	2026-01-07	pepi55	sibling	-	suspend-then-hibernate not working

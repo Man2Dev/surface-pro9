@@ -1,0 +1,157 @@
+# Hand-curated Surface Pro 9 (Intel, ADL-P) relevance for patches carried by
+# linux-surface and by forks. Keyed by exact commit subject.
+#
+# relevance:
+#   critical  SP9 feature does not work without it
+#   high      SP9-specific fix or SP9 hardware path, needed for a good experience
+#   medium    generic Surface fix that also runs on SP9 (or could), worth carrying
+#   low       touches SP9 code paths only marginally
+#   none      other hardware (Marvell Wi-Fi, IPU3, AMD, Surface 3, SB1, ...)
+#   verify    unknown, needs a test on a real SP9
+# upstream_class (the three states from discussion #2282):
+#   upstreamable  could go out roughly as is
+#   rework        works, but needs rework before mainline would take it
+#   downstream    downstream by nature (debug hacks, policy, firmware workarounds)
+#   superseded    an equivalent change is already in mainline
+#   unknown
+# subsystem: one of camera, touch-pen, keyboard, sam, power, buttons, audio,
+#   display, boot, wifi-bt, other
+
+"Revert \"efi/x86: Set the PE/COFF header's NX compat flag unconditionally\"":
+  relevance: low
+  subsystem: boot
+  upstream_class: downstream
+  note: Secure Boot shim compatibility workaround for the linux-surface MOK flow; not SP9 specific.
+"PM: hibernate: Add a lockdown_hibernate parameter":
+  relevance: medium
+  subsystem: power
+  upstream_class: rework
+  note: Lets hibernate work with Secure Boot lockdown. Original patch by Kelvie Wong (2022-10-02, brknkfr gist), carried via kernel#158. SP9 hibernate is a wiki topic; upstream has rejected lockdown relaxations before, expect pushback.
+"(surface3-oemb) add DMI matches for Surface 3 with broken DMI table": {relevance: none, subsystem: other, upstream_class: unknown}
+"surface3-spi: workaround: disable DMA mode to avoid crash by default": {relevance: none, subsystem: other, upstream_class: downstream}
+"mwifiex: Add quirk resetting the PCI bridge on MS Surface devices": {relevance: none, subsystem: wifi-bt, upstream_class: rework, note: SP9 Intel uses Intel AX211 (iwlwifi)}
+"mwifiex: pcie: disable bridge_d3 for Surface gen4+": {relevance: none, subsystem: wifi-bt, upstream_class: rework}
+"Bluetooth: btusb: Lower passive lescan interval on Marvell 88W8897": {relevance: none, subsystem: wifi-bt, upstream_class: rework}
+"ath10k: Add module parameters to override board files": {relevance: none, subsystem: wifi-bt, upstream_class: downstream}
+"mei: me: Add Icelake device ID for iTouch": {relevance: none, subsystem: touch-pen, upstream_class: upstreamable, note: IPTS over MEI is SP4 to SP7+; SP9 uses ITHC}
+"iommu: Use IOMMU passthrough mode for IPTS": {relevance: none, subsystem: touch-pen, upstream_class: rework}
+"hid: Add support for Intel Precise Touch and Stylus": {relevance: none, subsystem: touch-pen, upstream_class: rework, note: IPTS (MEI) devices only}
+"hid: ipts: Fix size of synthesized HID data report": {relevance: none, subsystem: touch-pen, upstream_class: upstreamable}
+"iommu: intel: Disable source id verification for ITHC":
+  relevance: critical
+  subsystem: touch-pen
+  upstream_class: rework
+  note: Required for ITHC DMA on ADL. Hack in intel-iommu; mainline maintainers will want a proper quirk or a reason the THC DMA requester ID is wrong.
+"hid: Add support for Intel Touch Host Controller":
+  relevance: critical
+  subsystem: touch-pen
+  upstream_class: rework
+  note: SP9 touchscreen and pen (THC ADL-P 8086:51d0/51d1). Mainline intel-thc-hid (QuickSPI/QuickI2C) only covers MTL and newer and the standard HID-SPI protocol; quo says SP9 needs ITHC (quo/ithc-linux#29). Source of truth is quo/ithc-linux.
+"rtc: Add basic support for RTC via Surface System Aggregator Module": {relevance: verify, subsystem: sam, upstream_class: rework, note: Check whether SP9 exposes the SAM RTC or uses CMOS RTC}
+"platform/surface: aggregator_registry: Add Surface Laptop 7 (ACPI)": {relevance: none, subsystem: sam, upstream_class: upstreamable}
+"platform/surface: aggregator_registry: Add Surface Pro 12 (Intel)": {relevance: none, subsystem: sam, upstream_class: upstreamable, note: Reuses ssam_node_group_sp9 (SP9 node group itself is already upstream)}
+"platform/surface: platform_profile: add fan power state handling":
+  relevance: high
+  subsystem: sam
+  upstream_class: upstreamable
+  note: SP9 node group uses ssam_node_tmp_perf_profile_with_fan, so the fan path is exercised on SP9.
+"surface: aggregator: propagate -EPROBE_DEFER from ssam_irq_setup()":
+  relevance: high
+  subsystem: sam
+  upstream_class: upstreamable
+  note: Already posted to platform-driver-x86 (v2, patchwork 14911881). Affects SAM probe on every SAM device including SP9; follow it to merge.
+"i2c: acpi: Implement RawBytes read access": {relevance: none, subsystem: sam, upstream_class: rework, note: SAM-over-HID (SL1/SL2/SB1)}
+"platform/surface: Add driver for Surface Book 1 dGPU switch": {relevance: none, subsystem: sam, upstream_class: upstreamable}
+"Input: soc_button_array - support AMD variant Surface devices": {relevance: none, subsystem: buttons, upstream_class: rework}
+"platform/surface: surfacepro3_button: don't load on amd variant": {relevance: none, subsystem: buttons, upstream_class: rework}
+"Input: soc_button_array: defer MSHW0040 probe until GPIO is ready":
+  relevance: high
+  subsystem: buttons
+  upstream_class: superseded
+  note: "Kernel fix for the SP9 power/volume button race (soc_button_array probing before pinctrl_tigerlake). Superseded by mainline ed22ad5fdbdb 'Input: soc_button_array - fix MS Surface Pro 11 probe failure' (7.3, stable 7.2.8, 6.18.54, 6.12.112), verified on SP9 in issue 1392 (2026-10-25). Drop on 7.3+."
+"USB: quirks: Add USB_QUIRK_DELAY_INIT for Surface Go 3 Type-Cover": {relevance: none, subsystem: keyboard, upstream_class: upstreamable}
+"hid/multitouch: Turn off Type Cover keyboard backlight when suspending": {relevance: low, subsystem: keyboard, upstream_class: rework, note: USB Type Covers (SP4 to SP7+). SP9 keyboard goes through SAM KIP, not USB}
+"hid/multitouch: Add support for surface pro type cover tablet switch": {relevance: low, subsystem: keyboard, upstream_class: rework, note: SP9 tablet switch is ssam_node_pos_tablet_switch (already upstream)}
+"PCI: Add quirk to prevent calling shutdown method":
+  relevance: critical
+  subsystem: power
+  upstream_class: rework
+  note: Fixes SP9 S5 shutdown (EFI ResetSystem(EFI_RESET_SHUTDOWN) returns instead of powering off unless the TB4/GPU PCI shutdown ops are skipped). DMI-gated to Surface Pro 9 and Surface Laptop 5; wiki says shutdown works since 6.1.12-2 because of this. A DMI-gated PCI quirk is a plausible upstream shape but needs discussion on linux-pci.
+"PCI: Add Surface Laptop Studio 2 devices to shutdown ops quirk": {relevance: none, subsystem: power, upstream_class: rework}
+"platform/surface: gpe: Add support for Surface Pro 9":
+  relevance: high
+  subsystem: power
+  upstream_class: upstreamable
+  note: Lid GPE wakeup for SP9 (Maximilian Luz, 2023). Small, self-contained, still not in mainline 7.4-rc2. Good first upstream candidate; ask qzed whether he wants to send it or wants someone to send it with his authorship.
+"ACPI: delay enumeration of devices with a _DEP pointing to an INT3472 device":
+  relevance: medium
+  subsystem: camera
+  upstream_class: rework
+  note: Hans de Goede; mainline solved part of this differently (see discussion 1731, andy-shev says one camera patch is obsolete since 6.14).
+"iommu: intel-ipu: use IOMMU passthrough mode for Intel IPUs": {relevance: verify, subsystem: camera, upstream_class: downstream, note: IPU6 in mainline uses its own MMU; test whether SP9 still needs it}
+"platform/x86: int3472: Enable I2c daisy chain": {relevance: none, subsystem: camera, upstream_class: rework, note: TPS68470 PMIC devices (IPU3 Surfaces)}
+"media: i2c: Clarify that gain is Analogue gain in OV7251": {relevance: none, subsystem: camera, upstream_class: upstreamable}
+"media: v4l2-core: Acquire privacy led in v4l2_async_register_subdev()": {relevance: medium, subsystem: camera, upstream_class: rework}
+"platform: x86: int3472: Add MFD cell for tps68470 LED": {relevance: none, subsystem: camera, upstream_class: rework}
+"include: mfd: tps68470: Add masks for LEDA and LEDB": {relevance: none, subsystem: camera, upstream_class: rework}
+"leds: tps68470: Add LED control for tps68470": {relevance: none, subsystem: camera, upstream_class: rework}
+"media: i2c: dw9719: fix probe error on surface go 2": {relevance: none, subsystem: camera, upstream_class: upstreamable}
+"Add camera support for Surface Pro 9":
+  relevance: high
+  subsystem: camera
+  upstream_class: superseded
+  note: PR 1867 (Tooraj Taraz). Mainline 7.4-rc2 already has OVTI5693 in ov5693 ACPI match, OVTI5693/OVTID858 in ipu-bridge sensor table, and INT3472_GPIO_TYPE_POWER1 (0x08). Remaining deltas vs mainline are the OVTID858 entry (patch declares 4 link frequencies but lists one, fixed by kernel#191; mainline lists 540 and 270 MHz) and the int3472 type 0x08 debug path. Re-evaluate on 7.4, most of it can be dropped.
+"media: ipu-bridge: Add front camera rotation quirks for Surface Pro 8 and 9":
+  relevance: medium
+  subsystem: camera
+  upstream_class: rework
+  note: SP9 entries superseded by mainline upside_down_sensor_dmi_ids (front OVTI5693 and rear OVTID858 for "Surface Pro 9"). SP8 entry is not upstream.
+"media: i2c: Expand gain values for ov5693": {relevance: medium, subsystem: camera, upstream_class: upstreamable, note: SP9 front sensor is OV5693}
+"media: ipu-bridge: fix rear camera rotation on Surface Pro 9":
+  relevance: high
+  subsystem: camera
+  upstream_class: superseded
+  note: Mainline 7.4-rc2 has the SP9 rear (OVTID858) upside-down DMI quirk.
+"ACPI: Add quirk for Surface Laptop 4 AMD missing irq 7 override": {relevance: none, subsystem: other, upstream_class: rework}
+"ACPI: Add AMD 13\" Surface Laptop 4 model to irq 7 override quirk": {relevance: none, subsystem: other, upstream_class: rework}
+"HID: Add hid-surface driver to filter BTN_0 (FN key)": {relevance: verify, subsystem: keyboard, upstream_class: rework, note: Matches BUS_HOST 045E:09AE/09AF (SL4 AMD SAM HID). Check SP9 KIP keyboard IDs before assuming it applies}
+"hid/multitouch: Prevent mode set on Surface Laptop Studio 2 touch pad": {relevance: none, subsystem: keyboard, upstream_class: rework}
+"acpi: allow usage of acpi_tad on HW-reduced platforms": {relevance: verify, subsystem: sam, upstream_class: rework, note: 6.18 only (0015-rtc.patch)}
+
+# ---- carried by forks, not by linux-surface (see data/indexes/fork-deltas.md) ----
+"power: supply: surface_battery: Report not charging while idle on AC":
+  relevance: high
+  subsystem: sam
+  upstream_class: upstreamable
+  note: CmdrShepardsPie fork, SP9 battery status fix. Not yet run on a device per its commit message.
+"ALSA: hda/realtek: Limit internal mic gain on Microsoft Surface Pro 9":
+  relevance: high
+  subsystem: audio
+  upstream_class: upstreamable
+  note: CmdrShepardsPie fork (0016-sound.patch). Classic SND_PCI_QUIRK, maintainers take these readily.
+"media: ipu-bridge: Add upside-down sensor quirks for the Surface Pro 9":
+  relevance: high
+  subsystem: camera
+  upstream_class: superseded
+  note: Fernando Rimoli; in mainline as db44b1792898 per CmdrShepardsPie notes.
+"media: ipu-bridge: Drop the Surface Pro 9 front camera quirk superseded upstream": {relevance: high, subsystem: camera, upstream_class: downstream, note: Cleanup when carrying the upstream backport on 7.3}
+"media: i2c: ov5693: Gate the MIPI clock lane for non-continuous clock": {relevance: critical, subsystem: camera, upstream_class: superseded, note: The SP9 front camera fix (MIPI_CTRL00 / 0x4800), merged for 7.4}
+"media: ipu-bridge: Request non-continuous clock for ov5693 on IPU6": {relevance: critical, subsystem: camera, upstream_class: superseded, note: Part of the Rimoli OV5693-on-IPU6 series, in 7.4}
+"media: ipu-bridge: Match sensor configs per IPU and add config flags": {relevance: critical, subsystem: camera, upstream_class: superseded}
+"media: ipu-bridge: Assign endpoint property indices dynamically": {relevance: high, subsystem: camera, upstream_class: superseded}
+"media: ipu-bridge: Keep the clock-noncontinuous property name out of rodata": {relevance: high, subsystem: camera, upstream_class: superseded}
+"media: ipu-bridge: Add ipu_bridge_get_ipu6()": {relevance: high, subsystem: camera, upstream_class: superseded}
+"media: i2c: ov13858: add horizontal and vertical flip controls": {relevance: high, subsystem: camera, upstream_class: superseded, note: SP9 rear sensor}
+"media: i2c: ov13858: Don't log uninitialised chip ID on read failure": {relevance: low, subsystem: camera, upstream_class: upstreamable}
+"media: v4l2-core: Release privacy LED when registration fails": {relevance: medium, subsystem: camera, upstream_class: upstreamable, note: Fix to a linux-surface-only patch; only upstreamable together with it}
+"media: v4l2-core: Only look up privacy LED for sub-devices with a device": {relevance: medium, subsystem: camera, upstream_class: upstreamable}
+"media: ipu-bridge: Move Surface rotation quirks to start of DMI table": {relevance: medium, subsystem: camera, upstream_class: downstream}
+"hid/multitouch: Register Type Cover PM notifier after starting the device": {relevance: low, subsystem: keyboard, upstream_class: downstream, note: Fix to a linux-surface-only patch}
+"hid/multitouch: Only toggle Type Cover backlight on USB devices": {relevance: medium, subsystem: keyboard, upstream_class: downstream, note: Stops the USB Type Cover backlight code from touching non-USB (SAM KIP) keyboards such as SP9}
+"hid/multitouch: Add missing NULL checks to Type Cover tablet switch": {relevance: low, subsystem: keyboard, upstream_class: downstream}
+"hid/multitouch: Write Type Cover backlight value by usage index": {relevance: low, subsystem: keyboard, upstream_class: downstream}
+"surface3-spi: Make use_dma static": {relevance: none, subsystem: other, upstream_class: downstream}
+"media: i2c: ov5693: program MIPI_CTRL00 for IPU6 (Surface Pro 8/9 and Go 4 front cameras)": {relevance: critical, subsystem: camera, upstream_class: superseded, note: Arsalan Naeem variant of the 0x4800 fix (forks PawelReich, naeemarsalan, rspilk). Superseded by Rimoli's upstream series}
+"media: ipu-bridge/ov13858: fix Surface Pro 8 and 9 rear camera rotation": {relevance: high, subsystem: camera, upstream_class: superseded}
+"platform/surface: gpe: Add support for Surface Pro 9 and Surface Laptop 5": {relevance: high, subsystem: power, upstream_class: upstreamable, note: wowitsjack fork variant adds SL5 to the same GPE patch}
+"platform/surface: aggregator: Defer probing when serdev is not ready": {relevance: medium, subsystem: sam, upstream_class: upstreamable, note: Weifeng Liu; overlaps with the -EPROBE_DEFER propagation patch}

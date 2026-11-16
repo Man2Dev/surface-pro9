@@ -1,0 +1,84 @@
+# Repositories relevant to the Surface Pro 9, with their role. Snapshot 2026-11-12.
+# sp9: how much it matters for SP9 (core, useful, reference, none).
+# Projects outside the org with more detail (what, upstream_value, mentions): data/indexes/external-repos.yaml. Branch tables: data/indexes/branches.tsv.
+
+linux_surface_org:   # https://github.com/linux-surface (34 repos; issues/PRs counts from the org page)
+  - {repo: linux-surface/linux-surface, sp9: core, role: "Generated patch series per kernel (patches/<ver>/), configs/, distro packaging (pkg/fedora uses kernel-ark), wiki, CI. 880 open issues, 26 open PRs."}
+  - {repo: linux-surface/kernel, sp9: core, role: "Real development tree: v<ver>-surface and v<ver>-surface-devel branches; patch series are generated from it. Also ithc-quickspi, ithc-6.5, ipts-update branches."}
+  - {repo: linux-surface/linux-surface.wiki, sp9: core, role: "Wiki (git clonable). Surface-Pro-9.md, Intel-12th-Generation-Devices-Issues.md, Camera-Support.md, Supported-Devices-and-Features.md."}
+  - {repo: linux-surface/iptsd, sp9: core, role: "Userspace touch/pen daemon for IPTS and ITHC devices (v3.1.1). Ships iptsd.spec."}
+  - {repo: linux-surface/libwacom-surface, sp9: useful, role: "Patch set on libwacom: BUS_VIRTUAL, MEI bus, tablet data incl. surface-pro9.tablet."}
+  - {repo: linux-surface/libwacom, sp9: reference, role: "libwacom fork for IPTS."}
+  - {repo: linux-surface/surface-gpe, sp9: core, role: "Out-of-tree surface_gpe (lid wake). PR #5 SP9 Business, PR #7 DMI vendor match fix for SP9."}
+  - {repo: linux-surface/surface-aggregator-module, sp9: reference, role: "Historical SAM out-of-tree module, devices/sp9 branch used to bring up SP9 SAM."}
+  - {repo: linux-surface/surface-control, sp9: useful, role: "CLI for performance profile etc."}
+  - {repo: linux-surface/surface-dtx-daemon, sp9: none, role: "Surface Book clipboard detach."}
+  - {repo: linux-surface/libsurfacesam, sp9: reference, role: "SAM debug interface library."}
+  - {repo: linux-surface/surface-shutdown, sp9: reference, role: "Debug module for shutdown problems (#1058)."}
+  - {repo: linux-surface/acpidumps, sp9: useful, role: "ACPI dumps; SP9 Intel i7 dump added from acpidumps#23 (commit 5091af939e41)."}
+  - {repo: linux-surface/surface-uefi-firmware, sp9: useful, role: "fwupd firmware packages, WIP."}
+  - {repo: linux-surface/intel-precise-touch, sp9: reference, role: "Old IPTS kernel driver repo, issue #4 IPTS on Gen7 (214 comments)."}
+  - {repo: linux-surface/repo, sp9: useful, role: "Package repository scripts (pkg.surfacelinux.com)."}
+  - {repo: linux-surface/secureboot-mok, sp9: reference, role: "MOK auto-enrolment for Arch/Debian."}
+  - {repo: linux-surface/surface-pro-x, sp9: none, role: "ARM Surface tracking (SP9 5G lives here, not in scope)."}
+
+forks_linux_surface:   # forks of linux-surface/linux-surface that carry SP9 work (see data/indexes/fork-deltas.md for all 85 active forks)
+  - {repo: CmdrShepardsPie/linux-surface-contrib, sp9: core, branches: [7.3.1-pro9, 7.3-pro9, 7.2.12-pro9, copr/7.3.1-patches, notes], role: "Chris Simpson. Most complete SP9 consolidation: linux-surface 7.3.1 + 20 SP9 fixes (OV5693-on-IPU6 backports, ov13858 flips, SP9 upside-down quirk, Type Cover fixes, mic gain, battery). Feeds the COPR."}
+  - {repo: CmdrShepardsPie/surface-kernel-copr, sp9: core, role: "COPR build recipe: kernel-surface-cmdrshepardspie on kernel-ark, pinned to linux-surface-contrib 9366e666 + kernel-7.3.1-0."}
+  - {repo: orthogonaleety/linux-surface, sp9: useful, branches: ["f44-7.2.5-0 and many f44-* branches"], role: "Fedora 44 only builds, tested on SP8; tracks Apiznel as upstream (discussion 2282)."}
+  - {repo: Apiznel/linux-surface, sp9: useful, role: "Most active patch forward-porter (PRs #1817, #2178, #2233)."}
+  - {repo: davidbitterlich/linux-surface, sp9: useful, role: "Soft fork for Bazzite 44 container builds, SP8 tester (discussion 2282)."}
+  - {repo: PawelReich/linux-surface, sp9: useful, branches: [patches/7.2, patches/7.2-ov5693-mipi], role: "'Surface Pro 9 (Intel) patch set for Linux 7.2' with MIPI_CTRL00 fix (README warns it is AI generated)."}
+  - {repo: rspilk/linux-surface, sp9: useful, role: "SP8/SP9 camera rotation, MIPI_CTRL00, SP8 rear red/blue swap fix; maintenance runbook."}
+  - {repo: naeemarsalan/linux-surface, sp9: useful, role: "Arsalan Naeem: author of PR #2171 ov5693 MIPI_CTRL00 for IPU6 (Pro 8/9, Go 4)."}
+  - {repo: dixonSolutions/linux-surface, sp9: useful, role: "Eva Dixon: SP8/SP9 rear OV13858 rotation and flips (PR #2227)."}
+  - {repo: gattolfo98/linux-surface, sp9: reference, role: "SP8 cameras on IPU6, Fedora build fixes for SP9 camera patch on 7.2."}
+  - {repo: toorajtaraz/linux-surface, sp9: reference, role: "Tooraj Taraz: PR #1867 'Add camera support for Surface Pro 9'."}
+  - {repo: dmanresa-saes/linux-surface, sp9: useful, role: "D. Manresa: SP7+/SP8 int3472 rails, binned OV5693 mode, IR illuminator (PR #2252)."}
+  - {repo: wowitsjack/linux-surface, sp9: useful, role: "surface_gpe SP9 + SL5 variant, SL5 s2idle/hibernate fix (PR #2011)."}
+  - {repo: RowdyRagamuffin/linux-surface, sp9: reference, role: "PR #2210 'Linux 7.0 patch series for Surface Pro 9' (closed, WIP), ITHC s2idle PM fix."}
+  - {repo: zeroxoneafour/linux-surface, sp9: reference, role: "'surface pro 9 camera patches' (Vaughan Milliman)."}
+  - {repo: Cloveian/linux-surface, sp9: reference, role: "SP11 int3472 work, 'Remove Surface Pro 9 GPIO quirks' (int3472-sp11.patch)."}
+  - {repo: sjagoe/linux-surface, sp9: reference, role: "6.18 LTS rebases with SP9 commits."}
+  - {repo: babiulep/linux-surface, sp9: reference, role: "Frequent sync, 7.3 patch copies."}
+  - {repo: hubertges/linux-surface, sp9: reference, role: "Patches for 7.3."}
+  - {repo: LorbusChris/linux-surface, sp9: reference, role: "Christian Glombek: 7.1 cameras rebased onto kernel-ark."}
+
+forks_kernel:   # forks of linux-surface/kernel
+  - {repo: petm5/linux, sp9: core, branches: [surface-devel-v7.3, vd55g0-camera-support-v2-9, sp9-cameras-6.19, sp9-cameras-7.0.3, surface-ov13858-7.2.7-1, surface-ov5693-7.2.7-1], role: "Peter Marshall: SP9 cameras incl. VD55G0 IR. surface-devel-v7.3 is the most complete SP9 camera branch."}
+  - {repo: petm5/linux-surface-kernel, sp9: useful, branches: [v6.18-surface-devel-fan-ctrl, v6.18-surface-devel-battery-features], role: "Peter Marshall: fan curve offset and base rpm (WIP), smart charging and battery authentication (kernel#167)."}
+  - {repo: Cloveian/kernel, sp9: useful, branches: [battery-charge-limit], role: "surface_battery charge limit (2026-11-10)."}
+  - {repo: JValdivia23/kernel, sp9: useful, branches: [surface-ucsi-hid], role: "UCSI over SAM HID and charger power rating (kernel#184); SP9 node group has ucm_ucsi, needs a test."}
+  - {repo: dragged9698/kernel, sp9: reference, branches: [cameras/sp9-ov13858-hw-rotate], role: "ov13858 180 degree flip on SP9 (kernel#177, superseded by ipu-bridge). Also the surface_gpe vendor match gist."}
+  - {repo: CmdrShepardsPie/kernel, sp9: core, branches: [p-h48/v7.3-surface, sam-probe-defer, v7.2-surface-devel], role: "Kernel tree behind linux-surface-contrib."}
+  - {repo: jmmartinf/kernel, sp9: useful, branches: [sp9-ov13858-link-freqs, sp9-rear-camera-rotation], role: "Jose Maria Martin: SP9 rear rotation (kernel#170), OVTID858 link frequency count (kernel#191)."}
+  - {repo: gabrielstedman/surface-kernel, sp9: useful, branches: [v6.18-surface-devel], role: "SP9 front camera rotation (kernel#160)."}
+  - {repo: zR-JB/kernel, sp9: reference, branches: [ovtid858-link-frequencies, mshw0040-buttons-defer, ssam-pos-zero-padding], role: "SP12 Intel enablement; OVTID858 link frequency PR kernel#174, tabletsw zero-padded source (kernel#173)."}
+  - {repo: AndreGilerson/linux-surface-kernel, sp9: reference, role: "SP11 suspend fixes."}
+
+external:
+  - {repo: quo/ithc-linux, sp9: core, role: "Upstream source of the ITHC driver (last change 2025-05-27: stop matching MTL+, handled by intel-thc-hid). Issue #29: upstream THC driver only MTL+; issue #5: SP9 IDs."}
+  - {repo: quo/iptsd, sp9: reference, role: "Old iptsd fork, superseded by linux-surface/iptsd (2023)."}
+  - {repo: linuxwacom/libwacom, sp9: core, role: "Upstream libwacom; issue #89 (2020) Surface support stalled. Has UINPUT_DEVICE/UINPUT_SUBSYSTEM udev property support."}
+  - {repo: dracut-ng/dracut, sp9: core, role: "Renamed from dracut-ng/dracut-ng; no Surface issue or PR yet (2026-11-13). 70kernel-modules installs surface_aggregator_registry, intel_lpss_pci, =drivers/pinctrl; missing surface_hid, surface_hid_core, surface_aggregator_hub, 8250 LPSS for LUKS unlock with the cover."}
+  - {repo: "gitlab.com/cki-project/kernel-ark", sp9: core, role: "Fedora kernel source of truth (redhat/configs). linux-surface Fedora packages build on it."}
+  - {repo: "patchwork.kernel.org / lore.kernel.org", sp9: core, role: "Upstream submissions, see data/indexes/upstream-submissions.tsv."}
+  - {repo: "patchwork.linuxtv.org (linux-media)", sp9: core, role: "VD55G0 series (kernel#169 links series 26980), ipu-bridge patches."}
+  - {repo: "gitlab.freedesktop.org/linux-media/media-committers", sp9: useful, role: "media tree; Rimoli ov5693 commit 0e12587945f6."}
+  - {repo: el-amin-dev/sp9-ov5693-dkms, sp9: useful, role: "SP9 camera DKMS installer (patched ov5693 + bridge), tested on Ubuntu 26.04 and Fedora 44."}
+  - {repo: loisBreant/surface-pro-9-camera, sp9: useful, role: "SP9 camera one-shot installer, udev rules (dma-heap, hide raw ipu6), libcamera debayer_egl patch."}
+  - {repo: dmanresa-saes/surface-ipu6-cameras, sp9: useful, role: "IPU6 Surface cameras DKMS, PSYS hardware ISP, tuning tools (SP7+ focus)."}
+  - {repo: petm5/vd55g-firmware, sp9: useful, role: "VD55G0 firmware/patch blobs for the IR camera."}
+  - {repo: intel/ipu6-camera-hal, sp9: reference, role: "Intel HAL; PR #182 by dmanresa."}
+  - {repo: NexGen-3D-Printing/bazzite-sdx, sp9: reference, role: "Bazzite-DX image with linux-surface packages (discussion 2374); SP9 confirmed with kernel-surface 7.2.15-1.surface.fc45, author debugging the SP9 battery charge bug (discussion 2282, 2026-11-16)."}
+  - {repo: thattransgal/silverblue-surface, sp9: reference, role: "BlueBuild Silverblue image with kernel-surface (discussion 2184). Repo not reachable on 2026-11-12 (deleted, renamed or private)."}
+  - {repo: ublue-os/hwe, sp9: core, role: "Universal Blue surface images; modules-load.d/ublue-surface.conf is a field-tested initramfs list for LUKS with the cover."}
+  - {repo: fildunsky/linux-surface-pro8-cameras, sp9: core, role: "All three SP8 cameras incl. VD55G0 IR (SMO55F0); six libcamera soft-ISP patches and tuning tools."}
+  - {repo: STMicroelectronics/vd55g0-linux-driver, sp9: useful, role: "ST vendor VD55G0 driver (GPL, device tree)."}
+  - {repo: iwanders/analysis-ithc-iptsd, sp9: useful, role: "THC and Slim Pen 2 analysis on an SP9."}
+  - {repo: LorbusChris/bluefin-surface, sp9: reference, role: "bootc images with linux-surface kernels."}
+  - {repo: Madmaxx636/surface-companion, sp9: reference, role: "Desktop app: brightness, keyboard backlight, profiles, lid, charge limit (discussion 2368)."}
+  - {repo: NixOS/nixos-hardware, sp9: reference, role: "microsoft/surface modules; issues #886, #1637, #1690, #1775 reference SP9."}
+  - {repo: "Terra (Fyra Labs) repo", sp9: useful, role: "Ships libwacom-surface for Fedora: dnf swap libwacom libwacom-surface --allowerasing (discussion 2282)."}
+  - {repo: "Nobara", sp9: useful, role: "Fedora-based distro that packages iptsd itself (nobara-updates) and Surface patches."}
+  - {repo: "copr.fedorainfracloud.org/coprs/jwrdegoede/ipu6-softisp", sp9: reference, role: "Hans de Goede IPU6 software ISP COPR (linked from #91)."}

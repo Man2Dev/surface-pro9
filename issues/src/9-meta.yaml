@@ -1,0 +1,114 @@
+# Meta and coordination issues. Source for issues/SP9-9xx-*.md.
+
+- id: SP9-901
+  title: "Baseline test of an SP9 on stock Fedora (logs, IDs, initramfs, per-feature check)"
+  area: meta
+  kind: needs-test
+  status: needs-test
+  priority: P1
+  layers: {mainline: unknown, linux_surface: unknown, fedora: unknown}
+  problem: |
+    Several issues wait on data from a real SP9 on the stock Fedora kernel: DMI strings, initramfs content,
+    buttons, shutdown, PSR, RTC, Secure Boot, boot stalls.
+  origin: |
+    The KB is built from reports by many owners on many kernels; there is no single baseline on a current stock Fedora kernel yet.
+  reports:
+    - "disc#2282 | reports collected for upstreaming"
+  fixes: []
+  solutions:
+    - "Capture once per kernel (stock Fedora, linux-surface), post the results publicly and link them here (docs/testing.md)."
+  next:
+    - "Run the capture commands below on the stock Fedora kernel, then on kernel-surface."
+  commands: |
+    sudo dmidecode -s system-sku-number; sudo dmidecode -s system-manufacturer | od -c | head -2
+    grep -h -E 'HID_ID|HID_NAME' /sys/bus/hid/devices/*/uevent
+    lspci -nn | grep -iE '51d0|51d1|ipu|thunderbolt|51c8'
+    lsinitrd | grep -E 'surface|8250|lpss|pinctrl'
+    journalctl -k -b | grep -iE 'ithc|ipts|surface|ov5693|ov13858|vd55|int3472|soc_button|gpe'
+    systemd-analyze; grep . /sys/power/suspend_stats/*; timedatectl; mokutil --sb-state
+    uname -r; rpm -q kernel iptsd libwacom libcamera iio-sensor-proxy
+  upstream: []
+  people: []
+  depends_on: []
+  related: [SP9-201, SP9-203, SP9-205, SP9-301, SP9-305, SP9-503, SP9-504, SP9-601, SP9-605]
+  kb: ["docs/roadmap.md", "docs/testing.md"]
+
+- id: SP9-902
+  title: "Close already-fixed SP9 issues on linux-surface with links to the fixing commits"
+  area: meta
+  kind: triage
+  status: open
+  priority: P3
+  layers: {mainline: n/a, linux_surface: n/a, fedora: n/a}
+  problem: |
+    17 open SP9 issues on linux-surface are already fixed somewhere; they bury the real problems.
+  origin: |
+    178 of 288 open SP9/sibling issues never got a maintainer reply; danielzgtg has the Triage role since
+    2026-10.
+  reports:
+    - "#2081 | bus factor discussion; danielzgtg got Triage"
+    - "#1927 | is this repo dead?"
+  fixes: []
+  solutions:
+    - "Comment on each with the fix (commit or PR) so a triager can close them: #1392, #1516, #1540, #1609, #1612, #1690, #1064, #1865, #1892, kernel#165, #2056, #1753, #1078, #1872, #1126, #1277, surface-aggregator-module#59."
+  next:
+    - "Post as a short comment per issue with the fixing commit or PR."
+  upstream: ["linux-surface"]
+  people: [danielzgtg, qzed]
+  depends_on: []
+  related: [SP9-205]
+  kb: ["docs/research/open-issues.md", "data/indexes/open-issues.tsv"]
+
+- id: SP9-903
+  title: "Goal: SP9 fully usable on the stock Fedora kernel and packages"
+  area: meta
+  kind: tracking
+  status: tracking
+  priority: P1
+  layers: {mainline: partial, linux_surface: works, fedora: partial}
+  problem: |
+    Umbrella issue. The SP9 should work on a stock Fedora install without the linux-surface kernel or third-party
+    repos.
+  origin: |
+    Everything below this issue is a step toward it; the blockers are touch (out-of-tree driver), lid wake,
+    shutdown, cover at LUKS, iptsd/libwacom packaging and camera finishing work.
+  reports:
+    - "disc#2282 | starting point"
+    - "#205 | linux-surface upstream status tracker"
+    - "#1419 | when will this be upstream (qzed: free time only)"
+  fixes: []
+  solutions:
+    - "Work the P1 issues first; prefer small upstream patches with clear authors (gpe, mic gain, dracut, surface_hid, hid-sensor-trigger)."
+  next:
+    - "See the dependency tree in issues/README.md."
+  upstream: []
+  people: []
+  depends_on: [SP9-101, SP9-102, SP9-111, SP9-201, SP9-202, SP9-203, SP9-206, SP9-301, SP9-302, SP9-305, SP9-401, SP9-501, SP9-601]
+  related: [SP9-904]
+  kb: ["README.md", "docs/roadmap.md", "status.yaml"]
+
+- id: SP9-904
+  title: "Fix out-of-date linux-surface wiki pages for the SP9"
+  area: meta
+  kind: docs
+  status: open
+  priority: P3
+  layers: {mainline: n/a, linux_surface: n/a, fedora: n/a}
+  problem: |
+    The support table, camera table, Disk-Encryption module list (Pro 8/9 missing, Fedora example incomplete),
+    the SL5 pinctrl module name and the SP9 page (initramfs-tools steps under a mkinitcpio heading, lid wake and
+    iptsd start-up missing) are wrong or stale.
+  origin: |
+    The wiki is editable by any GitHub user and maintainers ask contributors to update it.
+  reports:
+    - "kb:docs/research/wiki-digest.md | list of wrong pages"
+  fixes: []
+  solutions:
+    - "Edit the pages with sources from this KB."
+  next:
+    - "Low effort, visible; do after phase 0 confirms the facts."
+  upstream: ["linux-surface wiki"]
+  people: []
+  depends_on: [SP9-901]
+  related: [SP9-201, SP9-205]
+  kb: ["docs/research/wiki-digest.md"]

@@ -1,0 +1,64 @@
+# Upstreaming efforts for Surface support in the projects the SP9 depends on, as of 2026-11-14.
+# Sources: mainline history (GitHub commits API on torvalds/linux), patchwork.kernel.org and patchwork.libcamera.org REST, upstream git trees
+# cloned and read (libwacom fea1650, dracut 04e04cfe, fwupd 46200cfa1, thermal_daemon c189a9e, systemd hwdb), GitHub issue/PR search, repology,
+# Fedora mdapi, Red Hat Bugzilla REST. freedesktop GitLab (libinput, iio-sensor-proxy, libcamera git) refused automated access and was not read.
+# state: landed | accepted (in a maintainer tree) | pending (posted, in review) | stale (posted, no progress for months) | failed (closed or rejected) | never-sent | partial
+# Summary: docs/research/upstream-efforts.md
+area	upstream	effort	who	when	state	sp9	evidence	note
+sam	linux (pdx86)	SAM core, registry, KIP hub, HID transport	Maximilian Luz	2020-2022	landed	direct	mainline drivers/platform/surface, drivers/hid/surface-hid	All SAM infrastructure is mainline; SP9 node group d076f30957b1 (2022-11)
+sam	linux (pdx86)	SP9 tablet-mode switch (KIP posture)	Maximilian Luz	2023-03	landed	direct	39e2ba648a6e	-
+sam	linux (pdx86)	SP9 thermal sensors	Maximilian Luz	2024-03	landed	direct	428a03523d70	-
+sam	linux (pdx86)	fan driver and fan profile switching	Ivor Wanders	2024-01/03	landed	direct	197b980644ea, 3427c443a6dc	-
+sam	linux (pdx86)	fan standby state in platform_profile	Peter Marshall	2026-11	pending	direct	patchwork changes-requested 2026-11-11	carried downstream as kernel#166 (merged 2026-11-09)
+sam	linux (pdx86)	EPROBE_DEFER from ssam_irq_setup (cover dead when SAM probes before pinctrl)	Wu Enqiang	2026-10	accepted	direct	patchwork accepted, msgid 20261024054921.48209-1-janussss@163.com	replaces linux-surface 0007 variant and kernel#182
+sam	linux (pdx86)	new models after 2024 (SP11, SP12, SL7, SL8, SP9 5G)	Dale Whinham, Lukas Hetzenecker, Harrison Vanderbyl, Gopikrishna Garmidi, Jerome de Bretagne	2024-2026	landed	none	mainline history	Maximilian Luz's last upstream registry work was 2024-08; others now send model support directly
+sam	linux (pdx86)	surface_battery event 0x1a	Ramon Jesus Miranda	2026-10	pending	direct	patchwork new	no review yet
+sam	linux (pdx86)	ACPI battery 'Not Charging' quirk for Surface	Maximilian Luz	2022-04	failed	sibling	patchwork superseded	marked superseded, successor not traced; SP9 not-charging reports so far are firmware/UEFI side (#2232)
+lid	linux (pdx86)	surface_gpe entries: SL3 15 (2020), SLS (2021), SP8 (2022), SL4 13 (2022)	Maximilian Luz	2020-2022	landed	sibling	patchwork accepted	the pattern an SP9 patch follows
+lid	linux (pdx86)	surface_gpe SP9 and SL5 entries	Maximilian Luz	2023	never-sent	direct	patchwork search gpe: nothing after 2022-07; linux-surface 0012, linux-surface#2011	only downstream; Business SKU and vendor-space variants also unsent
+lid	linux (pdx86)	surface_gpe platform_device API conversion	Bartosz Golaszewski	2026-05/07	landed	direct	1e0bd438b876, 5963c8563d07	touches the same file; rebase any SP9 patch on it
+buttons	linux (input)	soc_button_array -EPROBE_DEFER fix (SP11, also SP9)	Hans de Goede	2026-09	landed	direct	ed22ad5fdbdb, stable 7.2.8/6.18.54/6.12.112	linux-surface 0009 now redundant
+buttons	linux (input)	soc_button_array AMD Surface variant	Antonio Vazquez Blanco	2026-11	pending	none	patchwork new v2	from linux-surface 0009
+keyboard	linux (pdx86/input)	surface-hid keyboard backlight 045E:09AE	Ramon Jesus Miranda	2026-10	pending	direct	patchwork new, msgid 20261023173213.6219-1-ramonjesusmiranda@gmail.com	SP9 cover is 045E:09AE; no review or Tested-by yet
+keyboard	linux (pdx86)	surface_hid: fail cleanly on empty pen stash descriptor	-	-	never-sent	direct	linux-surface#1845 (qzed 2025-10)	suggested by qzed, nobody wrote it
+touch	linux (input)	IPTS (MEI, SP4 to SP7) driver	Dorian Stoll	2019-2023	never-sent	sibling	patchwork linux-input: no ipts submission ever	lives in linux-surface only
+touch	linux (input)	ITHC (THC legacy mode, SP7+ to SP9, SL4/5, SLS)	quo	2022-	never-sent	direct	quo/ithc-linux#7, #29	quo will not upstream under a pseudonym; needs a carrier
+touch	linux (input)	intel-thc-hid QuickSPI/QuickI2C (MTL and newer)	Even Xu (Intel)	2024-11 to 2025-01	landed	none	linux-input v2 to v4, mainline 6.14	no ADL support and no legacy mode, so not for the SP9
+touch	intel/thc-drivers	SL7 multi-touch with Intel THC driver	7HE-W0R1D	2025-04	stale	none	intel/thc-drivers#1 (no reply)	Intel's out-of-tree repo does not respond to Surface reports
+camera	linux (media)	ov5693 OVTI5693 HID, IPU6 non-continuous clock, per-IPU ipu-bridge configs, SP9 upside-down quirks	Fernando Rimoli	2026-09	landed	direct	df7980112cee, 0e12587945f6, db44b1792898, 8e3def7bf410	front camera on mainline 7.4
+camera	linux (media)	OV13858 ipu-bridge config, SP11 quirk	Sergey Lebedev	2026-09	landed	direct	2ee01a094aba, b238116ccd4b	rear camera on mainline 7.4
+camera	linux (media)	ov13858 flips, regulators, colorspace, gain cap	Sergey Lebedev, George Neacsu	2026-09/10	pending	direct	patchwork new	linux-media patchwork states lag; check media tree
+camera	linux (media)	ov5693 2x2 binned mode on IPU6 (needed by SP9 front)	D. Manresa, to be sent by Simon Kruse	2026-10	never-sent	direct	dmanresa-saes/surface-ipu6-cameras#1	go-ahead given 2026-10-27, not on list as of 2026-11-13
+camera	linux (media)	ov5693 mode/flip/autosuspend fixes, active state	Marco Ziliani, Simon Kruse	2026-10	pending	direct	patchwork new	-
+camera	linux (media)	ipu-bridge survive module unload	D. Manresa	2026-10	pending	direct	patchwork new v5	author's hardware donated, cannot respin
+camera	linux (media)	VD55G0 IR sensor (two competing series)	Peter Marshall, Sergey Lebedev	2026-09/11	pending	direct	patchwork new / handled-elsewhere	maintainers have not picked one
+camera	linux (pdx86)	int3472 GPIO types (STROBE ir_flood, POWER1 dvdd, DOVDD)	Marco Nenciarini, Hans de Goede, Jakob Berg	2026	landed	direct	mainline v7.4-rc3 int3472	no downstream code needed
+camera	libcamera	OV5693 black levels	Dan Scally	2026-07	landed	direct	patchwork.libcamera accepted	-
+camera	libcamera	softisp tuning for ov13858 and ov5693	Emfox Zhou	2026-11	pending	direct	series 6354 v3, no replies	Tested-by from an SP9 wanted
+camera	libcamera	AIQB parser for IPU6 tuning files	Javier Tia	2026-05	stale	direct	patchwork changes-requested v4	would let Surface Windows tuning be converted in tree
+camera	libcamera	simple pipeline: no CMA buffers for ipu6/7	Hans de Goede	2026-10	pending	direct	patchwork new v2	-
+camera	libcamera	softisp tuning OV08x40 (comparable request)	Armin Felder	2026-09	stale	none	patchwork new since 2026-09	shows tuning files wait months for review
+camera	intel/ipu6-drivers	OV5693 driver request	PhilDevProg	2023-05	stale	sibling	intel/ipu6-drivers#148	moot: mainline ov5693 is the driver
+camera	intel/ipu6-camera-hal	BGGR/RGGB/GBRG in PSYS pipeline	D. Manresa	2026-08	pending	sibling	intel/ipu6-camera-hal#182 (no reply)	-
+power	linux (pci)	no-shutdown PCI quirk for SP9/SL5	Maximilian Luz	2023	never-sent	direct	patchwork linux-pci: no Surface shutdown patch	linux-surface 0011 only
+power	linux (pm)	lockdown_hibernate parameter	Kelvie Wong	2023-11	stale	direct	patchwork linux-pm rfc, no follow-up	linux-surface 0001 carries it
+power	linux (pm)	hibernation under lockdown: signed images / encrypted snapshot / TPM2	Matthew Garrett; Sean Rhodes; Jhon Taylor Forbes	2026	pending	direct	patchwork changes-requested 2026-10, new v3 RESEND 2026-09, rfc 2026-03	the real upstream route for hibernate with Secure Boot
+audio	linux (sound)	ALC274 internal mic gain limit for SP9	Chris Simpson	-	never-sent	direct	patchwork alsa-devel: no SP9 patch	CmdrShepardsPie fork 0016 only
+audio	thesofproject	SP8 mic with SOF: Internal Mic Boost default 3 too high	Headcrabed	2025-08	stale	sibling	thesofproject/linux#5509 (open)	SOF dev: Surface Pro 8 has no DMIC, legacy HDA is the default; same mic-gain symptom as SP9
+audio	alsa-ucm-conf	Surface UCM profiles (ARM Surfaces, rt1320)	various	2025-2026	landed	none	alsa-project/alsa-ucm-conf#546, #603, #712, #847	no Intel SP9 entry; HDA path needs none
+sensors	linux (iio)	hid-sensor-trigger: sensor not powered back after suspend inside autosuspend window	-	-	never-sent	direct	linux-surface#2160 (CmdrShepardsPie trace)	no patch exists
+sensors	iio-sensor-proxy	hysteresis 0 for SAM sensor hub (poll hangs)	-	2026-11	pending	direct	gitlab hadess/iio-sensor-proxy#432 (not readable here)	issue exists, no merge request known
+wifi	linux (wireless)	mwifiex Surface quirks	Jonas Dressler	2021	failed	none	patchwork not-applicable	SP9 uses Intel AX211, not mwifiex
+input	libinput	Surface keyboards and covers tagged internal	libinput maintainers	-	landed	direct	50-system-microsoft.quirks	covers 'Microsoft Surface 045E:09AE Keyboard'
+input	systemd hwdb	Type Cover touchpad internal (USB 045E:09C0)	lzwind	2026-08	landed	none	systemd/systemd#43262 merged	USB covers only; SP9 cover is on SAM
+input	systemd hwdb	SL2/SL3 touchpad resolution (045E:09AF on SL3)	-	older	landed	sibling	hwdb.d/60-evdev.hwdb	SP9 touchpad is also 045E:09AF but the match is pnSurfaceLaptop3; check SP9 resolution
+initramfs	dracut	surface_aggregator_registry in 70kernel-modules (SL4 keyboard)	Benjamin Drung	2023-11	landed	direct	dracut 8cc89664	drivers/hid, drivers/tty/serial, drivers/pinctrl and intel_lpss_pci are already installed in the default (non-strict) mode
+initramfs	dracut	surface_aggregator_hub (KIP hub for SP8/SP9 covers)	-	-	never-sent	direct	dracut master module-setup.sh	the one module still missing for the SP9 cover at the LUKS prompt
+pen	libwacom	MEI bus and IPTS Surface data	qzed	2019	failed	sibling	linuxwacom/libwacom#92, #93 closed by author; #89 mass-closed 2022	maintainer: no support for buses that need out-of-tree code; bus id must be in linux/input.h
+pen	libwacom	MEI bus (second attempt)	kasperk81	2021	failed	sibling	linuxwacom/libwacom#400 closed for no reply	-
+pen	libwacom	Surface Go / Go 2 data (I2C Wacom digitizers)	ShapeShifter499, jackkamm	2021-2022	landed	none	data/surface-go*.tablet	only Surfaces with a real HID digitizer are upstream
+pen	libwacom	uinput subsystem override (UINPUT_DEVICE/UINPUT_SUBSYSTEM)	Peter Hutterer	-	landed	direct	libwacom.c get_uinput_subsystem	only usb, serial, bluetooth, i2c accepted; no virtual or spi bus
+firmware	fwupd	Microsoft CFU plugin (USB 045E:09BC travel hub)	Richard Hughes	-	landed	sibling	plugins/cfu	SP9 cover exposes a SAM HID fwupd node (01:15:02:05); no fwupd support for it
+packaging	Fedora	iptsd package	-	-	never-sent	direct	Red Hat Bugzilla: no review request; repology: AUR, nixpkgs, Solus, Terra only	all build deps exist in Fedora (cli11, eigen3 5.0.1, fmt, inih-cpp, guidelines-support-library, spdlog)
+packaging	Fedora	libwacom-surface or SP9 data	-	-	never-sent	direct	repology: AUR, nixpkgs, Terra only	blocked on the libwacom bus question
+thermal	thermald	Surface zones blacklisted, no Surface configs	-	-	partial	sibling	thd_cpu_default_binding.cpp; intel/thermal_daemon#616 open	-

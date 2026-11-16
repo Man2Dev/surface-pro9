@@ -1,0 +1,314 @@
+From 301348f725946df1baf22a07d618518a79ba6b3e Mon Sep 17 00:00:00 2001
+From: cunninghamcard-bit
+ <269104167+cunninghamcard-bit@users.noreply.github.com>
+Date: Fri, 2 Oct 2026 17:26:14 +0800
+Subject: [PATCH] contacts/tracking: Retain lost contacts for a few frames
+
+On some devices a contact is regularly not detected for a single frame
+during swipes. The tracker dropped it immediately, so the daemon lifted
+the touch and the next frame started a new one.
+
+Add the RetainFrames and RetainDistance options. Contacts that were not
+detected are kept with their last state for up to RetainFrames frames,
+and are picked up again by a new detection within RetainDistance. A real
+lift is reported RetainFrames frames later. The feature is disabled by
+default.
+
+The matching loop now stops at the first infinite distance, which gives
+the same result as before when no contacts are retained.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ etc/iptsd.conf                    | 13 ++++++
+ src/contacts/config.hpp           |  4 ++
+ src/contacts/finder.hpp           |  3 +-
+ src/contacts/tracking/config.hpp  | 45 +++++++++++++++++++++
+ src/contacts/tracking/tracker.hpp | 67 +++++++++++++++++++++++++++----
+ src/core/generic/config.hpp       |  6 +++
+ src/core/linux/config-loader.hpp  |  2 +
+ 7 files changed, 132 insertions(+), 8 deletions(-)
+ create mode 100644 src/contacts/tracking/config.hpp
+
+diff --git a/etc/iptsd.conf b/etc/iptsd.conf
+index 140fb2b..06b5389 100644
+--- a/etc/iptsd.conf
++++ b/etc/iptsd.conf
+@@ -131,6 +131,19 @@
+ ##
+ # OrientationThresholdMax = 5
+ 
++##
++## For how many frames a contact is kept alive after it was not detected anymore.
++## Touches that fade out for a frame or two (e.g. during fast swipes) are not interrupted,
++## but lifting a finger is reported this many frames later. Set to 0 to disable.
++##
++# RetainFrames = 0
++
++##
++## How many centimeters a contact may move while it is not detected and still be
++## recognized as the same contact.
++##
++# RetainDistance = 2
++
+ ##
+ ## The minimal diameter a contact must have.
+ ##
+diff --git a/src/contacts/config.hpp b/src/contacts/config.hpp
+index a9a0b2f..88cf170 100644
+--- a/src/contacts/config.hpp
++++ b/src/contacts/config.hpp
+@@ -5,6 +5,7 @@
+ 
+ #include "detection/config.hpp"
+ #include "stability/config.hpp"
++#include "tracking/config.hpp"
+ #include "validation/config.hpp"
+ 
+ #include <common/types.hpp>
+@@ -20,6 +21,9 @@ public:
+ 	// The configuration options for the detection phase.
+ 	detection::Config<T> detection {};
+ 
++	// The configuration options for the tracking phase.
++	tracking::Config<T> tracking {};
++
+ 	// The configuration options for the validation phase.
+ 	validation::Config<T> validation {};
+ 
+diff --git a/src/contacts/finder.hpp b/src/contacts/finder.hpp
+index 1c62f5b..cfdc09a 100644
+--- a/src/contacts/finder.hpp
++++ b/src/contacts/finder.hpp
+@@ -28,7 +28,7 @@ private:
+ 	detection::Detector<T, TFit> m_detector;
+ 
+ 	// Tracks contacts over multiple frames.
+-	tracking::Tracker<T> m_tracker {};
++	tracking::Tracker<T> m_tracker;
+ 
+ 	// Stabilizes size and movement of contacts.
+ 	stability::Stabilizer<T> m_stabilizer;
+@@ -39,6 +39,7 @@ private:
+ public:
+ 	explicit Finder(const Config<T> &config)
+ 		: m_detector {config.detection},
++		  m_tracker {config.tracking},
+ 		  m_stabilizer {config.stability},
+ 		  m_validator {config.validation} {};
+ 
+diff --git a/src/contacts/tracking/config.hpp b/src/contacts/tracking/config.hpp
+new file mode 100644
+index 0000000..62a7624
+--- /dev/null
++++ b/src/contacts/tracking/config.hpp
+@@ -0,0 +1,45 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++
++#ifndef IPTSD_CONTACTS_TRACKING_CONFIG_HPP
++#define IPTSD_CONTACTS_TRACKING_CONFIG_HPP
++
++#include <common/casts.hpp>
++#include <common/types.hpp>
++
++#include <type_traits>
++
++namespace iptsd::contacts::tracking {
++
++template <class T>
++struct Config {
++public:
++	static_assert(std::is_floating_point_v<T>);
++
++public:
++	/*
++	 * For how many frames a contact that was not detected anymore is kept alive.
++	 *
++	 * If the contact shows up again during that time, it keeps its index and the
++	 * touch is not interrupted. Setting this to zero disables the feature.
++	 */
++	usize retain_frames = 0;
++
++	/*
++	 * How far a retained contact may have moved when it shows up again.
++	 *
++	 * New contacts that are further away from a retained contact are not matched to it.
++	 */
++	T retain_distance = casts::to<T>(0);
++
++	/*
++	 * The position of a contact is multiplied with this before measuring retain_distance.
++	 *
++	 * For normalized contacts this is the size of the screen, so that the distance is
++	 * measured in the same unit along both axes.
++	 */
++	Vector2<T> retain_scale = Vector2<T>::Ones();
++};
++
++} // namespace iptsd::contacts::tracking
++
++#endif // IPTSD_CONTACTS_TRACKING_CONFIG_HPP
+diff --git a/src/contacts/tracking/tracker.hpp b/src/contacts/tracking/tracker.hpp
+index 894feb0..4f06782 100644
+--- a/src/contacts/tracking/tracker.hpp
++++ b/src/contacts/tracking/tracker.hpp
+@@ -4,6 +4,7 @@
+ #define IPTSD_CONTACTS_TRACKING_TRACKER_HPP
+ 
+ #include "../contact.hpp"
++#include "config.hpp"
+ #include "distances.hpp"
+ 
+ #include <common/casts.hpp>
+@@ -21,19 +22,30 @@ public:
+ 	static_assert(std::is_floating_point_v<T>);
+ 
+ private:
+-	// The last frame.
++	Config<T> m_config;
++
++	// The last frame, including contacts that are retained after they disappeared.
+ 	std::vector<Contact<T>> m_last {};
+ 
++	// For how many frames each contact from the last frame has not been detected.
++	std::vector<usize> m_missed {};
++
++	// Whether a contact from the last frame was found in the current frame.
++	std::vector<bool> m_matched {};
++
+ 	// The distances between all contacts from the current and the last frame.
+ 	Image<T> m_distances {};
+ 
+ public:
++	Tracker(const Config<T> &config) : m_config {config} {};
++
+ 	/*!
+ 	 * Resets the tracker by clearing the stored copy of the last frame.
+ 	 */
+ 	void reset()
+ 	{
+ 		m_last.clear();
++		m_missed.clear();
+ 	}
+ 
+ 	/*!
+@@ -51,33 +63,74 @@ public:
+ 			counter = contact.index.value() + 1;
+ 		}
+ 
+-		if (!m_last.empty()) {
+-			const usize min = std::min(frame.size(), m_last.size());
++		m_matched.assign(m_last.size(), false);
+ 
++		if (!m_last.empty() && !frame.empty()) {
+ 			// Calculate the distances between all contacts from the current and last
+ 			// frame
+ 			distances::calculate(frame, m_last, m_distances);
+ 
+-			// Copy the old indices back for the amount of contacts that can be tracked.
+-			for (usize i = 0; i < min; i++) {
++			// Retained contacts can only be picked up again close to where they were
++			// lost
++			for (usize i = 0; i < m_last.size(); i++) {
++				if (m_missed[i] == 0)
++					continue;
++
++				const Contact<T> &retained = m_last[i];
++
++				for (usize j = 0; j < frame.size(); j++) {
++					const Vector2<T> delta = frame[j].mean - retained.mean;
++					const T distance =
++						delta.cwiseProduct(m_config.retain_scale).norm();
++
++					if (distance > m_config.retain_distance) {
++						m_distances(casts::to_eigen(i),
++						            casts::to_eigen(j)) =
++							Eigen::NumTraits<T>::infinity();
++					}
++				}
++			}
++
++			// Copy the old indices back for all contacts that can be tracked.
++			while (true) {
+ 				Eigen::Index y = 0;
+ 				Eigen::Index x = 0;
+ 
+-				m_distances.minCoeff(&y, &x);
++				const T distance = m_distances.minCoeff(&y, &x);
++
++				if (distance == Eigen::NumTraits<T>::infinity())
++					break;
+ 
+ 				// Copy the index of the contact
+ 				frame.at(casts::to_unsigned(x)).index =
+ 					m_last.at(casts::to_unsigned(y)).index;
+ 
++				m_matched[casts::to_unsigned(y)] = true;
++
+ 				// Invalidate all entries containing these contacts
+ 				m_distances.row(y) = Eigen::NumTraits<T>::infinity();
+ 				m_distances.col(x) = Eigen::NumTraits<T>::infinity();
+ 			}
++		}
++
++		const usize detected = frame.size();
+ 
+-			m_last.clear();
++		// Keep contacts that were not detected alive for a few frames, by repeating them.
++		for (usize i = 0; i < m_last.size(); i++) {
++			if (m_matched[i] || m_missed[i] >= m_config.retain_frames)
++				continue;
++
++			frame.push_back(m_last[i]);
++			m_missed.push_back(m_missed[i] + 1);
+ 		}
+ 
++		// The counters of the retained contacts were appended after the old ones
++		m_missed.erase(m_missed.begin(),
++		               m_missed.begin() + casts::to_signed(m_last.size()));
++		m_missed.insert(m_missed.begin(), detected, 0);
++
+ 		// Save a copy of the new data
++		m_last.clear();
+ 		std::copy(frame.begin(), frame.end(), std::back_inserter(m_last));
+ 	}
+ 
+diff --git a/src/core/generic/config.hpp b/src/core/generic/config.hpp
+index 725e940..4631c33 100644
+--- a/src/core/generic/config.hpp
++++ b/src/core/generic/config.hpp
+@@ -52,6 +52,8 @@ public:
+ 	f64 contacts_aspect_max = 2.5;
+ 	usize contacts_peak_suppression_radius = 0;
+ 	f64 contacts_peak_suppression_factor = 0;
++	usize contacts_retain_frames = 0;
++	f64 contacts_retain_distance = 2;
+ 
+ 	// [Stylus]
+ 	bool stylus_disable = false;
+@@ -107,6 +109,10 @@ public:
+ 
+ 		const f64 diagonal = std::hypot(this->width, this->height);
+ 
++		config.tracking.retain_frames = this->contacts_retain_frames;
++		config.tracking.retain_distance = this->contacts_retain_distance;
++		config.tracking.retain_scale = Vector2<f64> {this->width, this->height};
++
+ 		config.validation.track_validity = true;
+ 		config.validation.size_limits = Vector2<f64> {
+ 			this->contacts_size_min / diagonal,
+diff --git a/src/core/linux/config-loader.hpp b/src/core/linux/config-loader.hpp
+index 0b40293..fa92f41 100644
+--- a/src/core/linux/config-loader.hpp
++++ b/src/core/linux/config-loader.hpp
+@@ -177,6 +177,8 @@ private:
+ 		this->get(ini, "Contacts", "AspectMax", m_config.contacts_aspect_max);
+ 		this->get(ini, "Contacts", "PeakSuppressionRadius", m_config.contacts_peak_suppression_radius);
+ 		this->get(ini, "Contacts", "PeakSuppressionFactor", m_config.contacts_peak_suppression_factor);
++		this->get(ini, "Contacts", "RetainFrames", m_config.contacts_retain_frames);
++		this->get(ini, "Contacts", "RetainDistance", m_config.contacts_retain_distance);
+ 
+ 		this->get(ini, "Stylus", "Disable", m_config.stylus_disable);
+ 		this->get(ini, "Stylus", "TipDistance", m_config.stylus_tip_distance);
+-- 
+2.43.0
+

@@ -1,0 +1,213 @@
+# External (non linux-surface org) projects and personal repos that matter for the Surface Pro 9 goal.
+# Sources: every URL in the bodies and comments of 1301 org issues/PRs (SP9, SP8 and subsystem searches), 308 of 319
+# discussions, the wiki, fork READMEs and fork commit messages, patch Link tags. Snapshot 2026-11-13.
+# Second pass (2026-11-13): GitHub repository and issue search outside the org; entries marked "added 2026-11-13". Bug trackers and mailing lists: data/indexes/trackers.tsv.
+# Raw link aggregation: data/generated/urls-local-sources.json (local sources); clone facts: data/generated/external-repos-inspect.json (second pass: external-repos-inspect-2.json).
+# sp9: core (directly usable for SP9), useful (same hardware or a Fedora/packaging pattern to copy), reference (method, data, history).
+# upstream_value: what it can contribute upstream, if anything. mentions: where it is referenced (#N = linux-surface issue/PR, D = discussion).
+# last = last commit seen in a depth-30 clone. Repos that no longer exist: listed at the bottom.
+
+cameras:
+  - repo: fildunsky/linux-surface-pro8-cameras
+    sp9: core
+    last: 2026-10-16
+    what: "All three SP8 cameras (same sensors as SP9) on mainline + linux-surface: front OV5693 (INT33BE), rear OV13858 (OVTID858), IR VD55G0 (ACPI SMO55F0, 644x604 mono ~31 fps). DKMS for ov5693, ov13858, ipu-bridge; v4l2-relayd basetime patch; tuning tools (decode_aiqb.py, factory-tuning.py, camera-tune.py); IR face auth notes."
+    upstream_value: "libcamera software-ISP patches (agc gain floor, proportional AGC, AWB via libipa bayes, black-level order fix, split AWB from CCM, stats sums to 8 bit) and OV5693/OV13858 tuning files: candidates for libcamera upstream. Upstream libcamera has sensor helpers for ov5693 and ov13858 but only uncalibrated.yaml for the soft ISP."
+    mentions: [kernel#169, "#2227", "#2166", "#2153", "#2171", "#2252"]
+  - repo: el-amin-dev/sp9-ov5693-dkms
+    sp9: core
+    last: 2026
+    what: "SP9 front camera DKMS (patched ov5693) + app bridge, tested Ubuntu 26.04 and Fedora 44 on linux-surface 6.19.8."
+    upstream_value: "Superseded on 7.4 by Rimoli's series; keep as test harness."
+    mentions: [D2198]
+  - repo: loisBreant/surface-pro-9-camera
+    sp9: core
+    what: "SP9 camera installer: udev rules 70-sp9-dma-heap.rules, 72-sp9-hide-ipu6.rules, libcamera debayer_egl snap patch; diagnosis that browser freezes come from v4l2-relayd."
+    upstream_value: "libcamera debayer_egl fix could go to libcamera; udev rule ideas for Fedora packaging."
+    mentions: [kernel#180, "#1893", "#2171", D2198]
+    related_branches: ["loisBreant/kernel sp9-ov5693-mipi-clock-lane-gating (kernel#180)"]
+  - repo: dmanresa-saes/surface-ipu6-cameras
+    sp9: useful
+    what: "IPU6 Surface cameras: DKMS, PSYS hardware ISP path with Microsoft .aiqb calibration, bridges, tuning tools (SP7+ focus, OV5693 binned mode)."
+    upstream_value: "Binned-mode fix (#2252), ipu-bridge rebind fix (linux-media v3), intel/ipu6-camera-hal#182."
+    mentions: ["#2242", "#1702", "#2252", "#2286", D2253]
+  - repo: naeemarsalan gist 3194a838a7bfb66671bc90d6de6734dd
+    url: https://gist.github.com/naeemarsalan/3194a838a7bfb66671bc90d6de6734dd
+    sp9: useful
+    what: "SP8 front camera on Fedora 44: MIPI_CTRL00 (0x4800 = 0x2d) patch, out-of-tree build, MOK signing, v4l2loopback bridge as a systemd user service. Notes Windows also writes 0x4806/0x4816/0x4831/0x4d00/0x4d01."
+    mentions: ["#2171"]
+  - repo: petm5/vd55g-firmware
+    sp9: core
+    what: "VD55G0 patch/firmware blobs needed by the VD55G0 driver work (SP9 IR camera)."
+    mentions: [D2198]
+  - repo: STMicroelectronics/vd55g0-linux-driver
+    sp9: useful
+    last: 2026-07-28
+    what: "ST's own out-of-tree VD55G0 driver (GPL, device-tree overlays for Raspberry Pi, Documentation/devicetree/bindings/st,vd55g0.yaml). Branches master, debian."
+    upstream_value: "Vendor reference for register maps and firmware patch for the mainline VD55G0 series (Peter Marshall / Sergey Lebedev)."
+    mentions: [petm5/vd55g-firmware README]
+  - repo: luqqas96/surface-zoom-bridge
+    sp9: useful
+    what: "LD_PRELOAD shim + v4l2loopback bridge so Zoom/Teams/WebRTC see front and rear IPU6 cameras (Pro 7+, 8, 9, SLS); works around the 64 V4L2 device limit."
+    mentions: ["#2242", "#2358"]
+  - repo: lixiaowww/surface-virtual-camera
+    sp9: reference
+    what: "libcamera to v4l2loopback virtual camera installer (IPU3 focus), PR #2358 contrib version."
+    mentions: ["#2358"]
+  - repo: I232826/surface-kit
+    sp9: reference
+    what: "Surface Pro 7 (IPU4) kit: camera patches, ov5693 bayer-order fix, ISH patches, face login, mic, touch."
+    mentions: ["#2140", D1353]
+  - repo: Fugu0141/Surface-Go4-IPU6-camera-linux
+    sp9: useful
+    what: "Surface Go 4 IPU6 OV5693 root-cause report and validation logs (binning tests), branches docs/surface-go4-ipu6-root-cause-report, research_windows."
+    mentions: ["#2171", "#2252", "#2154"]
+  - repo: antoine79/surface-ir-camera
+    sp9: reference
+    last: 2026-11-13
+    what: "Surface Book 2 IR camera (OV7251 + 850 nm emitter on STROBE): kernel patches v1 to v3 posted to linux-media, Windows driver notes. Same IR-emitter problem class as SP9 VD55G0."
+    mentions: ["#739", "#2252"]
+  - repo: stefanpartheym/archlinux-ipu6-webcam
+    sp9: reference
+    what: "Intel out-of-tree IPU6 (ipu6-drivers + HAL) packaging for Arch; old route, superseded by mainline ISYS + libcamera."
+    mentions: ["#1064", "#91"]
+  - repo: hao-yao/ipu6-sensor-guide
+    sp9: reference
+    what: "Intel (Hao Yao) IPU6 sensor enabling guide: ACPI, SSDB, PMIC, i2c."
+    mentions: ["#91", D1354]
+  - {repo: intel/ipu6-drivers, sp9: reference, what: "Intel out-of-tree IPU6 + sensor drivers.", mentions: ["#1846", "#1064", "#326", "#2355"]}
+  - {repo: intel/ipu6-camera-hal, sp9: reference, what: "Intel HAL; PR #182 (dmanresa).", mentions: ["#326", "#2252"]}
+  - {repo: intel/ipu6-camera-bins, sp9: reference, what: "Intel IPU6 firmware/IPA binaries for the HAL route.", mentions: ["#326", "#1518"]}
+  - {repo: intel/icamerasrc, sp9: reference, what: "GStreamer source for the Intel HAL.", mentions: ["#326"]}
+  - {repo: umlaeute/v4l2loopback, sp9: useful, what: "v4l2loopback, needed for browser/Zoom bridges; not in Fedora kernel (RPM Fusion akmod).", mentions: ["#907", "#2045", "#1798", "#1949", "#1176"]}
+  - {repo: 9elements/v4l2-relayd, sp9: useful, what: "relay daemon used by several SP camera setups; source of the browser freeze per loisBreant.", mentions: [dmanresa README]}
+  - {repo: jensv67/surface-howdy-sp7, sp9: reference, what: "Howdy IR face unlock on SP7 (IPU4P / OV7251), Y10 to GRAY8 loopback, PAM glue; pattern for SP9 VD55G0 face login.", mentions: [D2197]}
+  - {repo: lksmasin/surface-howdy-sp5, sp9: reference, what: "Howdy on SP5 (IPU3 / OV7251).", mentions: [D2197, D1352]}
+  - {repo: lain3d/surface-pro-11-research, sp9: reference, what: "SP11 (ARM) camera research incl. libcamera patches; IMX681.", mentions: ["#2153"]}
+  - {repo: EberhartLeberhart/surface-pro5-just-works-fedora-arch, sp9: reference, what: "SP5 camera fix suite for Fedora/Arch (German), tuning file, dw9719 fix.", mentions: ["#2045", D1352, D2224]}
+  - {repo: kitakar5525/surface-ipu3-cameras, sp9: reference, what: "Historical ACPI/IPU data dump tooling (dump_intel_ipu_data) used to collect SP camera data.", mentions: ["#326", kernel#79]}
+
+  # added 2026-11-13 (second pass: GitHub repo/issue search outside the org)
+  - {repo: Rob-Keys/sp9-linux-custom-patches, sp9: useful, last: 2025-12-02, what: "SP9 front and rear cameras on linux-surface 6.17 with prebuilt patched modules (ov5693, ov13858, ipu-bridge, int3472), udev power rules, Howdy face login through GStreamer; IR not working (ACPI error). README says partly AI generated.", upstream_value: "None directly; test scripts."}
+  - {repo: Fugu0141/Surface-Go4-IPU6-camera-linux, sp9: useful, last: 2026-09-24, what: "Surface Go 4 (ADL-N, IPU6, OV5693) on mainline + libcamera; documents OV5693 binning validation. Same front sensor path as SP9.", upstream_value: "Tested-by for the ov5693 binned-mode patch (asked in dmanresa-saes/surface-ipu6-cameras#1)."}
+  - {repo: pkarnakov/surface-go-ipu3-camera, sp9: reference, last: 2026-11-12, what: "Surface Go 3 cameras with Intel IPU3 3A and the Windows tuning on libcamera 0.5.2, Fedora 43; IR face login with Howdy.", upstream_value: "Method to reuse Windows tuning on Fedora."}
+  - {repo: fabianfbh/surface-pro-8-camera-ipu6-arch-linux, sp9: reference, last: 2026-08-31, what: "SP8 IPU6 front camera: ov5693 DKMS patch + v4l2loopback bridge (Arch)."}
+  - {repo: xiaoland/sfp7-linux-cam-driver, sp9: reference, last: 2026-09-25, what: "SP7 camera kernel, libcamera and Snapshot stack (IPU4)."}
+  - {repo: Elefantenjongleur/surface-pro-7-camera, sp9: reference, last: 2026-10-03, what: "SP7 rear camera on Fedora."}
+  - {repo: STMicroelectronics/vd55g0-linux-driver, sp9: useful, what: "ST vendor VD55G0 driver (GPL, device tree). Compare with rhbz#2509956: the mainline vd55g1 driver needed only an ACPI match, an ipu-bridge config and an int3472 vana mapping to stream on a ThinkPad (TBE20A1), the same shape of change the SP8/SP9 SMO55F0 needs."}
+touch_pen:
+  - repo: quo/ithc-linux
+    sp9: core
+    last: 2025-05-27
+    what: "Upstream source of ITHC (SP9 touch). Stopped matching MTL+ (handled by intel-thc-hid). Issue #5: SP9 IDs, #29: upstream THC scope."
+    upstream_value: "The code that would go to linux-input; needs quo."
+    mentions: ["#965", "#987", "#1000", "#818", "#1467", "#1123", D981, D1042, D1581]
+  - repo: iwanders/analysis-ithc-iptsd
+    sp9: core
+    last: 2024-03-05
+    what: "Analysis of the THC on the Surface Pro 9: Slim Pen 2 button glitching, DFT pen data format, raw captures (data files in releases). Basis of iptsd#156."
+    upstream_value: "Documentation for iptsd and for any upstream THC/IPTS driver discussion."
+    mentions: [iptsd#156]
+  - repo: AndyGozas/iptsd
+    sp9: useful
+    what: "iptsd fork, branch bundle-events-workaround referenced as a fix for jagged fast lines on SP9 (#1588); DFT partial update bundling merged upstream (iptsd#186)."
+    mentions: ["#1588"]
+  - repo: wvffle/iptsd
+    sp9: useful
+    what: "iptsd fork with a stylus lift timeout option (2024-10), linked from iptsd#166 DisableOnStylus on SP9."
+    mentions: [iptsd#166]
+  - repo: LegendaryFire/iptsd
+    sp9: useful
+    last: 2026-07-26
+    what: "iptsd fork with device reconnect support, touchpad disconnect fix, branches tristan-peak-suppression, tristan-watershed, tristan-neutral-config."
+    mentions: [iptsd#200]
+  - {repo: alex-lentz/iptsd, sp9: reference, what: "iptsd fork for the SL7 haptic touchpad (AI assisted).", mentions: [iptsd#225, "#1590", D2100]}
+  - {repo: floopflop/SL_Intel_Linux, sp9: reference, what: "SL7 Intel on Fedora 44/45: iptsd patch stack (LiftGraceMs, replay tool, contact tracking, gestures), libcamera 0.7.2 patch.", mentions: ["#1710"]}
+  - {repo: qzed/digitizer-prototype, sp9: reference, what: "Original touch/pen processing prototype behind iptsd.", mentions: [iptsd#115, "#553"]}
+  - {repo: quo/surface-parser, sp9: reference, what: "IPTS/ITHC raw data parser (quo), SLS2 fix 2024.", mentions: [intel-precise-touch#14]}
+  - {repo: danielzgtg/ipts-rust, sp9: reference, what: "Experimental Rust IPTS processing.", mentions: [iptsd#88]}
+  - {repo: hmtheboy154/iptsd, sp9: reference, what: "iptsd port for Android (BlissOS).", mentions: [iptsd#135, iptsd#120]}
+  - {repo: thiswillbeyourgithub/ntrig-calib, sp9: none, what: "N-trig calibration (older Surfaces).", mentions: [iptsd#202]}
+  - {repo: linuxwacom/libwacom, sp9: core, what: "Upstream libwacom; issue #89 (Surface support, stalled), PR #92.", mentions: [libwacom-surface#19, libwacom-surface#25, D2282]}
+  - {repo: orthogonaleety/libwacom-surface, sp9: useful, what: "libwacom-surface fork with Fedora builds (Actions).", mentions: [libwacom-surface#25, "#2148", D2205]}
+  - {repo: qzed/linux-surface-pen-button-remap, sp9: reference, what: "Pen button remapping daemon (Rust).", mentions: ["#1047"]}
+
+  # added 2026-11-13
+  - repo: John-S-Reddick/bazzite-surface
+    sp9: core
+    last: 2026-10-17
+    what: "Bazzite (Fedora based, bootc) image for the Intel SP9 that keeps Bazzite's own kernel and adds only an out-of-tree ithc.ko (quo/ithc-linux pinned 6d53c9c, built against kernel-devel, signed with a MOK), iptsd and a surface-pro9.tablet. README: Type Cover, battery, tablet-mode switch, platform profiles, Wi-Fi, BT, audio and suspend already work on the stock kernel; cameras do not."
+    upstream_value: "Proof that on a Fedora-derived kernel the SP9 needs only ITHC + iptsd for touch. Pattern for an akmod/kmod package of ITHC (RPM Fusion or Terra) while the driver is not upstream."
+  - {repo: xbtry/sp9lintouch, sp9: useful, last: 2025-08-08, what: "SP9 iptsd calibration (91-calibration-045E-0C52.conf: contact size 0.3 to 1.1, aspect 1.0 to 1.3; DisableOnPalm, Overshoot 0.5).", upstream_value: "Data point for an SP9 config in iptsd's etc/iptsd.d presets."}
+  - {repo: zeroxoneafour/linux-surface-config, sp9: useful, last: 2026-09-06, what: "Vaughan Milliman's SP9 Fedora configs: iptsd DisableOnStylus + wiki thresholds, modprobe softdep soc_button_array pre: pinctrl_tigerlake, GRUB pci=hpiosize=0 and xe.force_probe=46a8, tuned powersave profile, Alder Lake battery tips.", upstream_value: "softdep is a userspace workaround for the button race fixed in kernel by linux-surface 0009; xe on SP9 is worth testing."}
+  - {repo: intel/thc-drivers, sp9: reference, last: 2026-11-03, what: "Intel's out-of-tree THC (QuickSPI, QuickI2C) drivers synced to 7.4-rc1. README: THC v1 (TGL) IPTS mode, v2 (ADL) adds HIDSPI, IPTS mode left to linux-surface. PCI tables cover MTL, LNL, PTL, WCL, ARL, NVL only, no ADL. Issue #1 (SL7).", upstream_value: "Confirms Intel will not cover the SP9's IPTS-mode THC; ITHC remains the only path."}
+  - {repo: JValdivia23/surface-RE, sp9: reference, last: 2026-11-13, what: "Hardware, firmware and Windows driver reverse-engineering notes and DKMS drivers for Surfaces (SB3 IPU4P camera with simple-pipeline tuning, SG3 i2c-hid resume reset, UCSI over SAM). Same author as kernel#184.", upstream_value: "Method and documentation; UCSI over SAM work applies to the SP9 node group (ucm_ucsi)."}
+boot_initramfs:
+  - {repo: Grosskopf/arch_unl0kr, sp9: useful, what: "unl0kr (on-screen keyboard LUKS unlock in the initramfs) for Arch; relevant for tablet use without the cover.", mentions: ["#342", "#1857", "#400"]}
+  - {repo: afn/arch_unl0kr, sp9: useful, what: "Updated arch_unl0kr (lvgl master).", mentions: ["#342"]}
+  - {repo: "gitlab.com/postmarketOS/buffybox", sp9: useful, what: "Upstream of unl0kr. #1857 [SP9] unl0kr UI not showing: DRM in initramfs needs many libraries.", mentions: ["#342", "#1857"]}
+  - {repo: ShapeShifter499/osk-sdl_arch, sp9: reference, what: "osk-sdl on-screen keyboard for LUKS (older).", mentions: ["#1001", "#400"]}
+  - {repo: NixOS/nixos-hardware, sp9: useful, what: "microsoft/surface modules: per-version patch lists and kernel config (CONFIG_HID_IPTS, CONFIG_HID_ITHC, SURFACE_HID), iptsd service; issues #886, #1637, #1690, #1775 reference SP9.", mentions: [iptsd#162, "#1392", "#1922", "#2008", surface-gpe#4, "#2150", D1931]}
+
+  - {repo: omacom/omarchy, sp9: useful, last: 2026-11-13, what: "Omarchy (Arch, mkinitcpio) ships a Surface early-module drop-in: pinctrl_tigerlake surface_aggregator surface_aggregator_registry surface_aggregator_hub surface_hid_core surface_hid surface_kbd intel_lpss_pci 8250_dw (test/shell.d/mkinitcpio-hooks-test.sh). Issues #11128, #7111 and PRs #8151, #14195 cover AMD Surfaces and not clobbering MODULES.", upstream_value: "Third independent distro using the same list as ublue-os/hwe: evidence for dracut-ng/dracut."}
+  - {repo: iwanders/nixos-surface, sp9: useful, last: 2025-10-12, what: "Ivor Wanders' SP9 NixOS config: initrd-shutdown module (power off if stuck at the LUKS prompt), thermald thermal-conf.xml for the SP9 (RAPL zones; thermald --adaptive fails, no DPTF tables), iptsd and OSK overlays, fan notes. Ivor wrote the mainline Surface fan driver."}
+lid_power_thermal:
+  - repo: dragged9698 gist 3d520d6da566825e9880a7e8e0c7abfc
+    url: https://gist.github.com/dragged9698/3d520d6da566825e9880a7e8e0c7abfc
+    sp9: core
+    what: "Patch 'platform/surface: gpe: Tolerate padded DMI sys_vendor strings': switch DMI_SYS_VENDOR to DMI_MATCH because some SP9 firmware reports ' Microsoft Corporation' (leading 0x20). Verified on SP9 2038 i7-1255U: lid-open wake from s2idle works (GPE 0x52). Signed-off-by placeholder."
+    upstream_value: "Ready-ish for platform-driver-x86 together with the SP9 GPE entry; needs a real Signed-off-by from the author."
+    mentions: ["#2257"]
+    related: ["surface-gpe#7 (777HOST, same fix in the out-of-tree repo)", "dragged9698/kernel cameras/sp9-ov13858-hw-rotate"]
+  - {repo: quo/sam-fw-tools, sp9: reference, what: "SAM firmware unpacking and the spontaneous shutdown bugfix analysis.", mentions: ["#999", surface-aggregator-module#64]}
+  - {repo: iwanders/nixos-surface, sp9: useful, what: "Fan module reverse engineering (fan.md), kernel dev Makefile; full entry under boot_initramfs.", mentions: [kernel#144]}
+  - {repo: skgsergio/tablet-mode-vswitch, sp9: reference, what: "Virtual tablet-mode switch daemon (SP5 era).", mentions: ["#846"]}
+  - {repo: zippo574/apds9960-sl5, sp9: reference, what: "Surface Laptop 5 (ADL sibling) APDS9960 ambient light polling workaround.", mentions: ["#1584"]}
+  - {repo: Diudid/SP8_configs, sp9: reference, what: "SP8 TLP config.", mentions: ["#1791"]}
+  - {repo: "brknkfr gist 95d1925ccdbb7a2d18947c168dfabbee", sp9: useful, what: "Original 'Add a lockdown_hibernate parameter' patch by Kelvie Wong (2022-10-02), the source of linux-surface 0001 (kernel#158). Credit when discussing upstream.", mentions: [kernel#158]}
+
+  - {repo: Meatwo310/dotnix, sp9: core, last: 2026-11-03, what: "NixOS config with modules/surface-gpe-sp9-business.nix and patches/surface-gpe-sp9-business.patch: adds DMI_PRODUCT_SKU 'Surface_Pro_9_for_Business_2038' with lid_device_props_l52. PR #13: lid-close suspend and lid-open resume verified on an SP9 Business.", upstream_value: "Exact Business SKU string and a Tested-by for the upstream surface_gpe SP9 patch."}
+  - {repo: plover43/sp9_downgrade, sp9: reference, last: 2024-05-18, what: "SP9 UEFI downgrade from 12.200.143 to 9.12.143 with linux-surface/surface-uefi-firmware repack (cab holds two payloads, only the first applies). Context #1162.", upstream_value: "Firmware history for boot problems; risky."}
+audio:
+  - {repo: hopefulcoderx/surface-book-2-linux-speakers, sp9: reference, what: "SB2 speaker EQ / DSP profile approach.", mentions: ["#168"]}
+  - {repo: AsahiLinux/asahi-audio, sp9: reference, what: "Speaker DSP model StollD pointed to for Surface speakers.", mentions: ["#168"]}
+
+  - repo: antoinecellerier/speaker-tuning-to-easyeffects
+    sp9: core
+    last: 2026-11-11
+    what: "Converts the Windows Dolby / Surface APO speaker tuning to EasyEffects presets or a PipeWire filter-chain. SP9 (Intel) is the reference device for the Surface APO mapping: SurfaceAPO_1284.json, Realtek ALC274 (codec 10EC0274, subsystem 10EC1284), controller subsystem 8086:7270, speaker pin 0x1b. Issue #113: SP9 user reports much better sound."
+    upstream_value: "Source for an SP9 speaker filter-chain that a distro (or WirePlumber/alsa-ucm-conf style packaging) could ship; codec IDs for any realtek quirk."
+fedora_and_images:
+  - {repo: CmdrShepardsPie/surface-kernel-copr, sp9: core, what: "COPR kernel-surface-cmdrshepardspie (see repos.yaml).", mentions: [kernel#181]}
+  - {repo: ublue-os/hwe, sp9: core, what: "Universal Blue hardware-enablement images (ublue-os/surface was merged into it). surface/system_files/shared/usr/etc/modules-load.d/ublue-surface.conf is a field-tested initramfs module list for LUKS unlock with the cover: surface_aggregator, surface_aggregator_registry, surface_aggregator_hub, surface_hid_core, 8250_dw, surface_hid, surface_kbd, intel_lpss, intel_lpss_pci, pinctrl_tigerlake (plus pinctrl_amd, pinctrl_icelake for other models). surface-hardware-setup tracks it with rpm-ostree initramfs-etc. Last commit 2025-04.", upstream_value: "Evidence and module list for the dracut-ng change.", mentions: ["#1350", "#1265"]}
+  - {repo: ublue-os/surface, sp9: reference, what: "Archived predecessor of hwe (modules-load.d/ublue-surface.conf).", mentions: ["#1350", "#1265"]}
+  - {repo: LorbusChris/bluefin-surface, sp9: useful, last: 2026-11-06, what: "Christian Glombek: bootc Silverblue-based 'bluespin' images (60 branches); the same author maintains an arkify COPR branch of linux-surface.", mentions: ["#1666"]}
+  - {repo: NexGen-3D-Printing/bazzite-sdx, sp9: useful, last: 2026-11-16, what: "Bazzite-DX + linux-surface packages image; README marks the SP9 confirmed with kernel-surface 7.2.15-1.surface.fc45 (2026-11-09). Author reports all fully working on an SP9 and is debugging the SP9 battery charge bug (Fedora 44/45, Bazzite 45).", mentions: [D2374, D2282]}
+  - {repo: plata/ublue-surface, sp9: reference, what: "Older ublue surface image.", mentions: ["#1128"]}
+  - {repo: Xelef2000/azurefin, sp9: none, what: "Fedora atomic for SL7 ARM; useful only as a bootc image pattern.", mentions: ["#1590"]}
+  - {repo: StollD/fedora-linux-surface, sp9: reference, what: "Historical Fedora packaging (2020) that became pkg/fedora.", mentions: [kernel#5, kernel#8]}
+  - {repo: "copr.fedorainfracloud.org/coprs/crashdummy/LinuxSurface", sp9: reference, what: "Another COPR of linux-surface kernels.", mentions: ["#1888"]}
+  - {repo: "copr.fedorainfracloud.org/coprs/jwrdegoede/ipu6-softisp", sp9: useful, what: "Hans de Goede's IPU6 + software ISP COPR (reference for Fedora camera userspace).", mentions: ["#91"]}
+  - {repo: "Terra (Fyra Labs)", sp9: useful, what: "libwacom-surface for Fedora.", mentions: [D2282]}
+  - {repo: Madmaxx636/surface-companion, sp9: reference, last: 2026-11-07, what: "Desktop control app (profiles, keyboard backlight, lid, charge limit) over existing sysfs and logind interfaces; fixes catalog includes an initramfs module list with surface_aggregator_hub and an Auto-Mute Mode unit. MIT.", upstream_value: "None directly; more field evidence for the dracut module list.", mentions: [D2368, D2282]}
+  - {repo: NexGen-3D-Printing/SDX-Control-Centre, sp9: reference, last: 2026-11-15, what: "Fork of surface-companion packaged as an rpm for Bazzite-DX, also runs on Fedora; renames and drops package flows, no new hardware code. Developed and tested on an SP9.", mentions: [D2282]}
+  - {repo: NexGen-3D-Printing/Dexnor-Keyboard-Linux, sp9: none, last: 2026-11-16, what: "Userspace fixes for the third-party Dexnor Bluetooth keyboard case for the SP9 (HID 05AC:0220): BlueZ PPCP latency 35 drops keys; touchpad latches BTN_LEFT. Outside the first-party scope.", upstream_value: "Possible BlueZ report (PPCP latency handling); not pursued here.", mentions: [D2282]}
+
+  # added 2026-11-13
+  - {repo: "Terra (terrapkg/packages)", sp9: useful, what: "Since 2026-09 Terra ships iptsd for f43, f44, f45 and el10 (PR #16814) and a kernel-surface package (PR #17551), besides libwacom-surface. Issue #15912 tracks porting linux-surface packages."}
+  - {repo: BlueOz94/bazzite-surface-sp9, sp9: useful, last: 2026-06-04, what: "Bazzite image with linux-surface kernel for SP9 (also bazzite-surface-pro9: pins the linux-surface f43 repo)."}
+  - {repo: medgast/fedora-surface, sp9: reference, last: 2026-11-10, what: "BlueBuild Silverblue 45 image with the linux-surface kernel."}
+  - {repo: dragged9698/fedora-surface-pro-9, sp9: reference, last: 2025-10-18, what: "SP9 Fedora setup scripts (linux-surface kernel, i915.enable_psr=0, pci=hpiosize=0, HibernateMode=reboot, stylus orientation fixes)."}
+  - {repo: peternickol/surface-pro-9-linux-setup, sp9: reference, last: 2026-10-08, what: "SP9 Debian/Ubuntu installer: linux-surface kernel, GRUB quirks, iptsd via udev, rotation lock toggle."}
+  - {repo: sunsetterphoto/SurfaceTabletKit, sp9: reference, last: 2026-10-16, what: "GNOME tablet polish for Surfaces on Fedora Workstation."}
+  - {repo: systemd/particleos, sp9: reference, what: "PR #159 (open, 2026-05): Surface Pro/Laptop UEFI profile with linux-surface kernel and iptsd for the mkosi based ParticleOS image."}
+  - {repo: sjagoe/nixos-kernels, sp9: reference, last: 2026-11-13, what: "Automated linux-surface kernel tracking for NixOS (bot PRs per patch update); model for automating Fedora rebuilds."}
+  - {repo: qzed/kernel-pkgscripts, sp9: reference, last: 2026-11-01, what: "Maximilian Luz's packaging scripts for linux-surface/kernel."}
+sibling_device_efforts:   # same organisation pattern, useful to copy methods from
+  - {repo: richiemort79/sl7-linux-enablement, sp9: reference, what: "SL7 Intel patch set (SAM registry, SoundWire speakers/mic, ov02c10, ipu7, eDP backlight).", mentions: ["#1710"]}
+  - {repo: dwhinham/linux-surface-pro-11, sp9: none, what: "SP11 ARM Arch image, upstream-first approach with LKML submissions (good model for this project).", mentions: ["#1590", "#1962", D1452]}
+  - {repo: harrisonvanderbyl/surface-pro-12-inch-linux, sp9: none, what: "SP12 ARM bring-up.", mentions: ["#1962"]}
+  - {repo: bryce-hoehn/linux-surface-laptop-7, sp9: none, what: "SL7 ARM.", mentions: ["#1590", "#1962"]}
+  - {repo: ruslanbay/ipu4-drivers, sp9: none, what: "IPU4/IPU4P drivers (SP7, SB3), upstream RFC on linux-media.", mentions: ["#2289", "#2013", kernel#163]}
+
+not_found_2026_11_13: [Doridian/sb2-linux-cameras, Crashdummyy/linux-surface, Buscuit-Dev/surface-pro-10-cachyos-kernels, wowitsjack/Surface-Linux-Lid-Fix, kfechter/Linux-Surface-Copilot, thattransgal/silverblue-surface]

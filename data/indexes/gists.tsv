@@ -1,0 +1,16 @@
+# GitHub gists relevant to the Surface Pro 9 goal. Snapshot 2026-11-13.
+# Source: gist search (gist.github.com/search, sorted by update) for "surface pro 9", Surface_Pro_9_2038, surface_gpe, iptsd, linux-surface,
+#   ithc, "surface pro 8" linux, ov5693 ipu6, surface_aggregator, MSHW0343, "surface laptop 5" linux, surface libwacom, surface dracut luks,
+#   surface pro 9 fedora, surface pro 9 camera (270 unique hits, 59 Surface related, read in full where relevant), plus gists linked from
+#   issues found earlier. Git stashes are local only: no refs/stash or other non-branch refs exist in the org repos or in 123 known forks.
+gist	updated	sp9	area	what	use
+dragged9698/3d520d6da566825e9880a7e8e0c7abfc	2026	direct	lid	Patch "platform/surface: gpe: Tolerate padded DMI sys_vendor strings" (DMI_MATCH for the vendor), verified on SP9 2038, GPE 0x52	Input for the upstream surface_gpe patch (author sign-off needed)
+brknkfr/95d1925ccdbb7a2d18947c168dfabbee	2022	direct	hibernate	Kelvie Wong's original "Add a lockdown_hibernate parameter" patch (2022-10-02), origin of linux-surface 0001	Credit when discussing upstream
+naeemarsalan/3194a838a7bfb66671bc90d6de6734dd	2026-06-12	sibling	camera	Surface Pro 8 front camera on Linux (IPU6 OV5693), step by step, Fedora 44	Test recipe; same sensor as SP9
+philbudden/59b47727fce722a469b0ca87e668c22e	2026-01-18	direct	boot	Downgrade Surface UEFI firmware with surface-uefi-firmware repack and fwupdmgr; explains that the June 2023 firmware enforces NX and makes some distros (Fedora named) freeze at boot. SP9 listed, untested	Context for #1162/#1274 and linux-surface 0001 (revert of the kernel's unconditional NX_COMPAT flag)
+everydayintech/15a789ecaeb1d43620bbce1bd3edd0c8	2023-06-27	direct	firmware	OSD driver pack catalog with SP9 SKUs (Surface_Pro_9_2038, Surface_Pro_9_for_Business_2038, 5G 1996/1997) and the 2022 driver MSIs: SurfacePro9_Win11_22621_22.101.15506.0.msi at download.microsoft.com/download/e/9/a/e9a35d1b-7b4c-48d4-8619-5301d4c09f65/	Source for the SP9 camera AIQB tuning, Surface APO speaker tuning and firmware capsules
+patcon/a80adb97920dc5378b1bd265ba683450	2026-07-07	sibling	camera	SP6 IPU3 camera fix script for the 6.19 ipu_bridge / dw9719 regression	History of the dw9719 id table fix
+DoubleLama/48492816fafab694b3590c242002411b	2026-07-29	none	touch	SP5 IPTS kthread_stop use-after-free dmesg (6.19.8-surface-3)	Background for kernel#178/#187
+ryuheechul/d6dc6ad9acf6eeed77b6c33f2b8428ae	2026-04-25	sibling	install	NixOS on Surface Pro 8 notes	Reference
+PaddeCraft/355847e40a0611497fa3144f0afdc4ca	2026-08-29	none	install	Surface Pro 10 for Business on Arch: per-feature status	Reference for the next generation
+Deebster/0e59346e6643019fdfb56f3004026ba6	2026-04-24	pattern	initramfs	dracut 108 vs 110 kernel install logs (Gentoo) mentioning surface_aggregator	Shows how dracut handles Surface modules in practice

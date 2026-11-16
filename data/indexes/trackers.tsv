@@ -1,0 +1,74 @@
+# Bug trackers, distro merge requests, mailing-list patchwork and issues in other projects, outside the linux-surface org. Snapshot 2026-11-13.
+# Searched: Red Hat Bugzilla (REST, short_desc and quicksearch), kernel Bugzilla, Launchpad (ubuntu searchTasks), Fedora Discussion
+#   (search and tag microsoft-surface), kernel-ark merge requests (GitLab API), patchwork.libcamera.org (since 2025-06), GitHub issue
+#   search outside the org (title phrases, SKU strings, project-scoped queries), Arch wiki. Method: tools/browser/README.md.
+# source: rhbz | kbz | ark (kernel-ark MR) | lcpw (libcamera patchwork) | gh (GitHub) | web
+# sp9: direct (about an SP9) | sibling (SP8, SL5, other ADL or same part) | pattern (other hardware, same mechanism or process)
+# Empty searches: Launchpad has no SP9 bug (11 hits, older Surfaces); fwupd has nothing SP9; dracut-ng/dracut has no Surface issue or PR.
+source	ref	state	created	updated	sp9	area	title	note
+rhbz	2463712	CLOSED/ERRATA	2026-04-29	2026-05-24	sibling	pen	gnome-shell crashes on startup: libwacom assertion bus_to_str on Microsoft Surface (i2c-hid touch/pen)	Surface Laptop Go on stock F44; fixed in libwacom-2.18.0-2.fc44. Same failure class as libwacom#721 (2024). Any new bus type for virtual iptsd devices must not hit this path.
+rhbz	2524606	NEW	2026-08-26	2026-08-26	sibling	pen	KWin shows the mouse cursor when an absolute stylus enters proximity (Surface Pro 7+, F44, iptsd)	Reporter attached a KWin 6.6.4 patch (hide cursor for absolute tablet tools). Applies to SP9 pen; belongs upstream on invent.kde.org.
+rhbz	2419833	NEW	2025-12-08	2026-11-10	sibling	sam	WARNING at surface/aggregator/controller.c:1703 ssam_request_do_sync_with_buffer (F43 abrt, AMD Surface)	Closes as EOL on 2026-12-02 unless moved to F44.
+rhbz	2369119	CLOSED/EOL	2025-05-29	2026-06-08	sibling	camera	IPU6 camera on Surface Pro 8 not working (F42, stock 6.14, ov5693, qcam no video)	Shows the stock Fedora state before the 7.4 camera series.
+rhbz	2509956	NEW	2026-08-01	2026-08-01	pattern	camera-ir	IR camera ST VD55G1 (ACPI TBE20A1) on ThinkPad X1 Carbon Gen 14 not enumerated: vd55g1 lacks ACPI support	Streams with four small changes: ACPI match, ipu-bridge IPU_SENSOR_CONFIG, int3472 vana mapping. Same recipe as SP8/SP9 VD55G0 (SMO55F0). Split from rhbz#2483180.
+rhbz	2516222	NEW	2026-08-15	2026-09-10	pattern	camera-ir	int3472-discrete: GPIO type 0x02 unknown, IPU6 camera non-functional (Dell Pro Max 14 Premium)	Same GPIO type as the SP9 IR flood LED; Nenciarini v8 series.
+rhbz	2468035	NEW	2026-05-08	2026-05-08	pattern	camera-ir	Dell Pro 13 Premium camera: INT3472 GPIO type 0x02 (strobe) not supported	As above.
+rhbz	2539811	CLOSED/COMPLETED	2026-09-23	2026-09-29	pattern	fedora-kernel	IMX471 broken on 7.2: Fedora patch int3472 con_id vana dropped after 7.1	Restored through kernel-ark MR !4757. Proof that Fedora's kernel carries camera backports ahead of mainline.
+rhbz	2488614	NEW	2026-06-12	2026-06-12	pattern	buttons	Framework Laptop 12: soc_button_array probe of INT33D3 fails silently at boot, never retried; manual bind works	Same bug class as the SP9 MSHW0040 race (linux-surface 0009, Torokhov series). Cite when sending the fix.
+rhbz	2468524	NEW	2026-05-09	2026-05-09	sibling	camera	Surface Go 2: intel_skl_int3472_tps68470 no driver bound (7.0.4 F44)	Sibling camera regression.
+rhbz	2488051	NEW	2026-06-11	2026-06-11	pattern	camera	libcamera: ipu6 failed for kernel 7.0+ (F44)	Check before relying on F44 libcamera.
+rhbz	1322128	CLOSED/WORKSFORME	2016-03-29	2016-09-23	sibling	initramfs	Surface Pro 3/4 Type Cover does not work at the LUKS prompt	History: the initramfs keyboard problem predates SAM.
+kbz	218923	NEW	2024-06-01	2024-06-01	direct	lid	ACPI error storm and resume failure when handling lid close: Surface Pro 9 Alder Lake	With surface_gpe loaded: PM_Timer/PowerButton/SleepButton fixed events disabled, GPE 51/53 no handler, later suspends fail. Same family as #1082; expect reviewers to ask when the SP9 surface_gpe entry is posted.
+kbz	216854	NEW	2022-12-27	2022-12-27	sibling	lid	Surface Laptop 5: trouble waking from suspend by opening the lid, ACPI errors	SL5 is the closest ADL sibling.
+ark	!4395	merged	2026-02-26	2026-02-26	pattern	fedora-kernel	media: ipu-bridge: Add upside-down sensor DMI quirk for Dell XPS 13 9340 and XPS 14 9440 (hpa1)	Fedora backported an upside-down quirk before it reached a release; same route for SP9 quirks.
+ark	!4757	merged	2026-09-21	2026-09-21	pattern	fedora-kernel	platform: int3472: backport int3472 fixes of regulator setting for imx471 and increase the handshake delay (hpa1)	See rhbz#2539811.
+ark	!4884	opened	2026-11-11		pattern	fedora-kernel	Backport for ipu-bridge and intel_cvs drivers (hpa1)	Open now; Kate Hsuan (hpa1) is the active Fedora camera backporter.
+ark	!4650	merged	2026-08-18	2026-08-18	pattern	fedora-kernel	platform/x86: int3472: Increase handshake GPIO delay to 200 ms (jwrdegoede)	
+ark	!3187	merged	2024-06-11	2024-07-01	pattern	fedora-kernel	media: ipu-bridge: Add more Hardware IDs (jwrdegoede)	
+ark	!1614	merged	2022-02-11	2022-02-11	direct	fedora-config	[fedora] Turn on CONFIG_VIDEO_OV5693 for sensor support (daveol)	Dave Olsthoorn did the Fedora Surface config enablement.
+ark	!1084	merged	2021-05-01	2021-05-02	direct	fedora-config	Fedora: enable more modules for surface devices (daveol)	
+ark	!962	merged	2021-03-10	2021-03-10	direct	fedora-config	Fedora: enable modules for surface devices (daveol)	
+ark	!1621	merged	2022-02-21	2022-02-22	pattern	fedora-config	redhat: configs: disable the surface platform (darcari)	RHEL side only.
+ark	!1293	merged	2021-08-05	2021-08-05	direct	fedora-kernel	pinctrl: tigerlake: Fix GPIO mapping for newer version of software (jwrdegoede)	
+lcpw	28886	new	2026-11-13	2026-11-13	sibling	camera	[v3] ipa: softisp: Add tuning data for the ov13858 and ov5693 (Emfox Zhou, series 6354)	AWB gains, CCMs and lens shading from the SP8 Windows AIQB; tested on SP8 only. libcamera picks tuning by sensor name, so SP9 gets it too: Tested-by from an SP9 is useful.
+lcpw	27355	accepted	2026-07-09	2026-07-09	direct	camera	ipa: camera_sensor_helper: Add black levels for OV5693 (Dan Scally)	
+lcpw	28721	new	2026-10-30	2026-10-30	direct	camera	[v2,2/2] libcamera: pipeline: simple: Do not alloc CMA DMA-buffers for camss and ipu6/7 (Hans de Goede, series 6320)	Relates to the dma-heap udev rule SP9 installers add (loisBreant 70-sp9-dma-heap.rules).
+lcpw	26761	changes-requested	2026-05-14	2026-05-14	direct	camera	[v4,2/2] utils: tuning: Add AIQB parser for Intel IPU6 sensors (Javier Tia, series 5948)	Tool to turn the Windows AIQB into libcamera tuning; would let SP9 values be extracted from SP9's own driver package.
+lcpw	24376	accepted	2025-09-17	2025-09-17	pattern	camera-ir	[v2,1/4] camera_sensor_properties: Add vd55g1 (Benjamin Mugnier, series 5447)	VD55G1 helper and rpi tuning upstream; no VD55G0 yet.
+gh	dmanresa-saes/surface-ipu6-cameras#1	open	2026-10-10	2026-10-27	direct	camera	Upstreaming the ov5693 binned-mode patch: Surface Pro 9 results and credit	SP9 on media next (with Rimoli's series): 1296x972 binned with HFLIP/VFLIP gives csi2 frame sync errors; libcamera picks binned plus both flips, so the upstream front camera only returns empty buffers. Needs the binned-mode patch from #2252.
+gh	quo/ithc-linux#34	open	2026-09-21	2026-09-21	sibling	touch	No touch input on Surface Laptop 5 (Alder Lake, 8086:51d0): device created but zero events, even with poll=1	F44 fedsurface 7.2.5; legacy mode, no ACPI config. Same controller as SP9.
+gh	quo/ithc-linux#7	open	2022-06-01	2022-08-27	direct	touch	Rolling into the kernel?	Upstreaming question for ITHC; see also #29 and #5.
+gh	intel/thc-drivers#1	open	2025-04-03	2025-04-03	pattern	touch	Multi-touch not working on Surface Laptop 7 with Intel THC driver	Intel repo itself excludes ADL and IPTS mode.
+gh	linuxwacom/wacom-hid-descriptors#490	open	2025-06-25	2025-06-25	direct	pen	Contributing: MS Surface Pro 9	SP9 sysinfo tarball already contributed to the linuxwacom descriptor corpus.
+gh	antoinecellerier/speaker-tuning-to-easyeffects#113	closed	2026-10-06	2026-10-10	direct	audio	Microsoft Surface Pro 9	ALC274 codec 10EC0274 subsystem 10EC1284, controller subsystem 8086:7270, speaker pin 0x1b = 0x90170110. Windows Surface APO voicing converted; user reports much better sound.
+gh	Meatwo310/dotnix#13	closed	2026-07-29	2026-07-30	direct	lid	fix(sp9-v7): support suspend on Surface Pro 9 Business	SKU Surface_Pro_9_for_Business_2038; lid wake verified with the added surface_gpe entry.
+gh	NixOS/nixos-hardware#941	closed	2024-05-12	2025-04-11	direct	display	New hardware config: Surface Pro 9	Disables PSR (i915.enable_psr=0) for stutter.
+gh	NixOS/nixos-hardware#1121	closed	2024-09-10	2024-09-24	direct	boot	Surface Pro 9 won't boot after a seemingly successful installation	
+gh	pop-os/cosmic-comp#1372	closed	2025-04-24	2025-11-24	direct	display	Page flip errors on Surface Pro 9 when fullscreening window (VRR)	i7-1255U internal panel; links to the wiki VRR flicker note.
+gh	sebanc/brunch#2202	closed	2025-03-11	2025-11-11	direct	touch	Multi touch and pen don't work after sleep mode on Surface Pro 9	ChromeOS (brunch) with ITHC; resume issue.
+gh	thesofproject/linux#5509	open	2025-08-08	2025-08-15	sibling	audio	[TGL] Mic is not visible on Surface Pro 8 (SOF forced with dsp_driver=3)	SP9 uses HDA legacy by default; keep it that way.
+gh	omacom/omarchy#14195	open	2026-10-04	2026-11-08	pattern	initramfs	Fix AMD Surface keyboard support at the LUKS prompt	Omarchy carries a Surface mkinitcpio module list (see external-repos.yaml); #11128, #7111, #8151.
+gh	ublue-os/surface#29	closed	2023-11-11	2023-11-11	direct	initramfs	fix: add initramfs modules	Origin of ublue-surface.conf (issue #25).
+gh	terrapkg/packages#16814	closed	2026-09-10	2026-09-12	direct	packaging	add: iptsd	Terra now ships iptsd for f43, f44, f45, el10. Also #17551 kernel-surface, #15912 porting linux-surface packages.
+gh	ublue-os/bazzite#3426	closed	2025-11-04	2026-11-09	sibling	packaging	iptsd daemon missing for Microsoft Surface hardware	
+gh	CmdrShepardsPie/surface-kernel-copr#10	closed	2026-10-17	2026-10-17	direct	audio	Carry the Surface Pro 9 mic gain fix (fixups/0004), release 2	
+gh	intel/thermal_daemon#616	open	2026-11-10	2026-11-10	sibling	thermal	Reproducing Windows-style PL1 control (skin + CPU) with thermal-conf.xml	Surface Book 3 analysis: passive trips release the cooling device fully, PL1 saws. Applies to an SP9 thermald config (iwanders/nixos-surface).
+gh	systemd/systemd#43262	closed	2026-08-03	2026-08-03	sibling	keyboard	hwdb: mark Microsoft Surface Type Cover touchpad as internal	Check whether the SP9 cover (SAM HID, not USB) needs a hwdb entry too.
+gh	linuxwacom/libwacom#721	closed	2024-06-15	2024-06-17	pattern	pen	Missing database entry for device causes bus_to_str() abort after 2.12.0	Fixed by #723.
+gh	systemd/particleos#159	open	2026-05-09	2026-05-09	pattern	images	Surface Pro / Laptop UEFI profile (linux-surface kernel, iptsd, power tweaks)	
+web	wiki.archlinux.org/title/Microsoft_Surface_Pro_9	stub	2026-11-13	2026-11-13	direct	ids	ArchWiki: Microsoft Surface Pro 9	IDs: digitizer 8086:51d0, GPU 8086:46a8, Wi-Fi 8086:51f0, BT 8087:0033, TB4 8086:461f and 8086:462f. Secure Boot with own keys via sbctl works and does not brick (enroll as last step, power off, then check UEFI Security).
+web	discussion.fedoraproject.org/t/155740	open	2025-06-14	2025-06-14	sibling	install	Install Fedora on a keyboardless Surface	The tag microsoft-surface has 9 topics, none about the SP9.
+gh	linuxwacom/libwacom#89	closed	2019-05-15	2022-08-03	direct	pen	Microsoft Surface IPTS device integration	Mass-closed by whot in 2022 (device requests without changes for a year)
+gh	linuxwacom/libwacom#92	closed-unmerged	2019-06-01	2019-12-28	direct	pen	Add support for Intel Management Engine bus	qzed closed it: IPTS far from upstream; whot will not pull code relying on out-of-tree patches, bus id must be in linux/input.h
+gh	linuxwacom/libwacom#93	closed-unmerged	2019-06-01	2019-12-28	direct	pen	Device data for IPTS based Microsoft Surface Devices	Depended on #92
+gh	linuxwacom/libwacom#400	closed-unmerged	2021-05-01	2021-12-22	direct	pen	Adds Intel Management Engine Interface (MEI) Bus	Closed by whot for no reply
+gh	linuxwacom/libwacom#967	closed	2026-03-23	2026-04-20	sibling	pen	Switch tablet dimensions from inches to mm	Tablet files in inches are wrong on current libwacom
+gh	quo/ithc-linux#20	closed	2022-11-20	2022-11-28	sibling	touch	Touch screen not working after suspend	SP8; quo switched to full shutdown and reinit on suspend
+gh	quo/ithc-linux#26	closed	2023-05-19	2024-04-19	direct	touch	Driver fails to initialize when booting with EFISTUB (invalid dma rx data)	SP9; THC reg 0x1128 bit 5; 'hopefully fixed by 18afc6f'
+gh	quo/ithc-linux#29	open	2024-05-27	2025-01-16	direct	touch	Official Intel QuickSPI Linux driver	intel-thc-hid covers MTL+; ADL QuickSPI easy; legacy needs ithc-legacy.c merged
+gh	quo/ithc-linux#33	open	2026-07-28	2026-07-28	sibling	touch	Improve error recovery, locking, and shutdown behavior (PR)	quo's review: full re-init on error, more locking
+gh	fwupd/fwupd#10669	open	2026-07-14	2026-07-14	sibling	firmware	Updating Microsoft Surface Pro 3 KEK/DB CAs to Microsoft 2023 versions breaks boot at UEFI stage	Caution for Secure Boot key updates on Surfaces
+gh	linux-surface/iptsd#212	closed	2026-04-29	2026-04-29	direct	pen	libwacom-surface removes a lot of fedora 44 kde plasma packages	Conflict between libwacom-surface and Fedora libwacom
+gh	linux-surface/linux-surface#1419	closed	2024-04-12	2024-04-13	generic	meta	when this will be upstream to mainline	qzed: pushing upstream as time allows; touch is the exception
+gh	linux-surface/linux-surface#2318	open	2026-10-22	2026-11-14	generic	packaging	Package status	Automated package status: F43 to F45 at 7.3.4-1
+gh	linux-surface/linux-surface#2370	open	2026-11-08	2026-11-12	direct	packaging	Debian repo: 7.2.14-1 packages return 404, files stored as .blob in pool	Fedora releases affected too (2026-11-12)

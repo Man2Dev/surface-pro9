@@ -1,0 +1,381 @@
+# Power: lid wake, suspend, shutdown, hibernate, battery, fan. Source for issues/SP9-3xx-*.md.
+
+- id: SP9-301
+  title: "Opening the cover does not wake the SP9 (surface_gpe has no SP9 entry)"
+  area: lid
+  kind: upstreaming
+  status: open
+  priority: P1
+  layers: {mainline: broken, linux_surface: partial, fedora: broken}
+  problem: |
+    Closing the cover suspends, but opening it does not wake the device; the power button is needed.
+  origin: |
+    The lid wake GPE (0x52) has to be armed by surface_gpe, which has entries for the SL3, SLS, SP8 and SL4
+    upstream but none for the SP9 or SL5. Maximilian Luz wrote the SP9 entry (linux-surface 0012) but never
+    posted it. The downstream entry matches DMI SKU Surface_Pro_9_2038 only, misses the Business SKU
+    (Surface_Pro_9_for_Business_2038), and some units report sys_vendor with a leading space, which
+    DMI_EXACT_MATCH rejects.
+  reports:
+    - "disc#2282 | opening the cover does not wake the device"
+    - "#2257 | DMI sys_vendor has a leading space on some SP9 units"
+    - "#1919 | surface_gpe finds no compatible device on SP9"
+    - "#1183 | SP9 cannot wake after closing the cover"
+    - "#1224 | SP9 does not wake from suspend"
+    - "#1910 | SP9 NixOS cannot wake"
+    - "surface-gpe#3 | SP9 Business lid wake"
+    - "kbz#218923 | ACPI error storm and resume failure on lid close (SP9)"
+  fixes:
+    - "#2011 | contains Maximilian Luz's 'gpe: Add support for Surface Pro 9 and Surface Laptop 5' (moved to kernel#162)"
+    - "surface-gpe#7 | tolerate the vendor string"
+    - "surface-gpe#5 | add the Business SKU"
+    - "gist:dragged9698/3d520d6da566825e9880a7e8e0c7abfc | DMI_MATCH vendor patch, verified on SP9 2038"
+    - "Meatwo310/dotnix#13 | Business SKU string, lid suspend and resume verified"
+    - "lore:20220429180049.1282447-1-luzmaximilian@gmail.com | precedent: gpe support for Surface Pro 8 (accepted 2022)"
+  solutions:
+    - "One upstream surface_gpe patch: SP9 (all SKUs, tolerant vendor match) plus SL5, GPE 0x52, Maximilian Luz as author if he agrees; rebase on Bartosz Golaszewski's 2026 platform_device conversion."
+  next:
+    - "Read DMI strings on an SP9, ask qzed about authorship, build and test, send to platform-driver-x86."
+  commands: |
+    sudo dmidecode -s system-sku-number
+    sudo dmidecode -s system-manufacturer | od -c | head -2
+    grep . /sys/firmware/acpi/interrupts/gpe52
+  upstream: ["platform-driver-x86 (Hans de Goede, Ilpo Jarvinen, Maximilian Luz)"]
+  people: [qzed, dragged9698, 777HOST, Lucrtz, Meatwo310]
+  depends_on: []
+  related: [SP9-302, SP9-303]
+  kb: ["status.yaml", "docs/research/upstream-efforts.md", "data/indexes/external-repos.yaml"]
+
+- id: SP9-302
+  title: "SP9 sometimes does not wake from s2idle (or hangs on the second suspend)"
+  area: suspend
+  kind: bug
+  status: open
+  priority: P1
+  layers: {mainline: partial, linux_surface: partial, fedora: partial}
+  problem: |
+    Intermittently the SP9 does not resume from s2idle; only a long power-button press helps. Several users
+    report it gets worse when the cover is opened or closed during suspend.
+  origin: |
+    Not settled. Two concrete leads from the Surface Laptop 5 (same Alder Lake-P platform):
+    (1) the SOF audio DSP 8086:51c8 stays in D0 after the first resume and the second suspend hangs; forcing
+    legacy HDA (snd_intel_dspcfg.dsp_driver=1) fixed it (#1010); the SP9 has the same audio controller.
+    (2) INTC1055 pin 213 PADCFG0 gets corrupted in s2idle and fires GPE 0x52 (kernel#162), the SP9 lid GPE.
+    History: Intel Thread Director patches once broke wake on ADL and were removed (#1120).
+  reports:
+    - "disc#2282 | power-button suspend without cover sometimes incomplete, fan keeps running"
+    - "#1164 | SP9 cannot turn on when suspended"
+    - "#1224 | SP9 won't wake from suspend"
+    - "#1910 | SP9 wake fails if the lid moves during suspend"
+    - "#1811 | SP9 disable lid open/close handling"
+    - "#1805 | SL5 and SP9 cannot wake after update"
+    - "#1684 | SP9 cannot wake from sleep (closed)"
+    - "#1010 | SL5 sleep: SOF DSP root cause and dsp_driver=1 fix"
+    - "kbz#216854 | SL5 trouble waking by opening the lid"
+    - "kernel#192 | SP7 s2idle hard freeze since 2026-11-12 (watch for SP9)"
+  fixes:
+    - "kernel#162 | SL5 s2idle fix module (PADCFG0 repair), stalled; qzed prefers userspace"
+    - "#1120 | Thread Director patches removed (history)"
+  solutions:
+    - "Test lead 1 on the SP9 with an rtcwake loop and dsp_driver=1; if it holds, report to SOF instead of keeping the parameter."
+    - "Test lead 2 by reading PADCFG0 of pin 213 before and after s2idle (kernel#162 has the method)."
+    - "Workaround reported on SL5: logind lid handling off plus pci=hpiosize=0."
+  next:
+    - "Run the rtcwake loop with and without dsp_driver=1 on an SP9 (commands in docs/testing.md)."
+  commands: |
+    for i in 1 2 3; do sudo rtcwake -m mem -s 20; sleep 15; done
+    grep . /sys/power/suspend_stats/*
+  upstream: ["thesofproject/linux", "linux-gpio (Intel pinctrl: Andy Shevchenko, Mika Westerberg)"]
+  people: [User25665, wowitsjack, dmusican]
+  depends_on: []
+  related: [SP9-301, SP9-303, SP9-304, SP9-311, SP9-103]
+  kb: ["status.yaml", "docs/research/open-issues.md", "docs/testing.md"]
+
+- id: SP9-303
+  title: "ACPI GPE interrupt storm on lid close with AC (pci=hpiosize=0 trade-off)"
+  area: suspend
+  kind: bug
+  status: open
+  priority: P2
+  layers: {mainline: partial, linux_surface: partial, fedora: partial}
+  problem: |
+    Closing the cover while on AC (also Thunderbolt hotplug, lid resume) floods dmesg with ACPI errors and
+    can break later suspends. The wiki workaround pci=hpiosize=0 stops it, but an SP9 user reports that it
+    then also stops lid wake.
+  origin: |
+    Unknown; hpiosize=0 changes the PCI hotplug I/O window. Same family as kbz#218923.
+  reports:
+    - "#1082 | SP9 ACPI error spam after closing the cover on AC; trade-off reported 2025-10"
+    - "#1446 | SP9 ACPI errors during sleep (TLP plus surface_gpe blacklist)"
+    - "kbz#218923 | ACPI error storm and resume failure (SP9)"
+  fixes: []
+  solutions:
+    - "Find what the I/O window change fixes (ACPI tables, hotplug bridge resources) and file it on bugzilla.kernel.org / linux-pci."
+    - "Test lid wake with and without hpiosize=0 once SP9-301 is fixed."
+  next:
+    - "Capture /sys/firmware/acpi/interrupts and dmesg on lid close with AC, with and without hpiosize=0."
+  upstream: ["linux-pci", "linux-acpi"]
+  people: [petm5, gtxg16]
+  depends_on: []
+  related: [SP9-301, SP9-302, SP9-305]
+  kb: ["status.yaml", "docs/research/wiki-digest.md"]
+
+- id: SP9-304
+  title: "s2idle hangs for minutes entering suspend on btrfs (pm_fs_sync)"
+  area: suspend
+  kind: bug
+  status: open
+  priority: P3
+  layers: {mainline: partial, linux_surface: partial, fedora: partial}
+  problem: |
+    Closing the lid starts suspend but the machine wedges for 10+ minutes in pm_fs_sync / sync_inodes_sb on a
+    btrfs root (Fedora's default filesystem).
+  origin: |
+    Unknown; stuck writeback before suspend. Not Surface specific in mechanism.
+  reports:
+    - "#2258 | SP9 s2idle hang in pm_fs_sync with btrfs"
+  fixes: []
+  solutions:
+    - "Reproduce on Fedora btrfs; if reproducible, report to linux-btrfs / linux-pm with the hung task trace."
+  next:
+    - "Watch for 'blocked for more than 122 seconds' in the journal of an affected SP9."
+  upstream: ["linux-btrfs", "linux-pm"]
+  people: [dragged9698]
+  depends_on: []
+  related: [SP9-302]
+  kb: ["status.yaml"]
+
+- id: SP9-305
+  title: "Shutdown does not power off on mainline (S5 quirk never posted upstream)"
+  area: power
+  kind: upstreaming
+  status: open
+  priority: P2
+  layers: {mainline: broken, linux_surface: works, fedora: broken}
+  problem: |
+    On a stock kernel `poweroff` leaves the SP9 on and warm. linux-surface fixes it with a DMI-gated PCI quirk.
+  origin: |
+    EFI ResetSystem(EFI_RESET_SHUTDOWN) returns unless the Thunderbolt 4 and GPU PCI shutdown methods are
+    skipped. linux-surface 0011 ("PCI: Add quirk to prevent calling shutdown method", SP9 + SL5) was never sent
+    to linux-pci (patchwork search). Some users also need pci=hpiosize=0.
+  reports:
+    - "#1058 | SL5/SP9 does not power off properly"
+    - "surface-shutdown#1 | SP9 still gets stuck on shutdown (fixed downstream)"
+    - "#1113 | SP9 kernel panic prevents shutdown (old)"
+    - "#1698 | SL6 and SP9 F41 shutdown leaves device on"
+    - "#1664 | SP10 shutdown: pci=hpiosize=0"
+    - "#1864 | SL6/SP11 power off: kernel parameter set"
+  fixes:
+    - "kb:data/indexes/patches-linux-surface-7.3.md | 0011-surface-shutdown, upstream class rework"
+  solutions:
+    - "Write up the root cause and propose the DMI-gated quirk (or an x86 reboot quirk) on linux-pci; ask Bjorn Helgaas what shape is acceptable."
+  next:
+    - "Confirm on an SP9 with the stock Fedora kernel that poweroff fails (phase 0)."
+  upstream: ["linux-pci (Bjorn Helgaas)", "x86"]
+  people: [qzed, CheeseFM]
+  depends_on: [SP9-901]
+  related: [SP9-303]
+  kb: ["status.yaml"]
+
+- id: SP9-306
+  title: "Hibernate is unavailable with Secure Boot (kernel lockdown)"
+  area: power
+  kind: upstreaming
+  status: fix-pending
+  priority: P2
+  layers: {mainline: broken, linux_surface: works, fedora: broken}
+  problem: |
+    With Secure Boot on, the kernel's lockdown disables hibernation. linux-surface carries a
+    lockdown_hibernate parameter.
+  origin: |
+    Upstream refuses unsigned hibernation images under lockdown. Kelvie Wong's lockdown_hibernate RFC (2023-11,
+    linux-surface 0001) got no follow-up. Three upstream proposals are active in 2026: Matthew Garrett's signed
+    hibernation images (changes requested 2026-10), Sean Rhodes' encrypted snapshot device (v3 resend
+    2026-09), and a TPM2 image encryption RFC (2026-03).
+  reports:
+    - "disc#2202 | suspend-then-hibernate recipe on SP9"
+    - "kb:docs/research/wiki-digest.md | wiki HibernateMode=reboot note"
+  fixes:
+    - "url:https://patchwork.kernel.org/project/linux-pm/list/?q=lockdown&archive=both | linux-pm patchwork: Garrett, Rhodes, TPM2 RFC, Kelvie Wong RFC"
+    - "kb:data/indexes/patches-linux-surface-7.3.md | 0001 lockdown_hibernate (downstream)"
+  solutions:
+    - "Review and test the active lockdown hibernation series instead of carrying 0001."
+  next:
+    - "Follow Garrett's next version; test on the SP9 when it lands in linux-next."
+  upstream: ["linux-pm / LSM"]
+  people: ["Matthew Garrett", "Sean Rhodes"]
+  depends_on: []
+  related: [SP9-307]
+  kb: ["docs/research/upstream-efforts.md"]
+
+- id: SP9-307
+  title: "Type Cover dead after resume from hibernation (SAM event enable times out)"
+  area: power
+  kind: bug
+  status: open
+  priority: P2
+  layers: {mainline: broken, linux_surface: broken, fedora: broken}
+  problem: |
+    After resuming from S4 the cover keyboard and touchpad stay dead until the cover is detached and
+    reattached (SP8 report; the SP9 uses the same restore path).
+  origin: |
+    During restore, SAM event source enable requests time out (-110) because the EC is not ready yet. A retry
+    200 ms later succeeds (pentop, tested diagnostic patch against 6.19.8).
+  reports:
+    - "#2294 | SP8 cover dead after hibernation, root cause and tested patch"
+  fixes:
+    - "#2294 | pentop's diagnostic patch (in the issue): retry failed re-enables from a work item"
+  solutions:
+    - "Proper fix: queue failed re-enables from ssam_serial_hub_pm_restore() to a work item, or let surface_hid re-enable its event sources on resume; send to platform-driver-x86 with pentop."
+  next:
+    - "Reproduce on an SP9 once hibernate works, ask pentop whether he plans to send it."
+  upstream: ["platform-driver-x86 (Maximilian Luz)"]
+  people: [pentop]
+  depends_on: []
+  related: [SP9-306, SP9-202]
+  kb: ["docs/research/open-issues.md"]
+
+- id: SP9-308
+  title: "SP9 stops charging on AC (needs a UEFI battery limit toggle to recover)"
+  area: battery
+  kind: bug
+  status: open
+  priority: P2
+  layers: {mainline: partial, linux_surface: partial, fedora: partial}
+  problem: |
+    At some point the SP9 stops charging and slowly discharges on AC (USB-C and Surface Connect alike);
+    rebooting into UEFI and toggling Battery Limit on and off restores charging. Separately, the battery can
+    report full while discharging.
+  origin: |
+    Firmware/EC charge state (Windows smart charging or the UEFI limit) that Linux cannot reset today. The
+    kernel side has no control over charge modes yet (SP9-309).
+  reports:
+    - "#2232 | SL5 stops charging; two SP9 confirmations"
+    - "#1781 | SP9 charging stopped (Windows smart charging, closed)"
+    - "#1800 | not charging: turn off UEFI battery limit (SP9)"
+    - "#1837 | SP9 battery shows full while discharging"
+    - "#348 | battery near 50 %: UEFI limit (closed)"
+    - "disc#2282 | NexGen-3D-Printing debugging the SP9 battery charge bug on Fedora 44/45 and Bazzite 45 (2026-11-16)"
+  fixes:
+    - "lore:20261023173215.6233-1-ramonjesusmiranda@gmail.com | surface_battery: handle battery event 0x1a (pending)"
+  solutions:
+    - "Workaround: UEFI Battery Limit on, boot once, off again."
+    - "Use BAT 0x09/0x0a (GetUserChargeMode/SetUserChargeMode) from the Surface command headers to read and reset the mode from Linux (SP9-309)."
+  next:
+    - "When it happens on an SP9, capture /sys/class/power_supply/* before toggling UEFI."
+    - "Ask NexGen-3D-Printing to post his logs and findings on #2232, so they sit with the other SP9 reports."
+  upstream: ["platform-driver-x86 / linux-pm"]
+  people: [halfnathan1200, NexGen-3D-Printing, Cloveian]
+  depends_on: []
+  related: [SP9-309]
+  kb: ["status.yaml", "docs/research/closed-issues.md"]
+
+- id: SP9-309
+  title: "No battery charge limit or smart charging control from Linux"
+  area: battery
+  kind: missing-feature
+  status: fix-pending
+  priority: P3
+  layers: {mainline: broken, linux_surface: broken, fedora: broken}
+  problem: |
+    The UEFI battery limit is a fixed 50 % on/off; Linux cannot set a charge limit or smart charging.
+  origin: |
+    No driver uses the SAM BAT charge-mode commands. Cloveian decoded them from Microsoft's
+    SurfaceCommonHeadersDotNet.dll (1017 SSH commands in 36 categories) and wrote a patch using the standard
+    charge_types and charge_control_end_threshold attributes.
+  reports:
+    - "#1580 | battery limit (qzed: 80 % limiter is EC controlled)"
+  fixes:
+    - "kernel#167 | smart charging and battery authentication status (petm5), qzed asked to split the charge limit out"
+    - "url:https://github.com/linux-surface/kernel/compare/v7.3-surface-devel...Cloveian:kernel:battery-charge-limit | Cloveian's charge limit branch (not a PR yet)"
+  solutions:
+    - "Ask Cloveian to open the charge limit PR; test on the SP9; then upstream to platform-driver-x86."
+  next:
+    - "Test Cloveian's branch on an SP9 (registers only if BAT 0x23 and 0x09 work)."
+  upstream: ["platform-driver-x86", "linux-pm (charge_types)"]
+  people: [Cloveian, petm5, qzed, "Jelle van der Waa"]
+  depends_on: []
+  related: [SP9-308, SP9-310]
+  kb: ["status.yaml", "data/indexes/branches.tsv"]
+
+- id: SP9-310
+  title: "Fan runs at high speed after using Windows (fan floor left set in SAM)"
+  area: fan
+  kind: bug
+  status: open
+  priority: P2
+  layers: {mainline: broken, linux_surface: broken, fedora: broken}
+  problem: |
+    After Windows has run, the SP9 fan can stay around 3800 rpm at low temperature under Linux.
+  origin: |
+    Windows sets a minimum fan speed with SAM FAN command 0x0b (SetMinFanRpm); Linux never clears it
+    (petm5's serial trace, Cloveian's decoding; FAN 0x17 reads it back).
+  reports:
+    - "#1726 | SP9 fan at ~3800 rpm despite low temperature"
+  fixes: []
+  solutions:
+    - "Send FAN 0x0b with 0 at probe from surface_platform_profile (small upstream patch next to the fan standby series)."
+    - "Workaround: boot Windows and let the fan stop, or send the command with the SAM debug scripts."
+  next:
+    - "Read FAN 0x17 on an SP9 via surface_aggregator_cdev to see if a floor is set."
+  upstream: ["platform-driver-x86"]
+  people: [petm5, Cloveian, "Peter Marshall"]
+  depends_on: []
+  related: [SP9-311, SP9-309]
+  kb: ["status.yaml"]
+
+- id: SP9-311
+  title: "Fan keeps running during suspend"
+  area: fan
+  kind: bug
+  status: fix-pending
+  priority: P2
+  layers: {mainline: broken, linux_surface: works, fedora: broken}
+  problem: |
+    If the fan is spinning when the SP9 suspends, it keeps running for a while; on Windows it always stops.
+    Discussion 2282 reports it after power-button suspends without the cover.
+  origin: |
+    The platform profile driver does not put the fan into standby on suspend. linux-surface 7.3 carries Peter
+    Marshall's fix (kernel#166); the upstream version got changes requested.
+  reports:
+    - "#1445 | SP9 fan still running during suspend"
+    - "disc#2282 | fan keeps running after power-button suspend"
+  fixes:
+    - "kernel#166 | platform_profile: add fan power state handling (merged downstream 2026-11-09)"
+    - "lore:20261111020916.3557508-2-pm@petermarshall.ca | upstream version, changes requested"
+  solutions:
+    - "Help the upstream version through review (test on SP9, reply with Tested-by)."
+  next:
+    - "Test on an SP9 with the linux-surface 7.3 kernel."
+  upstream: ["platform-driver-x86"]
+  people: ["Peter Marshall"]
+  depends_on: []
+  related: [SP9-310, SP9-302]
+  kb: ["status.yaml"]
+
+- id: SP9-312
+  title: "No thermal tuning for the SP9 (thermald adaptive fails, no DPTF tables)"
+  area: fan
+  kind: missing-feature
+  status: open
+  priority: P3
+  layers: {mainline: partial, linux_surface: partial, fedora: partial}
+  problem: |
+    thermald --adaptive fails on the SP9 and thermald ships no Surface configuration, so power limits and
+    passive cooling are not tuned as on Windows.
+  origin: |
+    No DPTF tables; thermald blacklists a zone called "Surface". A hand-written thermal-conf.xml exists
+    downstream.
+  reports:
+    - "intel/thermal_daemon#616 | Windows-style PL1 control on SB3 (open, unanswered)"
+    - "disc#1734 | thermald setup"
+  fixes:
+    - "url:https://github.com/iwanders/nixos-surface | hand-written thermald config (thermald/)"
+  solutions:
+    - "Evaluate iwanders' config on the SP9; only upstream to thermald if it clearly helps."
+  next:
+    - "Low priority."
+  upstream: ["intel/thermal_daemon"]
+  people: [iwanders, larsschellhas]
+  depends_on: []
+  related: [SP9-310]
+  kb: ["status.yaml"]

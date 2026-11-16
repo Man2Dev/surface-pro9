@@ -1,0 +1,166 @@
+# Boot, install, Fedora packaging, firmware. Source for issues/SP9-6xx-*.md.
+
+- id: SP9-601
+  title: "Installing and booting Fedora on the SP9 with Secure Boot (NX firmware, MOK, boot entries)"
+  area: boot
+  kind: needs-test
+  status: needs-test
+  priority: P1
+  layers: {mainline: works, linux_surface: partial, fedora: unknown}
+  problem: |
+    Past SP9 reports: Fedora froze at the Microsoft logo after the June 2023 firmware (NX enforcement) or after
+    MOK enrolment; Fedora 41 ISO hung (IPU6 in 6.11); Secured-core made GRUB reset once; after a Fedora 45
+    dual-boot install only the Windows Boot Manager shows; MokManager does not start.
+  origin: |
+    NX: the firmware stopped allocating RWX memory; old shim/GRUB/MokManager broke (linux-surface 0001 reverts
+    the kernel NX_COMPAT flag). IPU6 hang fixed upstream (Gruszka, 6.13). Boot entry: Windows boot order and the
+    UEFI "boot configuration lock".
+  reports:
+    - "#1162 | Fedora freezes on Microsoft logo after firmware update (NX)"
+    - "#1274 | enrolling Secure Boot keys freezes on Microsoft logo"
+    - "#1453 | SP9 MokManager does not start"
+    - "#1690 | Fedora 41 ISO hangs on SP9 (IPU6)"
+    - "#2361 | Fedora 45 dual boot: only Windows Boot Manager after install"
+    - "#1070 | GRUB resets once with Secured-core on"
+    - "#1742 | SP9 bad shim signature"
+    - "#1516 | 6.10 IPU6 page fault (fixed by Gruszka's patch)"
+    - "NixOS/nixos-hardware#1121 | SP9 won't boot after installation"
+    - "url:https://discussion.fedoraproject.org/t/155740 | install Fedora on a keyboardless Surface"
+  fixes:
+    - "lore:20241031102321.409454-1-stanislaw.gruszka@linux.intel.com | IPU6 page fault fix (in 6.13+)"
+    - "gist:philbudden/59b47727fce722a469b0ca87e668c22e | firmware downgrade notes, NX explanation"
+  solutions:
+    - "Test the current Fedora 45 ISO with Secure Boot on and current firmware; record whether stock shim/GRUB boot without 0001."
+    - "Turn off 'Enable boot configuration lock' in UEFI before installing; check efibootmgr order after install."
+  next:
+    - "Part of phase 0 (SP9-901)."
+  commands: |
+    efibootmgr -v
+    mokutil --sb-state
+  upstream: ["Fedora (shim, grub2)"]
+  people: [StollD]
+  depends_on: []
+  related: [SP9-901, SP9-104, SP9-201]
+  kb: ["status.yaml", "docs/subsystems/boot-initramfs-fedora.md"]
+
+- id: SP9-602
+  title: "Fedora installs a generic kernel as default over kernel-surface after updates"
+  area: packaging
+  kind: bug
+  status: open
+  priority: P3
+  layers: {mainline: n/a, linux_surface: partial, fedora: n/a}
+  problem: |
+    When Fedora's kernel updates, it becomes the default boot entry and the surface kernel is skipped, despite
+    kernel-surface-default-watchdog.
+  origin: |
+    /etc/sysconfig/kernel UPDATEDEFAULT=yes makes new-kernel-pkg set every new kernel as default.
+  reports:
+    - "#1937 | Fedora KDE 43: generic kernel set as default"
+    - "#1327 | SP9 Fedora 38: surface kernel not selected after update"
+    - "#1054 | Fedora default kernel updater (closed, history)"
+  fixes: []
+  solutions:
+    - "UPDATEDEFAULT=no plus the watchdog; or fix the watchdog in linux-surface packaging."
+    - "Goal state makes this moot: run the stock Fedora kernel (SP9-903)."
+  next:
+    - "Only matters while running kernel-surface."
+  commands: |
+    sudo sed -i 's/^UPDATEDEFAULT=.*/UPDATEDEFAULT=no/' /etc/sysconfig/kernel
+  upstream: ["linux-surface packaging"]
+  people: []
+  depends_on: []
+  related: [SP9-603, SP9-903]
+  kb: ["status.yaml"]
+
+- id: SP9-603
+  title: "linux-surface Fedora repository lags releases and recently published broken files"
+  area: packaging
+  kind: bug
+  status: open
+  priority: P3
+  layers: {mainline: n/a, linux_surface: partial, fedora: n/a}
+  problem: |
+    The linux-surface Fedora repo has lagged almost every new Fedora release and several kernel releases; since
+    2026-11-12 some release files are uploaded as .rpm.blob.
+  origin: |
+    Manual packaging until 2026-10, now automated (package status #2318) with a new staging step that renames
+    files.
+  reports:
+    - "#2370 | Debian and Fedora release files stored as .blob"
+    - "#2055 | no Fedora release since 6.18.8-1 (closed)"
+    - "#1888 | Fedora 43 support (closed)"
+    - "#2139 | Fedora 44 (closed)"
+    - "repo#15 | Fedora 42 repo missing iptsd (closed)"
+    - "#2082 | Fedora workflow config check failure (closed)"
+  fixes:
+    - "#2318 | automated package status"
+  solutions:
+    - "Report the .blob problem details on #2370 if it affects an SP9 install; long term, get the pieces into Fedora proper (SP9-102, SP9-903)."
+  next:
+    - "Watch #2370."
+  upstream: ["linux-surface"]
+  people: [qzed, danielzgtg]
+  depends_on: []
+  related: [SP9-602, SP9-102]
+  kb: ["docs/research/closed-issues.md", "status.yaml"]
+
+- id: SP9-604
+  title: "Firmware updates (UEFI, SAM, Type Cover) only work from Windows"
+  area: firmware
+  kind: missing-feature
+  status: open
+  priority: P3
+  layers: {mainline: n/a, linux_surface: partial, fedora: broken}
+  problem: |
+    Surface firmware is not on LVFS; linux-surface's repack scripts are work in progress and applied only one of
+    five capsules on an SP9. The Type Cover firmware update node (SAM HID 01:15:02:05) has no fwupd support.
+  origin: |
+    Microsoft ships firmware as Windows driver packages; fwupd has a Microsoft CFU plugin only for a USB travel
+    hub (045E:09BC).
+  reports:
+    - "surface-uefi-firmware#51 | SP9 update applied one of five capsules"
+    - "surface-uefi-firmware#48 | repack.sh packs the wrong payload for SurfaceME"
+    - "disc#1746 | SP9 issues fixed by updating firmware from Windows"
+    - "fwupd/fwupd#10669 | SP3 KEK/DB update breaks boot (caution)"
+  fixes:
+    - "url:https://github.com/fwupd/fwupd/tree/main/plugins/cfu | fwupd Microsoft CFU plugin"
+  solutions:
+    - "Keep a Windows install or WinPE stick for firmware; later, ask fwupd whether the cover's SAM HID node speaks CFU."
+  next:
+    - "Low priority; record firmware versions in phase 0."
+  upstream: ["fwupd", "linux-surface/surface-uefi-firmware"]
+  people: [nicheosala, technobirb]
+  depends_on: []
+  related: []
+  kb: ["docs/research/upstream-efforts.md"]
+
+- id: SP9-605
+  title: "RTC time persistence on the SP9 is unknown (SP7 and SP8 lose clock changes)"
+  area: firmware
+  kind: needs-test
+  status: needs-test
+  priority: P3
+  layers: {mainline: unknown, linux_surface: unknown, fedora: unknown}
+  problem: |
+    On the SP7 and SP8, time set from Linux does not persist across power off; the clock lives in SAM. No SP9
+    data.
+  origin: |
+    The firmware loads the CMOS RTC from the SAM clock at power on; on SP8 it can be set from userspace.
+  reports:
+    - "#415 | SP7 RTC changes don't persist"
+    - "#1497 | SP8 loses system time on power off"
+    - "#2251 | SP8: set the SAM clock from userspace (workaround)"
+    - "#1658 | RTC can't be changed from the system"
+  fixes: []
+  solutions:
+    - "If the SP9 is affected, use the SP8 userspace method (#2251) and consider a SAM RTC driver upstream."
+  next:
+    - "Run timedatectl right after a cold boot with networking off."
+  commands: |
+    timedatectl
+  upstream: []
+  people: [nicheosala, danielzgtg]
+  depends_on: [SP9-901]
+  related: []
+  kb: ["docs/testing.md"]

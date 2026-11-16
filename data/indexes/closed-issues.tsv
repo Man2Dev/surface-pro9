@@ -1,0 +1,213 @@
+# Closed issues in the linux-surface org that mention the SP9 (tier s) or a sibling with the same hardware path (tier r). Snapshot 2026-11-13.
+# Source: every issue page read in the browser (embedded timeline JSON: comments, ClosedEvent with stateReason and closer). Method: tools/browser/README.md.
+# closed_by = actor of the last ClosedEvent; reason = GitHub stateReason; '-' = no close event in the timeline.
+# outcome: fixed-kernel | fixed-package | fixed-firmware | config (kernel or initramfs config) | workaround | user-setup (missing package, wrong kernel) | hardware | info | stale (closed without a fix) | other (no SP9 lesson)
+# Summary and the lessons that matter: docs/research/closed-issues.md
+id	tier	closed	closed_by	reason	comments	outcome	note	title
+acpidumps#9	s	2020-08-04	kitakar5525	COMPLETED	1	info	-	Surface Book (Performance Base)
+acpidumps#23	s	2022-11-08	qzed	COMPLETED	1	info	SP9 i7 ACPI dump and diagnostics, basis of the SAM node group	ACPI dump and diagnostics for Surface Pro 9 (intel i7)
+acpidumps#24	s	2022-11-11	qzed	COMPLETED	1	info	ARM, not in scope	Windows Dev Kit 2023 acpidump
+acpidumps#27	s	2024-03-14	qzed	COMPLETED	3	info	SP9 5G (SQ3, ARM), not in scope	Surface Pro 9 5G (1996 version) acpidump
+iptsd#9	s	2020-06-20	StollD	COMPLETED	2	fixed-package	udev rule KERNEL=="ipts", TAG+="systemd" (iptsd@c79428f589); same family as open iptsd#224	dev-ipts.device: Job dev-ipts.device/start timed out
+iptsd#23	s	2020-11-26	danielzgtg	COMPLETED	2	other	-	Idle power usage
+iptsd#143	s	2023-09-16	AlfaLyr	COMPLETED	1	other	-	Weird pen tip behaviour on surface pro 9
+iptsd#167	s	2024-08-21	-	NOT_PLANNED	0	other	-	Meson setup build command not working
+iptsd#184	s	2026-06-30	hmtheboy154	COMPLETED	8	other	Android shell, not Fedora	Unable to run new iptsd scripts on Android shell
+kernel#9	s	2019-10-18	qzed	COMPLETED	4	other	-	Would you mind add some aur packages?
+kernel#157	s	2024-08-17	qzed	COMPLETED	5	workaround	6.10 SP9 boot hang: blacklist intel_ipu6 and intel_ipu6_isys (underscores, see #1516)	I cannot boot 6.10.x kernels
+libwacom-surface#8	s	2024-09-14	qzed	COMPLETED	3	fixed-package	X11 wacom driver needed xf86-input-wacom PR #352 for the virtual devices	Tablet/Stylus visible to CLI but not accessible
+libwacom-surface#9	s	2022-06-08	qzed	COMPLETED	1	other	Ubuntu packaging	libwacom-surface not installable on Ubuntu Jammy Final Beta (22.04)
+libwacom-surface#13	s	-	-	-	13	fixed-package	SP9 tablet data was added to libwacom-surface here	Missing Pro 8 support
+libwacom-surface#16	s	2024-10-27	sughero	COMPLETED	8	other	-	gnome-control-center crashes with SIGSEGV when accessing Wacom settings
+libwacom-surface#19	s	2025-04-19	qzed	COMPLETED	3	fixed-package	libinput 1.28.1 broke the libwacom-surface release; fixed by a rebuild (also #1727)	Libinput 1.28.1-1 breaks current release
+#33	s	2020-01-08	archseer	COMPLETED	2	other	-	cryptswap issue
+#53	s	2020-02-04	kjuq	COMPLETED	29	other	SP7 battery, pre-SAM era	No battery status on Ubuntu 18.04 - Surface Pro 7
+#67	s	2021-08-26	qzed	COMPLETED	21	fixed-package	Disable-while-typing needs the keyboard tagged internal; now in upstream libinput 50-system-microsoft.quirks ('*Microsoft Surface *Keyboard*', DMI vendor Microsoft), which covers the SP9 cover 'Microsoft Surface 045E:09AE Keyboard'	Disable touchpad whilst typing does not work on SL3 Intel
+#70	s	2021-04-03	StollD	COMPLETED	30	other	Marvell Wi-Fi, older devices	Has anyone fixed the wifi problem yet?
+#91	s	2024-01-30	StollD	COMPLETED	19	info	old camera tracking issue, replaced by the wiki camera page	Camera support
+#122	s	2020-04-24	qzed	COMPLETED	9	fixed-package	Fedora RPM removed the running kernel on update; packaging fix	RPM: running kernel gets removed on update
+#127	s	-	-	-	16	other	-	No Audio on surface3 with Manjaro
+#129	s	2020-03-19	qzed	COMPLETED	6	other	-	Surface Book 2 Touch Screen not working (5.5.9)
+#235	s	2021-08-26	qzed	COMPLETED	9	other	signature error, old GRUB	error: /vmlinuz-5.7.9-surface has invalid signature.
+#314	s	2020-11-04	technosf	COMPLETED	1	other	-	SP7 5.9.1-surface Bluetooth issues
+#320	s	2020-10-27	tihoulas	COMPLETED	2	other	-	SP5 - ipts not working
+#328	s	2020-11-08	haymanpf	COMPLETED	0	other	-	Battery Status Lost After Updating 5.9.1 -> 5.9.3
+#329	s	2020-11-09	qzed	COMPLETED	27	other	Fedora 33 battery, old SAM module	Battery status not available on 5.8.18 Fedora 33
+#336	s	2022-02-27	qzed	COMPLETED	16	other	-	[S3] Backlight not responsive on KDE Neon with 5.9.6-surface
+#337	s	2021-01-07	qzed	COMPLETED	8	other	-	Shutdown not working
+#347	s	2020-11-28	3elDU	COMPLETED	2	other	-	Tounchreen won't work on SP4
+#348	s	2020-12-07	kug1977	COMPLETED	7	workaround	battery stuck near 50 % or not charging: UEFI battery limit setting, not a driver bug	Surface Pro 7 not battery status
+#354	s	2020-12-12	hayorov	COMPLETED	4	workaround	same UEFI battery limit effect (46 %)	Surface 6 Incorrect battery information: 46% and estimating always
+#355	s	2021-12-21	hypghzy	COMPLETED	2	other	repo key	A little problem while adding the Key
+#357	s	2020-12-13	hayorov	COMPLETED	3	other	Marvell	No 5Ghz Wifi support on Surface Pro 6 / Marvell 88W8897
+#363	s	2021-01-25	sphh	COMPLETED	30	other	older button driver	Power/Volume buttons stopped working after upgrade to 5.10.1
+#464	s	2021-06-06	qzed	COMPLETED	7	user-setup	a stale blacklist-intel_lpss.conf left by old guides breaks battery and SAM	Issue to display battery status on Surface Pro 7 with linux Mint 20.1
+#466	s	2021-06-13	obswwf	COMPLETED	3	other	-	Wonky behaviour after resume from suspend
+#468	s	2021-06-13	qzed	COMPLETED	8	other	repo key	SP7 Manjaro linux-surface key is unknown
+#568	s	2021-09-20	dumbasaroc	COMPLETED	3	other	-	Surface Pro 7 Cannot Turn On Bluetooth
+#654	s	2022-01-27	qzed	COMPLETED	21	user-setup	touch lost after a GRUB timeout change (booted the wrong kernel)	Touchscreen stoped working
+#710	s	2022-01-21	albalblo	COMPLETED	22	fixed-package	libwacom-surface dependency break (Debian)	libwacom-surface: unmet dependencies, broken packages
+#834	s	2023-04-04	Corben78	COMPLETED	11	other	SP7 dock	Regression with external monitors using 5.17. surface kernel series and Microsoft Dock 2
+#965	s	2022-11-24	qzed	COMPLETED	29	info	history of SP9 and SL5 support, SAM nodes upstreamed for 6.1	Surface Laptop 5 is missing in documentation
+#984	s	2023-02-20	qzed	COMPLETED	16	info	SP9 support tracking; tablet switch sent 2023-02, accepted 2023-03	Support for Surface Pro 9
+#992	s	2023-02-15	Agurzil	COMPLETED	7	other	-	Very low (desktop) graphics speed on Surface Pro 7 running Ubuntu
+#998	s	2023-02-03	farline99	NOT_PLANNED	5	other	-	[BUG][Arch Linux][SP6] Bluetooth Headset Microphone with HSP/HFP is not working.
+#999	s	2024-01-27	quo	COMPLETED	3	fixed-firmware	spontaneous shutdowns were a SAM firmware bug, fixed by a firmware update	Firmware bug causing spontaneous shutdown on SP7 (and probably other Surface devices)
+#1000	s	2026-11-08	danielzgtg	COMPLETED	7	user-setup	-	Surface 8 Pro with Ubuntu 18.04.6 LTS bionic beaver touch not working
+#1002	s	2022-12-05	LovisR	COMPLETED	2	user-setup	Fedora touch without iptsd	SP8 touch doesnt work Fedora
+#1007	s	2022-12-11	-	COMPLETED	18	other	Debian packaging	[debian-6.0.12] dpkg: error processing archive
+#1018	s	2023-03-02	Numieo	COMPLETED	9	workaround	BT mouse and keyboard drop out intermittently; workaround in thread (see also #1178)	Bluetooth mouse and keyboard can't control surface intermittently
+#1048	s	2023-02-02	k4ever	COMPLETED	30	fixed-kernel	SP8 multitouch regression fixed in a linux-surface release	Multi-touch is not working with Surface Pro 8 on the latest kernel
+#1082	s	2024-07-22	petm5	COMPLETED	30	workaround	pci=hpiosize=0 stops the ACPI error spam; trade-off reported 2025-10 (gtxg16): opening the Type Cover no longer wakes the device	[SP9] ACPI error spam in dmesg after closing the type cover with the device plugged in
+#1096	s	2023-03-24	vbauerster	COMPLETED	7	info	120 Hz, rotation and ambient light work on SP9	Question, which is less problematic SP9 or SP8?
+#1107	s	2023-04-28	plover43	COMPLETED	0	other	-	[SP9] KDE tabletmode screen rendering unevenly
+#1114	s	2023-04-04	StollD	NOT_PLANNED	1	other	desktop setting	Annoying onscreen keyboard
+#1120	s	2023-07-15	qzed	COMPLETED	11	fixed-kernel	Intel Thread Director (ITD) patches broke wake on ADL/RPL including SP9; removed from linux-surface	Wake from suspend failing on alder/raptor lake
+#1123	s	2023-05-12	k4ever	COMPLETED	30	fixed-kernel	SP8 touch regression in 6.2.12	Touch input stopped working on SP8 with Arch Kernel 6.2.12-arch1-1-surface kernel
+#1136	s	2023-05-13	squid-f	COMPLETED	6	config	SP9 Type Cover needs CONFIG_SERIAL_DEV_BUS=y and CONFIG_SERIAL_DEV_CTRL_TTYPORT=y (built in, not module)	surface pro 9 typecover keyboard not found by hid-generic hidraw
+#1155	s	2023-06-18	StollD	COMPLETED	29	fixed-package	KDE gestures; iptsd change	iptsd-show magically fixes KDE touchscreen gestures
+#1156	s	2026-11-08	danielzgtg	COMPLETED	3	user-setup	Fedora 38 pen: needs linux-surface kernel plus iptsd	Pen from Surface pro 9 under Fedora 38 install?
+#1177	s	2023-07-03	qzed	COMPLETED	2	other	dkms build of SAM module, obsolete	SP9 ./dkms-make.sh...(bad exit status: 2)
+#1201	s	2023-07-28	Lynxen	COMPLETED	4	other	Debian packaging	Installation Failed - Packages have Unmet Dependencies
+#1252	s	2023-12-28	seblemaguer	COMPLETED	4	fixed-kernel	SP9 fan spinning up on rotation or video, fixed by kernel PR 143 (ithc update for 6.5)	[SP9] fan switching on when rotating screen or watching video on firefox
+#1281	s	2024-03-12	TheSnowfield	COMPLETED	1	other	-	[SP9] Surface Pro 9 with X11 gets frame drops after logging in several hours
+#1301	s	2024-03-26	apmyplol	COMPLETED	0	other	-	Battery performace SP6
+#1320	s	2023-12-16	n0valis	COMPLETED	2	config	with Secure Boot, GRUB fonts and gfxmode need signed modules	Secure Boot and Grub GFX Mode
+#1321	s	2023-12-16	n0valis	COMPLETED	2	other	browser touch scrolling (application setting)	Touchscreen Scrolling in a Browser Window not working
+#1330	s	2023-12-23	dinamitebla	COMPLETED	2	user-setup	SP9 touch and pen dead: iptsd missing	surface pro 9 touchscreen and pen not working
+#1337	s	2024-01-12	StollD	COMPLETED	2	other	-	Nobara Install on Surface Pro 9
+#1398	s	2024-03-21	brianidavide	COMPLETED	4	user-setup	-	OpenSUSE - Touchscreen, pen and auto rotate not working.
+#1401	s	2024-03-25	Pathsis	COMPLETED	3	other	-	After installing ubuntu once, can no longer boot from ubuntu usb bootloader
+#1405	s	2024-07-18	ChrisLPJones	COMPLETED	3	workaround	SP9 Wi-Fi dropouts: separate 2.4 and 5 GHz SSIDs	SP9 w Ubuntu 22.04 WiFi dropouts
+#1411	s	2024-06-01	tabletseeker	COMPLETED	8	info	SP8 120 Hz	120Hz on Surface Pro 8 (128GB/8GB/11th i5) / Debian Working?
+#1434	s	2024-05-05	nouknouk	COMPLETED	2	other	-	(debian) kernel 6.8.8-surface-1 + grub enters in boot loop
+#1446	s	2024-05-12	cwittenberg	COMPLETED	2	workaround	SP9 ACPI errors in sleep: TLP plus blacklisting surface_gpe (costs lid wake)	Surface pro 9 ACPI errors during sleep
+#1447	s	2024-06-02	tabletseeker	COMPLETED	3	other	-	Surface Pro 10 Supported?
+#1463	s	2024-07-03	sevenzip2	COMPLETED	17	other	SL5 fan	Surface Laptop 5 Fan problem
+#1467	s	2024-09-30	ocean1ee1	COMPLETED	25	other	-	looks like does not work on surface pro 10
+#1469	s	2024-06-17	OfflinePing	COMPLETED	1	other	-	Wifi WPA2 Enterprise won't connect
+#1475	s	2024-06-22	StollD	COMPLETED	5	other	-	surface pro 9 16 GB 1 Terabyte virtual keyboard and camera not work on kali linux 2024.2
+#1483	s	2024-06-29	BloodyIron	COMPLETED	1	other	-	[sp9] Bluetooth audio iffy?
+#1486	s	2024-07-07	Pairman	COMPLETED	0	other	-	Unable to build kernel module due to missing headers
+#1490	s	2025-02-03	Digitalpeer1	COMPLETED	2	other	-	Problem when installing libcamera
+#1491	s	2024-07-19	dev-nis	COMPLETED	2	config	SP9 LUKS unlock: module list (surface_aggregator, surface_aggregator_registry, surface_aggregator_hub, surface_hid_core, surface_hid, surface_battery, surface_charger, surface_fan, 8250_dw, intel_lpss, intel_lpss_pci, pinctrl_tigerlake) from jf049	[SurfacePro9][NixOS] Keyboard doesn't work for unlock of encrypted drive at boot
+#1533	s	2024-08-20	kwai-chang	COMPLETED	5	workaround	6.10 SP9 boot hang, same ipu6 blacklist as kernel#157	Stucks in Bootlogo after update
+#1534	s	2024-08-18	tormodvolden	COMPLETED	26	workaround	6.10.3 invalid opcode traps unless the GDS mitigation is disabled	kernel 6.10.3 causes invalid opcode traps unless GDS mitigation is disabled
+#1537	s	2024-08-17	qzed	COMPLETED	13	workaround	SP9 6.10.5 panic, ipu6 blacklist	[Surface Pro 9] Kernel 6.10.5 causes system to panic
+#1539	s	2024-08-19	lukemurdock	COMPLETED	6	other	-	Surface Pro 5 suspend on arch not booting back up.
+#1541	s	2024-08-24	-	COMPLETED	6	workaround	6.10 boot freeze, ipu6 blacklist	Freezing during boot
+#1542	s	2024-08-24	Valerio1474	COMPLETED	3	config	keyboard in the initramfs shell: module list	Keyboard not working in busybox after failed boot
+#1551	s	2026-02-28	commondservice	COMPLETED	2	other	-	SD Card Reader suspended early, causing: [sda] tag#0 device offline or changed
+#1555	s	2024-10-04	mklss	COMPLETED	5	workaround	SP9 6.10.5 hang, ipu6 blacklist	[SP9] 6.10.5-surface-1 crashes/hangs on boot
+#1560	s	2025-06-27	Ktsierra	COMPLETED	6	fixed-kernel	Fedora 40 6.10.10 boot failure; closed as fixed with 6.15	Fedora 40 doesn't boot with kernel-surface-6.10.10-1.surface.fc40.x86_64
+#1578	s	2024-11-02	qzed	COMPLETED	4	fixed-package	Fedora repo lag (F41)	Fedora 41 missing packages
+#1608	s	2025-02-03	ZenerDeveloper	COMPLETED	18	other	SP10	Surface Pro 10 Support
+#1628	s	2024-12-12	Kmschr	COMPLETED	30	other	-	Can not boot after 6.12.3 update - failed to load root filesystem
+#1629	s	2024-12-16	h2dden	COMPLETED	27	other	-	[S7Pro] 6.12.3-surface-2 fails to detect wifi card
+#1639	s	2025-05-07	ChrisRichner	NOT_PLANNED	3	other	Debian headers	[Pro9]: Update to 6.12.3-surface-2 -> kernel package linux-headers-6.12.3-surface-2 is not supported
+#1641	s	2025-01-10	derkrasseleo	COMPLETED	2	other	-	External display cuts out for a few seconds and comes back again
+#1643	s	2024-12-23	ssiwinter	COMPLETED	2	info	feature matrix page	Update feature matrix page please
+#1645	s	2025-01-08	dev-nis	COMPLETED	17	config	SP9 keyboard and touchpad dead after 6.12.4: fixed by loading pinctrl_tigerlake first in the initrd module order (probe ordering, see #2219)	[SP9[NixOS] Keyboard&Trackpad not working after upgrade to 6.12.4
+#1656	s	2025-11-20	otjamin	COMPLETED	2	stale	Slim Pen 2 drops its BT link on its own; btmon capture on SP9, no fix	Surface Slim Pen 2 disconnects when not in use
+#1684	s	2025-02-16	daviddean-x	COMPLETED	9	stale	SP9 wake: worked for one user on a self-built 6.12.12, still broken on F41 for another	(SP9) Cannot wake from sleep
+#1709	s	2025-03-14	tetoNidan	COMPLETED	1	stale	Fedora 41 LUKS keyboard, no answer; see #1491 and #2039	Trying to get my keybord working on Fedora 41 with disk encryption
+#1727	s	2025-04-21	beneeno	COMPLETED	1	fixed-package	libinput 1.28.1 vs libwacom-surface (libwacom-surface#19)	Mouse+KB unresponsive | libwacom-surface, Update from 2.13 > 2.15
+#1735	s	2025-05-06	qzed	COMPLETED	29	fixed-package	Fedora repo lag (F42)	Create Fedora 42 DNF-Repository
+#1772	s	2025-05-22	Secret-chest	COMPLETED	5	info	what iptsd processing does	Surface Pro 7+: what does special touch/pen processing imply?
+#1781	s	2025-06-05	Thissutek	COMPLETED	5	workaround	SP9 stopped charging: Windows smart charging / UEFI limit, cleared from Windows or UEFI	Surface Pro 9 charging stopped working after Ubuntu 24.04 updates (June 3, 2025)
+#1848	s	2026-11-08	danielzgtg	COMPLETED	1	user-setup	no /dev/ipts: the UAPI moved to hidraw, use iptsd-find-hidraw	surface pro 9 - pen not working, no /dev/ipts/ directory
+#1851	s	2025-12-31	qzed	COMPLETED	5	fixed-kernel	kernel@7dcd050b9b (SL4A Fn keys)	SL4A FN keys not working
+#1861	s	2025-10-07	gtxg16	COMPLETED	1	info	touch in GRUB is not possible	[SP9] touch support on grub
+#1874	s	2025-10-14	tetoNidan	COMPLETED	1	other	-	Arch stuck in boot loop after update - not loading initramfs
+#1922	s	2025-12-15	dev-nis	COMPLETED	4	other	NixOS build	[Surface Pro 9] Cannot upgrade NixOS to 25.11: build of surface-kernel fails
+#1969	s	2026-03-22	Valerio1474	COMPLETED	3	workaround	long KDE Wayland login delay caused by iio-sensor-proxy	Long delay to login in KDE-Plasma/Wayland
+#1988	s	2026-02-09	Aesistril	COMPLETED	1	workaround	SP9 BT disconnects fixed by removing and re-pairing	[SP9] Bluetooth keeps disconnecting
+#2036	s	2026-04-02	Klaaktu	COMPLETED	3	hardware	cover drops out with 'unknown device posture': worn connector	Keyboard randomly shuts off
+#2057	s	2026-10-18	qzed	COMPLETED	1	info	patch set adjusted for 7.0 (2a7b765)	patch-set needs adjustment due to 2a7b765 for 7.0 series
+#2076	s	2026-11-08	danielzgtg	COMPLETED	13	fixed-package	libwacom-surface 2.20.0-1 fixes the Ubuntu 26.04 upgrade	libwacom-surface breaks Ubuntu 26.04 upgrade
+#2130	s	2026-06-04	gregcooper5-prog	COMPLETED	2	other	SP4	SP4 qcam nor cheese finding internal cameras
+#2157	s	2026-06-01	dev-nis	COMPLETED	2	other	NixOS build	[NixOS] Updating to 6.19.8 fails with "Cannot build virtualbox-modules-7.2.4-6.19.8 "
+repo#9	s	2023-12-30	qzed	COMPLETED	3	fixed-package	Fedora repo lag (F38)	Fedora 38 Packages
+surface-aggregator-module#9	s	2018-12-21	qzed	COMPLETED	5	other	-	Surface Laptop 2: Keyboard not working
+surface-control#9	s	2020-09-21	qzed	COMPLETED	2	other	-	SB2 (13") surface performance : device not found
+surface-dtx-daemon#9	s	2021-08-01	CaptSpify	COMPLETED	2	other	-	Is there a reason that userd.conf isn't able to run handlers?
+surface-shutdown#1	s	2023-02-19	qzed	COMPLETED	1	fixed-kernel	SP9 stuck on shutdown; solved by the PCI shutdown quirk (6.1.12-2, #1058)	Surface Pro 9 still gets stuck on shutdown
+surface-uefi-firmware#9	s	2021-06-26	mannp	COMPLETED	6	other	-	Surface Go September firmware update - firmware is older than installed
+intel-precise-touch#13	r	2021-07-20	thekswenson	COMPLETED	4	info	-	A question about future development for touch/stylus aspects of the surface line.
+iptsd#55	r	2022-09-01	StollD	COMPLETED	3	fixed-package	pen tilt	Pen tilt support
+iptsd#59	r	2022-06-26	aleksfadini	COMPLETED	6	other	-	SP8 - cannot compile ipts
+iptsd#122	r	2023-04-13	Pietrell	NOT_PLANNED	0	stale	touch and pen dead after sleep, never answered; same symptom as #1171 and linux-surface#2210	Touch and pen stop working after sleep
+iptsd#124	r	2023-05-19	StollD	COMPLETED	12	other	-	[SP8] Failure during startup
+iptsd#142	r	2023-09-21	curioxide	COMPLETED	15	fixed-package	edge-case touch handling	iptsd performs weirdly at edge cases
+iptsd#155	r	2024-02-21	Tom-Finke	COMPLETED	8	other	multi-monitor mapping	Multi Monitor Setup
+iptsd#175	r	2025-03-24	gattolfo98	COMPLETED	2	other	-	Pen pointer is not in the point where the pen is on SP8
+iptsd#226	r	2026-10-02	cunninghamcard-bit	COMPLETED	1	stale	closed by the author; fix in closed iptsd#227 never resubmitted (orphaned-patches/)	Touches are interrupted when a contact is missed for a single frame (Surface Pro 8)
+#411	r	-	-	-	31	other	-	Pen/Touch Support for Surface Pro 7+
+#616	r	2021-10-31	qzed	COMPLETED	28	info	SP8 KIP keyboard history	Surface Pro 8 - Surface Pro Signature Keyboard and touchscreen don't work with Ubuntu 20.04.3
+#620	r	2021-11-02	qzed	COMPLETED	4	info	KIP subsystem testing (same subsystem as the SP9 cover)	[SLS] Request for Testing: KIP Subsystem on Surface Laptop Studio
+#735	r	2022-06-12	pjungkamp	COMPLETED	16	fixed-kernel	SW_TABLET_MODE from the Type Cover fold (aggregator_tabletsw)	Emit SW_TABLET_MODE when folding a Surface Pro Typecover
+#821	r	2022-06-01	Pairman	COMPLETED	20	other	Fedora 36 shim signature, old	Bad shim signature on Fedora 36, SP7+.
+#848	r	2022-06-10	qzed	COMPLETED	28	fixed-kernel	SP8 tablet mode	SP8 Tablet mode
+#851	r	-	-	-	31	other	-	SLS Tablet Mode
+#859	r	2022-06-29	j4ckgrey	COMPLETED	20	info	120 Hz with xrandr	SP8 120Hz Ubuntu
+#861	r	2022-06-26	qzed	COMPLETED	21	fixed-kernel	SP8 sensors (INT3472)	SP8 - No sensors (INT3472 ?)
+#862	r	2022-06-23	aleksfadini	COMPLETED	25	workaround	flicker: i915.enable_psr=0; current intel microcode also reported to help	SP8 - Screen flickering
+#864	r	2022-06-25	qzed	COMPLETED	4	fixed-kernel	SP8 rotation	No Automatic Screen Rotation on SP8
+#868	r	2022-07-01	nhatminhhp1999	COMPLETED	0	other	-	Update ithc: Linux driver for Intel Touch Host Controller for surface pro 7+,8
+#881	r	2022-08-05	zed-wong	COMPLETED	5	workaround	flicker, as #862	SP8 - Screen flickering [Ubuntu 22.04]
+#905	r	2022-08-22	NP-chaonay	NOT_PLANNED	27	other	desktop feature	SLS/SP8/... Implement Display Resolution/Refresh Rate alike OEM configuration
+#911	r	2022-11-11	tlf30	COMPLETED	7	config	SP8 LUKS keyboard module list	[SP8] Keyboard does not work on LUKS password entry
+#987	r	2026-11-08	danielzgtg	COMPLETED	14	user-setup	/dev/ipts gone, iptsd now on hidraw	IPTSD Fails to start: Failed to open /dev/ipts/0
+#1026	r	-	-	-	15	other	-	Surface Laptop Studio Touchpad and Keyboard Randomly Freeze
+#1084	r	2023-03-07	qzed	COMPLETED	7	fixed-kernel	ITD patches added for ADL (later removed, #1120)	[Alder Lake] Intel Thread Director and battery life / performance
+#1161	r	2026-02-15	YosypC	NOT_PLANNED	8	stale	wake from sleep unreliable; closed by the author without a fix	Unpredictable difficulties waking up from sleep
+#1163	r	2023-06-12	SwagSpaad	COMPLETED	4	fixed-package	dnf protected kernel-surface	dnf upgrade kernel-surface protected
+#1165	r	2023-06-13	YosypC	COMPLETED	2	fixed-package	default-kernel path/service missing on Fedora	[Fedora] no such file or directory for "default-kernel.{path,service}"
+#1167	r	2026-01-13	YosypC	NOT_PLANNED	0	stale	cover powered but no input; closed by the author	Type Cover powered on but no input received
+#1171	r	2026-01-13	YosypC	NOT_PLANNED	3	stale	touch and pen dead after resume; ITHC DMA fix quo b51f328 mentioned; same symptom as linux-surface#2210	Touch and pen stopped working after resume from sleep
+#1173	r	2026-01-13	YosypC	NOT_PLANNED	11	stale	device unresponsive; closed by the author	Device totally unresponsive
+#1174	r	2024-04-05	SwagSpaad	COMPLETED	4	other	-	Fans not working
+#1182	r	2023-07-08	riccardoregina	COMPLETED	4	other	-	[Enhancement] to make writing more natural
+#1188	r	2023-07-15	qzed	COMPLETED	1	fixed-kernel	IPC_CLASSES config for ITD (removed with #1120)	IPC_CLASSES config does not get set
+#1207	r	2024-06-28	qzed	COMPLETED	9	fixed-kernel	SP8 touch regression in 6.4.7	[Surface 8 Pro] Touchscreen and pen does not work after update to 6.4.7
+#1273	r	2023-10-20	dpdq	COMPLETED	3	workaround	palm rejection lost after iptsd 1.4.0: recalibrate	[SP8] No palm-rejection under linux after windows, and firmware updates EDIT: and iptsd update
+#1341	r	2024-01-06	apmyplol	COMPLETED	1	other	-	Screen autorotate stopped working (iio-sensor-proxy fails to read sensor output)
+#1350	r	2024-10-27	sheosi	COMPLETED	7	config	SP8 cover at LUKS on Silverblue: fixed through a silverblue-docs PR	SP8 Type Cover not detected during disk encryption
+#1376	r	2024-02-20	KoalaCoding333	COMPLETED	2	other	-	Surface Pro 8 stuck at Surface logo
+#1384	r	2024-03-01	vistis	COMPLETED	4	other	-	[SP8] Hardware buttons are not functional
+#1420	r	2024-04-16	qzed	COMPLETED	4	other	-	Timed Out Waiting for DTX on Bootup
+#1498	r	2024-07-19	tabletseeker	COMPLETED	1	info	power profiles through platform_profile instead of surface-control	surface-control obsolete for just setting power modes?
+#1510	r	2024-08-04	qzed	COMPLETED	7	other	-	6.10 rebase request
+#1531	r	2024-08-17	k4ever	COMPLETED	2	other	-	IPU6 Module Missing for Arch 6.10 Surface Kernel
+#1567	r	2024-09-21	k4ever	COMPLETED	1	other	-	Phantom/Ghost Touches on Surface Pro 8 Recently
+#1642	r	2024-12-22	maremike	COMPLETED	1	other	-	[SPro8] with debian 12 causes the brightness to change in a loop
+#1655	r	2025-11-20	otjamin	COMPLETED	0	stale	-	[SP8] Typecover sometimes stops working
+#1694	r	2025-03-11	lukas-hetzenecker	COMPLETED	20	other	SP11	[SP11] Support for Surface Pro 11 with Intel
+#1842	r	2025-09-01	Panja0	COMPLETED	1	other	-	Surface Pro 8 - Debian - Keyboard problem
+#1942	r	2026-01-07	TheSmilingTurtle	COMPLETED	2	other	-	Surface Pro 8 process hangs when accessing camera
+#2039	r	2026-03-25	CthulhuBreakfast	COMPLETED	3	workaround	SP8 Fedora: cover dead at LUKS (surface_serial_hub IRQ bug); unlocks with Clevis plus TPM2 instead	SP8: Type Cover not working at LUKS prompt + post-boot fix (Fedora, surface_serial_hub IRQ bug)
+#2118	r	2026-10-18	qzed	COMPLETED	2	info	6.19 EOL	6.19 is EOL
+#2139	r	2026-10-19	qzed	COMPLETED	9	fixed-package	Fedora 44 repo lag	Linux Surface not working with Surface Pro 8 with Fedora 44
+#2269	r	2026-11-12	NousYTMW	COMPLETED	4	workaround	low touch polling: run iptsd-calibrate; script in thread is AI-written, use with care	Surface Pro 7+/8 IPTSD Fix!!!! (vibecoded,use it at your own risk)
+#2279	r	2026-09-26	cgernert	COMPLETED	2	fixed-firmware	S0ix broken after reboot: updating intel microcode fixed it	[SL3 Intel] S0ix breaks after reboot, works again after poweroff/hibernate
+acpidumps#31	r	2025-12-30	qzed	COMPLETED	4	info	-	MS Surface Pro 10 for Business
+libwacom-surface#12	r	2023-05-26	qzed	COMPLETED	8	fixed-package	-	Surface Pro 7+ support
+#469	r	2021-06-16	georgezlei	COMPLETED	7	other	-	Keyboard backlight cannot be turned on
+#1233	r	2023-08-29	Joseph-DiGiovanni	COMPLETED	2	config	Slim Pen 2 random button presses: iptsd [DFT] ButtonMinMag = 20000 (iptsd 3.x adds Mpp2ButtonMinMag, default 50000)	Slim pen 2 constant random button presses
+#1266	r	2023-10-16	qzed	COMPLETED	23	fixed-package	modinfo / module path packaging bug	modinfo fails to find drivers for kernel 6.5.5 and 6.5.6
+#1271	r	2024-04-21	qzed	COMPLETED	14	fixed-kernel	SAM driver failed to load; fixed by #1426	SAM driver fails to load (depending on the device, Battery status, Keyboard, or Touchpad no longer work)
+#1300	r	2023-11-22	qzed	COMPLETED	6	fixed-kernel	keyboard and touchpad lost on 6.5.9	Keyboard and Touchpad no longer detected with Surface Kernel 6.5.9
+#1378	r	2024-04-20	leonm1	COMPLETED	3	other	-	Possible S0ix regression with update to 6.7
+#1621	r	2024-12-29	LionHeartP	COMPLETED	7	other	-	6.12 - Rebase request
+#1799	r	2026-10-19	qzed	COMPLETED	12	stale	SP10 touch dead after resume on 6.15; closed with no fix (same ITHC resume family)	[SP10] Dead touchscreen on arch 6.15 kernel
+#1935	r	2025-12-31	LegendaryFire	COMPLETED	13	other	SLS2	Surface Laptop Studio 2 Touchpad Dead on Arch v6.17.1-arch1
+#1989	r	2026-04-19	JesseOgunlaja	COMPLETED	5	other	SP10	SP10 Touchscreen and Stylus Issues
+#1054	r	2023-03-05	PhilDevProg	COMPLETED	17	fixed-package	Fedora default kernel updater (later kernel-surface-default-watchdog)	Fedora Default Kernel Updater doesn't work at all
+#1197	r	2023-07-24	ttoommxx	COMPLETED	2	fixed-package	Silverblue metadata expiry	Shorten metadata expiry date on Fedora Silverblue.
+#1244	r	2023-09-14	asmuscma	COMPLETED	7	fixed-package	Fedora repo 404	Fedora Repo 404 and kernel update issue
+#1888	r	2026-01-01	SimplyChloe	COMPLETED	30	fixed-package	Fedora 43 repo lag	Fedora 43 support
+#1972	r	2026-01-23	qzed	COMPLETED	1	fixed-package	Fedora repo not updated for 6.18.5-1	Fedora Repos not updated to reflect 6.18.5-1 release
+#2055	r	2026-10-18	qzed	COMPLETED	10	fixed-package	no Fedora release since 6.18.8-1, fixed by the CI rework	No Fedora release since 6.18.8-1
+#2082	r	2026-04-30	StollD	COMPLETED	5	fixed-package	Fedora workflow config check failed; CONFIG_SCSI_UFSHCD mismatch	fedora 43 workflow (& other F?) error @ dist-configs-check
+#2143	r	2026-10-18	qzed	COMPLETED	2	fixed-package	Fedora 43 workflow runner loss	Fedora 43 workflow at repo clone, fails at build stage
+repo#15	r	2025-05-05	qzed	COMPLETED	1	fixed-package	Fedora 42 repo missing iptsd	Fedora 42 Repo is missing iptsd

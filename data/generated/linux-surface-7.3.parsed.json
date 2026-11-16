@@ -1,0 +1,1135 @@
+[
+ {
+  "sha": "d695241440d8a1dd21a231eed1e7b1527eb6549b",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "date": "Sun, 9 Jun 2024 19:48:58 +0200",
+  "subject": "Revert \"efi/x86: Set the PE/COFF header's NX compat flag unconditionally\"",
+  "series": "0001-secureboot.patch",
+  "files": [
+   "arch/x86/boot/header.S"
+  ],
+  "stat": "1 file changed, 4 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "secureboot"
+   ]
+  },
+  "signed_off": [
+   "Maximilian Luz <luzmaximilian@gmail.com>"
+  ],
+  "message": "This reverts commit 891f8890a4a3663da7056542757022870b499bc1.\n\nRevert because of compatibility issues of MS Surface devices and GRUB\nwith NX. In short, these devices get stuck on boot with NX advertised.\nSo to not advertise it, add the respective option back in.\n\nSigned-off-by: Maximilian Luz <luzmaximilian@gmail.com>\nPatchset: secureboot"
+ },
+ {
+  "sha": "faf4a318bff5e3baf69de02ae3ec60993daee5e9",
+  "author": "\"J. Eduardo\" <j.eduardo@gmail.com>",
+  "date": "Sun, 25 Aug 2024 14:17:45 +0200",
+  "subject": "PM: hibernate: Add a lockdown_hibernate parameter",
+  "series": "0001-secureboot.patch",
+  "files": [
+   "Documentation/admin-guide/kernel-parameters.txt",
+   "kernel/power/hibernate.c"
+  ],
+  "stat": "2 files changed, 14 insertions(+), 1 deletion(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Link": [
+    "https://github.com/linux-surface/kernel/pull/158",
+    "https://gist.github.com/brknkfr/95d1925ccdbb7a2d18947c168dfabbee"
+   ],
+   "Patchset": [
+    "secureboot"
+   ]
+  },
+  "signed_off": [
+   "Kelvie Wong <kelvie@kelvie.ca>"
+  ],
+  "message": "This allows the user to tell the kernel that they know better (namely,\nthey secured their swap properly), and that it can enable hibernation.\n\nSigned-off-by: Kelvie Wong <kelvie@kelvie.ca>\nLink: https://github.com/linux-surface/kernel/pull/158\nLink: https://gist.github.com/brknkfr/95d1925ccdbb7a2d18947c168dfabbee\nPatchset: secureboot"
+ },
+ {
+  "sha": "dc33763e616e4776f3db6bc7a147dcdb81571bec",
+  "author": "Tsuchiya Yuto <kitakar@gmail.com>",
+  "date": "Sun, 18 Oct 2020 16:42:44 +0900",
+  "subject": "(surface3-oemb) add DMI matches for Surface 3 with broken DMI table",
+  "series": "0002-surface3.patch",
+  "files": [
+   "drivers/platform/surface/surface3-wmi.c",
+   "sound/soc/codecs/rt5645.c",
+   "sound/soc/intel/common/soc-acpi-intel-cht-match.c"
+  ],
+  "stat": "3 files changed, 24 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface3"
+   ]
+  },
+  "signed_off": [
+   "Tsuchiya Yuto <kitakar@gmail.com>"
+  ],
+  "message": "On some Surface 3, the DMI table gets corrupted for unknown reasons\nand breaks existing DMI matching used for device-specific quirks.\n\nThis commit adds the (broken) DMI data into dmi_system_id tables used\nfor quirks so that each driver can enable quirks even on the affected\nsystems.\n\nOn affected systems, DMI data will look like this:\n    $ grep . /sys/devices/virtual/dmi/id/{bios_vendor,board_name,board_vendor,\\\n    chassis_vendor,product_name,sys_vendor}\n    /sys/devices/virtual/dmi/id/bios_vendor:American Megatrends Inc.\n    /sys/devices/virtual/dmi/id/board_name:OEMB\n    /sys/devices/virtual/dmi/id/board_vendor:OEMB\n    /sys/devices/virtual/dmi/id/chassis_vendor:OEMB\n    /sys/devices/virtual/dmi/id/product_name:OEMB\n    /sys/devices/virtual/dmi/id/sys_vendor:OEMB\n\nExpected:\n    $ grep . /sys/devices/virtual/dmi/id/{bios_vendor,board_name,board_vendor,\\\n    chassis_vendor,product_name,sys_vendor}\n    /sys/devices/virtual/dmi/id/bios_vendor:American Megatrends Inc.\n    /sys/devices/virtual/dmi/id/board_name:Surface 3\n    /sys/devices/virtual/dmi/id/board_vendor:Microsoft Corporation\n    /sys/devices/virtual/dmi/id/chassis_vendor:Microsoft Corporation\n    /sys/devices/virtual/dmi/id/product_name:Surface 3\n    /sys/devices/virtual/dmi/id/sys_vendor:Microsoft Corporation\n\nSigned-off-by: Tsuchiya Yuto <kitakar@gmail.com>\nPatchset: surface3"
+ },
+ {
+  "sha": "f8180cc3d6b712afe77d14b1a7de68ccfa2a55b4",
+  "author": "kitakar5525 <34676735+kitakar5525@users.noreply.github.com>",
+  "date": "Fri, 6 Dec 2019 23:10:30 +0900",
+  "subject": "surface3-spi: workaround: disable DMA mode to avoid crash by default",
+  "series": "0002-surface3.patch",
+  "files": [
+   "drivers/input/touchscreen/surface3_spi.c"
+  ],
+  "stat": "1 file changed, 26 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface3"
+   ]
+  },
+  "signed_off": [],
+  "message": "On Arch Linux kernel at least after 4.19, touch input is broken after suspend\n(s2idle).\n\n        kern  :err   : [  +0.203408] Surface3-spi spi-MSHW0037:00: SPI transfer timed out\n\nOn recent stable Arch Linux kernel (at least after 5.1), touch input will\ncrash after the first touch.\n\n        kern  :err   : [  +0.203592] Surface3-spi spi-MSHW0037:00: SPI transfer timed out\n        kern  :err   : [  +0.000173] spi_master spi1: failed to transfer one message from queue\n\nI found on an affected system (Arch Linux kernel, etc.), the touchscreen\ndriver uses DMA mode by default. Then, we found some kernels with different\nkernel config (5.1 kernel config from Jakeday [1] or Chromium OS kernel\nchromeos-4.19 [2]) will use PIO mode by default and no such issues there.\n\nSo, this commit disables DMA mode on the touchscreen driver side as a quick\nworkaround to avoid touch input crash.\nWe may need to properly set up DMA mode to use the touchscreen driver with\nDMA mode.\n\nYou can still switch DMA/PIO mode if you want:\n\n  switch to DMA mode (maybe broken)\n        echo 1 | sudo tee /sys/module/surface3_spi/parameters/use_dma\n  back to PIO mode\n        echo 0 | sudo tee /sys/module/surface3_spi/parameters/use_dma\n\nLink to issue: https://github.com/jakeday/linux-surface/issues/596\n\nReferences:\n[1] https://github.com/jakeday/linux-surface/blob/master/configs/5.1/config\n[2] https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/chromeos-4.19\n\nTested on Arch Linux 5.4.1 with Surf"
+ },
+ {
+  "sha": "3e1b2b9ab3eb376c0e1d7c115f25b2fcd6cc81fe",
+  "author": "=?UTF-8?q?Jonas=20Dre=C3=9Fler?= <verdre@v0yd.nl>",
+  "date": "Tue, 3 Nov 2020 13:28:04 +0100",
+  "subject": "mwifiex: Add quirk resetting the PCI bridge on MS Surface devices",
+  "series": "0003-mwifiex.patch",
+  "files": [
+   "drivers/net/wireless/marvell/mwifiex/pcie.c",
+   "drivers/net/wireless/marvell/mwifiex/pcie_quirks.c",
+   "drivers/net/wireless/marvell/mwifiex/pcie_quirks.h"
+  ],
+  "stat": "3 files changed, 31 insertions(+), 8 deletions(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "mwifiex"
+   ]
+  },
+  "signed_off": [],
+  "message": "The most recent firmware of the 88W8897 card reports a hardcoded LTR\nvalue to the system during initialization, probably as an (unsuccessful)\nattempt of the developers to fix firmware crashes. This LTR value\nprevents most of the Microsoft Surface devices from entering deep\npowersaving states (either platform C-State 10 or S0ix state), because\nthe exit latency of that state would be higher than what the card can\ntolerate.\n\nTurns out the card works just the same (including the firmware crashes)\nno matter if that hardcoded LTR value is reported or not, so it's kind\nof useless and only prevents us from saving power.\n\nTo get rid of those hardcoded LTR reports, it's possible to reset the\nPCI bridge device after initializing the cards firmware. I'm not exactly\nsure why that works, maybe the power management subsystem of the PCH\nresets its stored LTR values when doing a function level reset of the\nbridge device. Doing the reset once after starting the wifi firmware\nworks very well, probably because the firmware only reports that LTR\nvalue a single time during firmware startup.\n\nPatchset: mwifiex"
+ },
+ {
+  "sha": "d47ef73b341b3e89d0082666a978dc4f78b5023b",
+  "author": "Tsuchiya Yuto <kitakar@gmail.com>",
+  "date": "Sun, 4 Oct 2020 00:11:49 +0900",
+  "subject": "mwifiex: pcie: disable bridge_d3 for Surface gen4+",
+  "series": "0003-mwifiex.patch",
+  "files": [
+   "drivers/net/wireless/marvell/mwifiex/pcie.c",
+   "drivers/net/wireless/marvell/mwifiex/pcie_quirks.c",
+   "drivers/net/wireless/marvell/mwifiex/pcie_quirks.h"
+  ],
+  "stat": "3 files changed, 27 insertions(+), 8 deletions(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "mwifiex"
+   ]
+  },
+  "signed_off": [
+   "Tsuchiya Yuto <kitakar@gmail.com>"
+  ],
+  "message": "Currently, mwifiex fw will crash after suspend on recent kernel series.\nOn Windows, it seems that the root port of wifi will never enter D3 state\n(stay on D0 state). And on Linux, disabling the D3 state for the\nbridge fixes fw crashing after suspend.\n\nThis commit disables the D3 state of root port on driver initialization\nand fixes fw crashing after suspend.\n\nSigned-off-by: Tsuchiya Yuto <kitakar@gmail.com>\nPatchset: mwifiex"
+ },
+ {
+  "sha": "183c7bc9c8abb9227110ccc7815f89ad4602f595",
+  "author": "=?UTF-8?q?Jonas=20Dre=C3=9Fler?= <verdre@v0yd.nl>",
+  "date": "Thu, 25 Mar 2021 11:33:02 +0100",
+  "subject": "Bluetooth: btusb: Lower passive lescan interval on Marvell 88W8897",
+  "series": "0003-mwifiex.patch",
+  "files": [
+   "drivers/bluetooth/btusb.c"
+  ],
+  "stat": "1 file changed, 15 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "mwifiex"
+   ]
+  },
+  "signed_off": [],
+  "message": "The Marvell 88W8897 combined wifi and bluetooth card (pcie+usb version)\nis used in a lot of Microsoft Surface devices, and all those devices\nsuffer from very low 2.4GHz wifi connection speeds while bluetooth is\nenabled. The reason for that is that the default passive scanning\ninterval for Bluetooth Low Energy devices is quite high in Linux\n(interval of 60 msec and scan window of 30 msec, see hci_core.c), and\nthe Marvell chip is known for its bad bt+wifi coexisting performance.\n\nSo decrease that passive scan interval and make the scan window shorter\non this particular device to allow for spending more time transmitting\nwifi signals: The new scan interval is 250 msec (0x190 * 0.625 msec) and\nthe new scan window is 6.25 msec (0xa * 0,625 msec).\n\nThis change has a very large impact on the 2.4GHz wifi speeds and gets\nit up to performance comparable with the Windows driver, which seems to\napply a similar quirk.\n\nThe interval and window length were tested and found to work very well\nwith a lot of Bluetooth Low Energy devices, including the Surface Pen, a\nBluetooth Speaker and two modern Bluetooth headphones. All devices were\ndiscovered immediately after turning them on. Even lower values were\nalso tested, but they introduced longer delays until devices get\ndiscovered.\n\nPatchset: mwifiex"
+ },
+ {
+  "sha": "ddf2fb7266160981995d6f7482aeb5068c838cd1",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "date": "Sat, 27 Feb 2021 00:45:52 +0100",
+  "subject": "ath10k: Add module parameters to override board files",
+  "series": "0004-ath10k.patch",
+  "files": [
+   "drivers/net/wireless/ath/ath10k/core.c"
+  ],
+  "stat": "1 file changed, 57 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "ath10k"
+   ]
+  },
+  "signed_off": [
+   "Maximilian Luz <luzmaximilian@gmail.com>"
+  ],
+  "message": "Some Surface devices, specifically the Surface Go and AMD version of the\nSurface Laptop 3 (wich both come with QCA6174 WiFi chips), work better\nwith a different board file, as it seems that the firmeware included\nupstream is buggy.\n\nAs it is generally not a good idea to randomly overwrite files, let\nalone doing so via packages, we add module parameters to override those\nfile names in the driver. This allows us to package/deploy the override\nvia a modprobe.d config.\n\nSigned-off-by: Maximilian Luz <luzmaximilian@gmail.com>\nPatchset: ath10k"
+ },
+ {
+  "sha": "ad9d3d53ad83abb5b3290b8ede84f6b9680cc1cb",
+  "author": "Dorian Stoll <dorian.stoll@tmsp.io>",
+  "date": "Thu, 30 Jul 2020 13:21:53 +0200",
+  "subject": "mei: me: Add Icelake device ID for iTouch",
+  "series": "0005-ipts.patch",
+  "files": [
+   "drivers/misc/mei/hw-me-regs.h",
+   "drivers/misc/mei/pci-me.c"
+  ],
+  "stat": "2 files changed, 2 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "ipts"
+   ]
+  },
+  "signed_off": [
+   "Dorian Stoll <dorian.stoll@tmsp.io>"
+  ],
+  "message": "Signed-off-by: Dorian Stoll <dorian.stoll@tmsp.io>\nPatchset: ipts"
+ },
+ {
+  "sha": "058224677e289a6e5a61b2591f17bf33f6a8bbe6",
+  "author": "Liban Hannan <liban.p@gmail.com>",
+  "date": "Tue, 12 Apr 2022 23:31:12 +0100",
+  "subject": "iommu: Use IOMMU passthrough mode for IPTS",
+  "series": "0005-ipts.patch",
+  "files": [
+   "drivers/iommu/intel/iommu.c"
+  ],
+  "stat": "1 file changed, 29 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "ipts"
+   ]
+  },
+  "signed_off": [
+   "Dorian Stoll <dorian.stoll@tmsp.io>"
+  ],
+  "message": "Adds a quirk so that IOMMU uses passthrough mode for the IPTS device.\nOtherwise, when IOMMU is enabled, IPTS produces DMAR errors like:\n\nDMAR: [DMA Read NO_PASID] Request device [00:16.4] fault addr\n0x104ea3000 [fault reason 0x06] PTE Read access is not set\n\nThis is very similar to the bug described at:\nhttps://bugs.launchpad.net/bugs/1958004\n\nFixed with the following patch which this patch basically copies:\nhttps://launchpadlibrarian.net/586396847/43255ca.diff\n\nSigned-off-by: Dorian Stoll <dorian.stoll@tmsp.io>\nPatchset: ipts"
+ },
+ {
+  "sha": "3ffdc2051ddc0a8a884a86191ce89163ae301595",
+  "author": "Dorian Stoll <dorian.stoll@tmsp.io>",
+  "date": "Sun, 11 Dec 2022 12:00:59 +0100",
+  "subject": "hid: Add support for Intel Precise Touch and Stylus",
+  "series": "0005-ipts.patch",
+  "files": [
+   "drivers/hid/Kconfig",
+   "drivers/hid/Makefile",
+   "drivers/hid/ipts/Kconfig",
+   "drivers/hid/ipts/Makefile",
+   "drivers/hid/ipts/cmd.c",
+   "drivers/hid/ipts/cmd.h",
+   "drivers/hid/ipts/context.h",
+   "drivers/hid/ipts/control.c",
+   "drivers/hid/ipts/control.h",
+   "drivers/hid/ipts/desc.h",
+   "drivers/hid/ipts/eds1.c",
+   "drivers/hid/ipts/eds1.h",
+   "drivers/hid/ipts/eds2.c",
+   "drivers/hid/ipts/eds2.h",
+   "drivers/hid/ipts/hid.c",
+   "drivers/hid/ipts/hid.h",
+   "drivers/hid/ipts/main.c",
+   "drivers/hid/ipts/mei.c",
+   "drivers/hid/ipts/mei.h",
+   "drivers/hid/ipts/receiver.c",
+   "drivers/hid/ipts/receiver.h",
+   "drivers/hid/ipts/resources.c",
+   "drivers/hid/ipts/resources.h",
+   "drivers/hid/ipts/spec-data.h",
+   "drivers/hid/ipts/spec-device.h",
+   "drivers/hid/ipts/spec-hid.h",
+   "drivers/hid/ipts/thread.c",
+   "drivers/hid/ipts/thread.h"
+  ],
+  "stat": "28 files changed, 2853 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "ipts"
+   ]
+  },
+  "signed_off": [
+   "Dorian Stoll <dorian.stoll@tmsp.io>"
+  ],
+  "message": "Based on linux-surface/intel-precise-touch@8abe268\n\nSigned-off-by: Dorian Stoll <dorian.stoll@tmsp.io>\nPatchset: ipts"
+ },
+ {
+  "sha": "c0753d26b1ffc4a374627a2b64de8e5773d6b505",
+  "author": "Anthony Lee <108008609+orthogonaleety@users.noreply.github.com>",
+  "date": "Sat, 11 Jul 2026 11:36:03 +0100",
+  "subject": "hid: ipts: Fix size of synthesized HID data report",
+  "series": "0005-ipts.patch",
+  "files": [
+   "drivers/hid/ipts/desc.h"
+  ],
+  "stat": "1 file changed, 1 insertion(+), 1 deletion(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Link": [
+    "https://github.com/linux-surface/linux-surface/issues/2150",
+    "https://github.com/linux-surface/linux-surface/pull/2233"
+   ],
+   "Patchset": [
+    "ipts"
+   ]
+  },
+  "signed_off": [],
+  "message": "IPTS_HID_REPORT_DATA_SIZE is passed to hid_input_report() as the size of\nthe synthesized data report. It does not account for the report ID (1\nbyte) and the scan time field (2 bytes) declared in the fallback HID\ndescriptor, i.e. the report is 3 bytes shorter than the descriptor says.\n\nSince commit 0a3fe972a7cb (\"HID: core: Mitigate potential OOB by\nremoving bogus memset()\"), hid-core drops reports that are shorter than\nexpected instead of padding them, which breaks touch input on devices\nusing the fallback descriptor (e.g. Surface Book 1).\n\nFix this by including the report ID and scan time in the report size.\n\nLink: https://github.com/linux-surface/linux-surface/issues/2150\nLink: https://github.com/linux-surface/linux-surface/pull/2233\nPatchset: ipts"
+ },
+ {
+  "sha": "6349c8e35e1d61f0827839cbfb93ab0fa4732ec9",
+  "author": "Dorian Stoll <dorian.stoll@tmsp.io>",
+  "date": "Sun, 11 Dec 2022 12:03:38 +0100",
+  "subject": "iommu: intel: Disable source id verification for ITHC",
+  "series": "0006-ithc.patch",
+  "files": [
+   "drivers/iommu/intel/irq_remapping.c"
+  ],
+  "stat": "1 file changed, 16 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "ithc"
+   ]
+  },
+  "signed_off": [
+   "Dorian Stoll <dorian.stoll@tmsp.io>"
+  ],
+  "message": "Signed-off-by: Dorian Stoll <dorian.stoll@tmsp.io>\nPatchset: ithc"
+ },
+ {
+  "sha": "ff15eac8e95d407dafc0ef37ee1429fb87b7828f",
+  "author": "quo <tuple@list.ru>",
+  "date": "Sun, 11 Dec 2022 12:10:54 +0100",
+  "subject": "hid: Add support for Intel Touch Host Controller",
+  "series": "0006-ithc.patch",
+  "files": [
+   "drivers/hid/Kconfig",
+   "drivers/hid/Makefile",
+   "drivers/hid/ithc/Kbuild",
+   "drivers/hid/ithc/Kconfig",
+   "drivers/hid/ithc/ithc-debug.c",
+   "drivers/hid/ithc/ithc-debug.h",
+   "drivers/hid/ithc/ithc-dma.c",
+   "drivers/hid/ithc/ithc-dma.h",
+   "drivers/hid/ithc/ithc-hid.c",
+   "drivers/hid/ithc/ithc-hid.h",
+   "drivers/hid/ithc/ithc-legacy.c",
+   "drivers/hid/ithc/ithc-legacy.h",
+   "drivers/hid/ithc/ithc-main.c",
+   "drivers/hid/ithc/ithc-quickspi.c",
+   "drivers/hid/ithc/ithc-quickspi.h",
+   "drivers/hid/ithc/ithc-regs.c",
+   "drivers/hid/ithc/ithc-regs.h",
+   "drivers/hid/ithc/ithc.h"
+  ],
+  "stat": "18 files changed, 2575 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "ithc"
+   ]
+  },
+  "signed_off": [
+   "Maximilian Stoll <luzmaximilian@gmail.com>"
+  ],
+  "message": "Based on quo/ithc-linux@34539af4726d.\n\nSigned-off-by: Maximilian Stoll <luzmaximilian@gmail.com>\nPatchset: ithc"
+ },
+ {
+  "sha": "eb970dd5f6d1477f7d19bde81ba80a4d304ddfb4",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "date": "Fri, 17 Jun 2022 02:14:00 +0200",
+  "subject": "rtc: Add basic support for RTC via Surface System Aggregator Module",
+  "series": "0007-surface-sam.patch",
+  "files": [
+   "drivers/rtc/Kconfig",
+   "drivers/rtc/Makefile",
+   "drivers/rtc/rtc-surface.c"
+  ],
+  "stat": "3 files changed, 137 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface-sam"
+   ]
+  },
+  "signed_off": [
+   "Maximilian Luz <luzmaximilian@gmail.com>"
+  ],
+  "message": "Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>\nPatchset: surface-sam"
+ },
+ {
+  "sha": "730426a54a05bd5ce3170762c2d08f673760c592",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "date": "Sun, 20 Apr 2025 01:05:14 +0200",
+  "subject": "platform/surface: aggregator_registry: Add Surface Laptop 7 (ACPI)",
+  "series": "0007-surface-sam.patch",
+  "files": [
+   "drivers/platform/surface/surface_aggregator_registry.c"
+  ],
+  "stat": "1 file changed, 3 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface-sam"
+   ]
+  },
+  "signed_off": [],
+  "message": "Patchset: surface-sam"
+ },
+ {
+  "sha": "17e5977a915bb46c7ad688fa80a81a98e16ab38a",
+  "author": "Jan Baisch <jan.baisch@protonmail.com>",
+  "date": "Wed, 12 Aug 2026 14:52:38 +0200",
+  "subject": "platform/surface: aggregator_registry: Add Surface Pro 12 (Intel)",
+  "series": "0007-surface-sam.patch",
+  "files": [
+   "drivers/platform/surface/surface_aggregator_registry.c"
+  ],
+  "stat": "1 file changed, 3 insertions(+)",
+  "mentions_sp9": true,
+  "mentions_sp8": false,
+  "tags": {
+   "Link": [
+    "https://github.com/linux-surface/kernel/pull/171"
+   ],
+   "Patchset": [
+    "surface-sam"
+   ]
+  },
+  "signed_off": [
+   "Jan Baisch <jan.baisch@protonmail.com>"
+  ],
+  "message": "Add SAM client device nodes for the Surface Pro 12 (Intel), identified\nby the MSHW0743 platform-hub ACPI ID.\n\nLike the Surface Pro 10 and Surface Pro 11 (Intel), the device uses the\nsame SAM client device layout as the Surface Pro 9, so reuse\nssam_node_group_sp9.\n\nThis enables the Surface Aggregator Module client devices required for\nthe device's platform functionality.\n\nSigned-off-by: Jan Baisch <jan.baisch@protonmail.com>\nLink: https://github.com/linux-surface/kernel/pull/171\nPatchset: surface-sam"
+ },
+ {
+  "sha": "743c726b18f61e965df1a8031cbefecc46808e41",
+  "author": "Peter Marshall <petms@proton.me>",
+  "date": "Mon, 22 Jun 2026 11:26:33 -0400",
+  "subject": "platform/surface: platform_profile: add fan power state handling",
+  "series": "0007-surface-sam.patch",
+  "files": [
+   "drivers/platform/surface/surface_platform_profile.c"
+  ],
+  "stat": "1 file changed, 63 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface-sam"
+   ]
+  },
+  "signed_off": [],
+  "message": "Add functionality that switches the fan off if a fan is present when\nentering a suspend transition and switches it back to normal operation\nafterward.\n\nPatchset: surface-sam"
+ },
+ {
+  "sha": "22d9088a447734a6716aa3f1c95df3e86db7e1c5",
+  "author": "Wu Enqiang <janussss@163.com>",
+  "date": "Sat, 24 Oct 2026 13:49:21 +0800",
+  "subject": "surface: aggregator: propagate -EPROBE_DEFER from ssam_irq_setup()",
+  "series": "0007-surface-sam.patch",
+  "files": [
+   "drivers/platform/surface/aggregator/controller.c"
+  ],
+  "stat": "1 file changed, 12 insertions(+), 4 deletions(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Link": [
+    "https://lore.kernel.org/platform-driver-x86/d0bb21cc-6d3c-4526-8204-2511da51a6ac@nilk.net",
+    "https://github.com/linux-surface/linux-surface/issues/2219"
+   ],
+   "Patchset": [
+    "surface-sam"
+   ],
+   "Fixes": [
+    "b27622f13172 (\"platform/surface: Add OF support\")"
+   ],
+   "Tested-by": [
+    "Chris Simpson <chris@nilk.net>",
+    "Wu Enqiang <janussss@163.com>"
+   ]
+  },
+  "signed_off": [
+   "Wu Enqiang <janussss@163.com>"
+  ],
+  "message": "gpiod_get() can fail with -EPROBE_DEFER when the GPIO controller\nproviding the \"ssam_wakeup-int\" GPIO has not been probed yet. The\ncurrent error path falls back to fwnode_irq_get(), which returns\n-EINVAL because this device only declares GPIO resources. The probe\nthen fails hard and is never retried.\n\nThis has been reported across various Surface devices since v6.12,\nincluding the Pro 6 and Pro 9 that were used to reproduce it. With\nthe SSAM controller down, dependent ACPI devices, e.g. the battery\nwith its _DEP on the SAN node, are never enumerated and battery\nstatus is missing.\n\nUse gpiod_get_optional() and propagate errors to the caller so that\nprobing is deferred until the GPIO controller becomes available. Only\nwhen no wakeup GPIO is described at all, fall back to fwnode_irq_get().\n\nFixes: b27622f13172 (\"platform/surface: Add OF support\")\nReported-by: Chris Simpson <chris@nilk.net>\nLink: https://lore.kernel.org/platform-driver-x86/d0bb21cc-6d3c-4526-8204-2511da51a6ac@nilk.net\nLink: https://github.com/linux-surface/linux-surface/issues/2219\nTested-by: Chris Simpson <chris@nilk.net>\nTested-by: Wu Enqiang <janussss@163.com>\nCc: stable@vger.kernel.org\nSigned-off-by: Wu Enqiang <janussss@163.com>\nPatchset: surface-sam"
+ },
+ {
+  "sha": "1409b71f20d7bc790b1c76b228f7f32f23858aa8",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "date": "Sat, 25 Jul 2020 17:19:53 +0200",
+  "subject": "i2c: acpi: Implement RawBytes read access",
+  "series": "0008-surface-sam-over-hid.patch",
+  "files": [
+   "drivers/i2c/i2c-core-acpi.c"
+  ],
+  "stat": "1 file changed, 34 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface-sam-over-hid"
+   ]
+  },
+  "signed_off": [
+   "Maximilian Luz <luzmaximilian@gmail.com>"
+  ],
+  "message": "Microsoft Surface Pro 4 and Book 1 devices access the MSHW0030 I2C\ndevice via a generic serial bus operation region and RawBytes read\naccess. On the Surface Book 1, this access is required to turn on (and\noff) the discrete GPU.\n\nMultiple things are to note here:\n\na) The RawBytes access is device/driver dependent. The ACPI\n   specification states:\n\n   > Raw accesses assume that the writer has knowledge of the bus that\n   > the access is made over and the device that is being accessed. The\n   > protocol may only ensure that the buffer is transmitted to the\n   > appropriate driver, but the driver must be able to interpret the\n   > buffer to communicate to a register.\n\n   Thus this implementation may likely not work on other devices\n   accessing I2C via the RawBytes accessor type.\n\nb) The MSHW0030 I2C device is an HID-over-I2C device which seems to\n   serve multiple functions:\n\n   1. It is the main access point for the legacy-type Surface Aggregator\n      Module (also referred to as SAM-over-HID, as opposed to the newer\n      SAM-over-SSH/UART). It has currently not been determined on how\n      support for the legacy SAM should be implemented. Likely via a\n      custom HID driver.\n\n   2. It seems to serve as the HID device for the Integrated Sensor Hub.\n      This might complicate matters with regards to implementing a\n      SAM-over-HID driver required by legacy SAM.\n\nIn light of this, the simplest approach has been chosen for now.\nHowever, it may make more sense regarding break"
+ },
+ {
+  "sha": "c1a1358f4ea8a7d16692abe8741234152624f858",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "date": "Sat, 13 Feb 2021 16:41:18 +0100",
+  "subject": "platform/surface: Add driver for Surface Book 1 dGPU switch",
+  "series": "0008-surface-sam-over-hid.patch",
+  "files": [
+   "drivers/platform/surface/Kconfig",
+   "drivers/platform/surface/Makefile",
+   "drivers/platform/surface/surfacebook1_dgpu_switch.c"
+  ],
+  "stat": "3 files changed, 144 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": true,
+  "tags": {
+   "Patchset": [
+    "surface-sam-over-hid"
+   ]
+  },
+  "signed_off": [],
+  "message": "Add driver exposing the discrete GPU power-switch of the  Microsoft\nSurface Book 1 to user-space.\n\nOn the Surface Book 1, the dGPU power is controlled via the Surface\nSystem Aggregator Module (SAM). The specific SAM-over-HID command for\nthis is exposed via ACPI. This module provides a simple driver exposing\nthe ACPI call via a sysfs parameter to user-space, so that users can\neasily power-on/-off the dGPU.\n\nPatchset: surface-sam-over-hid"
+ },
+ {
+  "sha": "7ecbe483cbfb4a27d65715914e2a8cf554524de6",
+  "author": "Sachi King <nakato@nakato.io>",
+  "date": "Tue, 5 Oct 2021 00:05:09 +1100",
+  "subject": "Input: soc_button_array - support AMD variant Surface devices",
+  "series": "0009-surface-button.patch",
+  "files": [
+   "drivers/input/misc/soc_button_array.c"
+  ],
+  "stat": "1 file changed, 8 insertions(+), 25 deletions(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface-button"
+   ],
+   "Fixes": [
+    "c394159310d0 (\"Input: soc_button_array - add support for newer surface devices\")"
+   ],
+   "Co-developed-by": [
+    "Maximilian Luz <luzmaximilian@gmail.com>"
+   ]
+  },
+  "signed_off": [
+   "Sachi King <nakato@nakato.io>"
+  ],
+  "message": "The power button on the AMD variant of the Surface Laptop uses the\nsame MSHW0040 device ID as the 5th and later generation of Surface\ndevices, however they report 0 for their OEM platform revision.  As the\n_DSM does not exist on the devices requiring special casing, check for\nthe existance of the _DSM to determine if soc_button_array should be\nloaded.\n\nFixes: c394159310d0 (\"Input: soc_button_array - add support for newer surface devices\")\nCo-developed-by: Maximilian Luz <luzmaximilian@gmail.com>\n\nSigned-off-by: Sachi King <nakato@nakato.io>\nPatchset: surface-button"
+ },
+ {
+  "sha": "a9ada992f2da8e06152a8684c441dfe105f19c43",
+  "author": "Sachi King <nakato@nakato.io>",
+  "date": "Tue, 5 Oct 2021 00:22:57 +1100",
+  "subject": "platform/surface: surfacepro3_button: don't load on amd variant",
+  "series": "0009-surface-button.patch",
+  "files": [
+   "drivers/platform/surface/surfacepro3_button.c"
+  ],
+  "stat": "1 file changed, 6 insertions(+), 25 deletions(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface-button"
+   ],
+   "Fixes": [
+    "64dd243d7356 (\"platform/x86: surfacepro3_button: Fix device check\")"
+   ],
+   "Co-developed-by": [
+    "Maximilian Luz <luzmaximilian@gmail.com>"
+   ]
+  },
+  "signed_off": [
+   "Sachi King <nakato@nakato.io>"
+  ],
+  "message": "The AMD variant of the Surface Laptop report 0 for their OEM platform\nrevision.  The Surface devices that require the surfacepro3_button\ndriver do not have the _DSM that gets the OEM platform revision.  If the\nmethod does not exist, load surfacepro3_button.\n\nFixes: 64dd243d7356 (\"platform/x86: surfacepro3_button: Fix device check\")\nCo-developed-by: Maximilian Luz <luzmaximilian@gmail.com>\n\nSigned-off-by: Sachi King <nakato@nakato.io>\nPatchset: surface-button"
+ },
+ {
+  "sha": "367f9fcc9f46e0ddbdf301a3d4ff2c2ff7fdcd4c",
+  "author": "Jan Baisch <jan.baisch@protonmail.com>",
+  "date": "Wed, 12 Aug 2026 16:34:02 +0200",
+  "subject": "Input: soc_button_array: defer MSHW0040 probe until GPIO is ready",
+  "series": "0009-surface-button.patch",
+  "files": [
+   "drivers/input/misc/soc_button_array.c"
+  ],
+  "stat": "1 file changed, 15 insertions(+), 1 deletion(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Link": [
+    "https://github.com/linux-surface/linux-surface/issues/2144#issuecomment-5226810584",
+    "https://github.com/linux-surface/linux-surface/issues/61",
+    "https://lore.kernel.org/all/20190516142523.117978-3-luzmaximilian@gmail.com/",
+    "https://lore.kernel.org/all/65b265d2-f7a8-bcd7-e63f-f8efb7349324@gmail.com/",
+    "https://github.com/linux-surface/kernel/pull/172"
+   ],
+   "Patchset": [
+    "surface-button"
+   ]
+  },
+  "signed_off": [
+   "Jan Baisch <jan.baisch@protonmail.com>"
+  ],
+  "message": "MSHW0040 Surface devices use GPIO index 0 for the physical power\nbutton. On the Surface Pro 12 for Business Intel, soc_button_array\ncan probe before the Panther Lake GPIO provider is ready. On affected\nboots, the GPIO lookups for the power and volume buttons return\n-EPROBE_DEFER.\n\nReloading the unchanged soc_button_array driver after the GPIO provider\nhas initialized makes the driver bind and all three buttons work.\n\nThe generic button creation path deliberately ignores -EPROBE_DEFER\nbecause some Intel platforms expose virtual GPIO resources which never\nacquire a GPIO provider. Propagating that error from the generic path\nhas previously caused severe deferred-probe loops on such systems.\n\nInstead, check the known real MSHW0040 power-button GPIO before\ncreating any child devices and propagate only -EPROBE_DEFER. Keep all\nother lookup errors and the generic virtual-GPIO handling unchanged.\n\nThis follows the direction already considered during the original\nMSHW0040 Surface button support discussion, while avoiding the generic\nerror propagation that was later reverted.\n\nThe Surface Pro 12 Intel provides a reliable reproducer with both\nCONFIG_INPUT_SOC_BUTTON_ARRAY and CONFIG_PINCTRL_INTEL_PLATFORM built\nas modules.\n\nLink: https://github.com/linux-surface/linux-surface/issues/2144#issuecomment-5226810584\nLink: https://github.com/linux-surface/linux-surface/issues/61\nLink: https://lore.kernel.org/all/20190516142523.117978-3-luzmaximilian@gmail.com/\nLink: https://lore.kernel.org/all"
+ },
+ {
+  "sha": "17311b394dc38dcc19c52df6d99c426ba3754b25",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "date": "Sat, 18 Feb 2023 01:02:49 +0100",
+  "subject": "USB: quirks: Add USB_QUIRK_DELAY_INIT for Surface Go 3 Type-Cover",
+  "series": "0010-surface-typecover.patch",
+  "files": [
+   "drivers/usb/core/quirks.c"
+  ],
+  "stat": "1 file changed, 3 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Link": [
+    "https://github.com/linux-surface/linux-surface/issues/1059"
+   ],
+   "Patchset": [
+    "surface-typecover"
+   ]
+  },
+  "signed_off": [
+   "Maximilian Luz <luzmaximilian@gmail.com>"
+  ],
+  "message": "The touchpad on the Type-Cover of the Surface Go 3 is sometimes not\nbeing initialized properly. Apply USB_QUIRK_DELAY_INIT to fix this\nissue.\n\nMore specifically, the device in question is a fairly standard modern\ntouchpad with pointer and touchpad input modes. During setup, the device\nneeds to be switched from pointer- to touchpad-mode (which is done in\nhid-multitouch) to fully utilize it as intended. Unfortunately, however,\nthis seems to occasionally fail silently, leaving the device in\npointer-mode. Applying USB_QUIRK_DELAY_INIT seems to fix this.\n\nLink: https://github.com/linux-surface/linux-surface/issues/1059\nSigned-off-by: Maximilian Luz <luzmaximilian@gmail.com>\nPatchset: surface-typecover"
+ },
+ {
+  "sha": "5940fc0ca4cee73ac3f5bcaa88f6b2397b577bb4",
+  "author": "=?UTF-8?q?Jonas=20Dre=C3=9Fler?= <verdre@v0yd.nl>",
+  "date": "Thu, 5 Nov 2020 13:09:45 +0100",
+  "subject": "hid/multitouch: Turn off Type Cover keyboard backlight when suspending",
+  "series": "0010-surface-typecover.patch",
+  "files": [
+   "drivers/hid/hid-multitouch.c"
+  ],
+  "stat": "1 file changed, 98 insertions(+), 2 deletions(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface-typecover"
+   ]
+  },
+  "signed_off": [],
+  "message": "The Type Cover for Microsoft Surface devices supports a special usb\ncontrol request to disable or enable the built-in keyboard backlight.\nOn Windows, this request happens when putting the device into suspend or\nresuming it, without it the backlight of the Type Cover will remain\nenabled for some time even though the computer is suspended, which looks\nweird to the user.\n\nSo add support for this special usb control request to hid-multitouch,\nwhich is the driver that's handling the Type Cover.\n\nThe reason we have to use a pm_notifier for this instead of the usual\nsuspend/resume methods is that those won't get called in case the usb\ndevice is already autosuspended.\n\nAlso, if the device is autosuspended, we have to briefly autoresume it\nin order to send the request. Doing that should be fine, the usb-core\ndriver does something similar during suspend inside choose_wakeup().\n\nTo make sure we don't send that request to every device but only to\ndevices which support it, add a new quirk\nMT_CLS_WIN_8_MS_SURFACE_TYPE_COVER to hid-multitouch. For now this quirk\nis only enabled for the usb id of the Surface Pro 2017 Type Cover, which\nis where I confirmed that it's working.\n\nPatchset: surface-typecover"
+ },
+ {
+  "sha": "b245684d5d293e51fd60c0efb2b2858393aad140",
+  "author": "PJungkamp <p.jungkamp@gmail.com>",
+  "date": "Fri, 25 Feb 2022 12:04:25 +0100",
+  "subject": "hid/multitouch: Add support for surface pro type cover tablet switch",
+  "series": "0010-surface-typecover.patch",
+  "files": [
+   "drivers/hid/hid-multitouch.c"
+  ],
+  "stat": "1 file changed, 122 insertions(+), 26 deletions(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface-typecover"
+   ]
+  },
+  "signed_off": [],
+  "message": "The Surface Pro Type Cover has several non standard HID usages in it's\nhid report descriptor.\nI noticed that, upon folding the typecover back, a vendor specific range\nof 4 32 bit integer hid usages is transmitted.\nOnly the first byte of the message seems to convey reliable information\nabout the keyboard state.\n\n0x22 => Normal (keys enabled)\n0x33 => Folded back (keys disabled)\n0x53 => Rotated left/right side up (keys disabled)\n0x13 => Cover closed (keys disabled)\n0x43 => Folded back and Tablet upside down (keys disabled)\nThis list may not be exhaustive.\n\nThe tablet mode switch will be disabled for a value of 0x22 and enabled\non any other value.\n\nPatchset: surface-typecover"
+ },
+ {
+  "sha": "fa2b341a5217baae7a02d79c3e496d38ba1c077f",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "date": "Sun, 19 Feb 2023 22:12:24 +0100",
+  "subject": "PCI: Add quirk to prevent calling shutdown method",
+  "series": "0011-surface-shutdown.patch",
+  "files": [
+   "drivers/pci/pci-driver.c",
+   "drivers/pci/quirks.c",
+   "include/linux/pci.h"
+  ],
+  "stat": "3 files changed, 40 insertions(+)",
+  "mentions_sp9": true,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface-shutdown"
+   ]
+  },
+  "signed_off": [],
+  "message": "Work around buggy EFI firmware: On some Microsoft Surface devices\n(Surface Pro 9 and Surface Laptop 5) the EFI ResetSystem call with\nEFI_RESET_SHUTDOWN doesn't function properly. Instead of shutting the\nsystem down, it returns and the system stays on.\n\nIt turns out that this only happens after PCI shutdown callbacks ran for\nspecific devices. Excluding those devices from the shutdown process\nmakes the ResetSystem call work as expected.\n\nTODO: Maybe we can find a better way or the root cause of this?\n\nNot-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>\nPatchset: surface-shutdown"
+ },
+ {
+  "sha": "9d213c61d075f8153b2ae367a75a3b4e4577f54c",
+  "author": "LegendaryFire <tristan.balon@outlook.com>",
+  "date": "Wed, 7 Jan 2026 01:06:25 +0100",
+  "subject": "PCI: Add Surface Laptop Studio 2 devices to shutdown ops quirk",
+  "series": "0011-surface-shutdown.patch",
+  "files": [
+   "drivers/pci/quirks.c"
+  ],
+  "stat": "1 file changed, 13 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Link": [
+    "https://github.com/linux-surface/linux-surface/pull/1948"
+   ],
+   "Patchset": [
+    "surface-shutdown"
+   ]
+  },
+  "signed_off": [],
+  "message": "Link: https://github.com/linux-surface/linux-surface/pull/1948\nPatchset: surface-shutdown"
+ },
+ {
+  "sha": "cceeffa0c5fe5305eaed49dfa6ddea58a460ffdc",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "date": "Sun, 12 Mar 2023 01:41:57 +0100",
+  "subject": "platform/surface: gpe: Add support for Surface Pro 9",
+  "series": "0012-surface-gpe.patch",
+  "files": [
+   "drivers/platform/surface/surface_gpe.c"
+  ],
+  "stat": "1 file changed, 17 insertions(+)",
+  "mentions_sp9": true,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "surface-gpe"
+   ]
+  },
+  "signed_off": [
+   "Maximilian Luz <luzmaximilian@gmail.com>"
+  ],
+  "message": "Add the lid GPE used by the Surface Pro 9.\n\nSigned-off-by: Maximilian Luz <luzmaximilian@gmail.com>\nPatchset: surface-gpe"
+ },
+ {
+  "sha": "1bc30ab784dad2f3408029a0f0f836aa30729e95",
+  "author": "Hans de Goede <hdegoede@redhat.com>",
+  "date": "Sun, 10 Oct 2021 20:56:57 +0200",
+  "subject": "ACPI: delay enumeration of devices with a _DEP pointing to an INT3472 device",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/acpi/scan.c"
+  ],
+  "stat": "1 file changed, 3 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "cameras"
+   ]
+  },
+  "signed_off": [
+   "Hans de Goede <hdegoede@redhat.com>"
+  ],
+  "message": "The clk and regulator frameworks expect clk/regulator consumer-devices\nto have info about the consumed clks/regulators described in the device's\nfw_node.\n\nTo work around cases where this info is not present in the firmware tables,\nwhich is often the case on x86/ACPI devices, both frameworks allow the\nprovider-driver to attach info about consumers to the clks/regulators\nwhen registering these.\n\nThis causes problems with the probe ordering wrt drivers for consumers\nof these clks/regulators. Since the lookups are only registered when the\nprovider-driver binds, trying to get these clks/regulators before then\nresults in a -ENOENT error for clks and a dummy regulator for regulators.\n\nOne case where we hit this issue is camera sensors such as e.g. the OV8865\nsensor found on the Microsoft Surface Go. The sensor uses clks, regulators\nand GPIOs provided by a TPS68470 PMIC which is described in an INT3472\nACPI device. There is special platform code handling this and setting\nplatform_data with the necessary consumer info on the MFD cells\ninstantiated for the PMIC under: drivers/platform/x86/intel/int3472.\n\nFor this to work properly the ov8865 driver must not bind to the I2C-client\nfor the OV8865 sensor until after the TPS68470 PMIC gpio, regulator and\nclk MFD cells have all been fully setup.\n\nThe OV8865 on the Microsoft Surface Go is just one example, all X86\ndevices using the Intel IPU3 camera block found on recent Intel SoCs\nhave similar issues where there is an INT3472 HID ACPI-device"
+ },
+ {
+  "sha": "ac9cd728da813ee497813aea861ec4362bbdb075",
+  "author": "zouxiaoh <xiaohong.zou@intel.com>",
+  "date": "Fri, 25 Jun 2021 08:52:59 +0800",
+  "subject": "iommu: intel-ipu: use IOMMU passthrough mode for Intel IPUs",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/iommu/intel/iommu.c"
+  ],
+  "stat": "1 file changed, 30 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "cameras"
+   ]
+  },
+  "signed_off": [
+   "Bingbu Cao <bingbu.cao@intel.com>",
+   "zouxiaoh <xiaohong.zou@intel.com>",
+   "Xu Chongyang <chongyang.xu@intel.com>"
+  ],
+  "message": "Intel IPU(Image Processing Unit) has its own (IO)MMU hardware,\nThe IPU driver allocates its own page table that is not mapped\nvia the DMA, and thus the Intel IOMMU driver blocks access giving\nthis error: DMAR: DRHD: handling fault status reg 3 DMAR:\n[DMA Read] Request device [00:05.0] PASID ffffffff\nfault addr 76406000 [fault reason 06] PTE Read access is not set\nAs IPU is not an external facing device which is not risky, so use\nIOMMU passthrough mode for Intel IPUs.\n\nChange-Id: I6dcccdadac308cf42e20a18e1b593381391e3e6b\nDepends-On: Iacd67578e8c6a9b9ac73285f52b4081b72fb68a6\nTracked-On: #JIITL8-411\nSigned-off-by: Bingbu Cao <bingbu.cao@intel.com>\nSigned-off-by: zouxiaoh <xiaohong.zou@intel.com>\nSigned-off-by: Xu Chongyang <chongyang.xu@intel.com>\nPatchset: cameras"
+ },
+ {
+  "sha": "9233acd3a1140d466ca3ca29892a20ef540cc560",
+  "author": "Daniel Scally <djrscally@gmail.com>",
+  "date": "Sun, 10 Oct 2021 20:57:02 +0200",
+  "subject": "platform/x86: int3472: Enable I2c daisy chain",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/platform/x86/intel/int3472/tps68470.c"
+  ],
+  "stat": "1 file changed, 7 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "cameras"
+   ]
+  },
+  "signed_off": [
+   "Daniel Scally <djrscally@gmail.com>"
+  ],
+  "message": "The TPS68470 PMIC has an I2C passthrough mode through which I2C traffic\ncan be forwarded to a device connected to the PMIC as though it were\nconnected directly to the system bus. Enable this mode when the chip\nis initialised.\n\nSigned-off-by: Daniel Scally <djrscally@gmail.com>\nPatchset: cameras"
+ },
+ {
+  "sha": "71ec3927e45d0a1dcd7e41cbd63dcfd04a6b7d22",
+  "author": "Daniel Scally <dan.scally@ideasonboard.com>",
+  "date": "Tue, 21 Mar 2023 13:45:26 +0000",
+  "subject": "media: i2c: Clarify that gain is Analogue gain in OV7251",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/media/i2c/ov7251.c"
+  ],
+  "stat": "1 file changed, 2 insertions(+), 2 deletions(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "cameras"
+   ]
+  },
+  "signed_off": [
+   "Daniel Scally <dan.scally@ideasonboard.com>"
+  ],
+  "message": "Update the control ID for the gain control in the ov7251 driver to\nV4L2_CID_ANALOGUE_GAIN.\n\nSigned-off-by: Daniel Scally <dan.scally@ideasonboard.com>\nPatchset: cameras"
+ },
+ {
+  "sha": "646128f061f1bf334274ccf9f4f2b23e6cbd4bc3",
+  "author": "Daniel Scally <dan.scally@ideasonboard.com>",
+  "date": "Wed, 22 Mar 2023 11:01:42 +0000",
+  "subject": "media: v4l2-core: Acquire privacy led in v4l2_async_register_subdev()",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/media/v4l2-core/v4l2-async.c",
+   "drivers/media/v4l2-core/v4l2-fwnode.c"
+  ],
+  "stat": "2 files changed, 4 insertions(+), 4 deletions(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "cameras"
+   ]
+  },
+  "signed_off": [
+   "Daniel Scally <dan.scally@ideasonboard.com>"
+  ],
+  "message": "The current call to v4l2_subdev_get_privacy_led() is contained in\nv4l2_async_register_subdev_sensor(), but that function isn't used by\nall the sensor drivers. Move the acquisition of the privacy led to\nv4l2_async_register_subdev() instead.\n\nSigned-off-by: Daniel Scally <dan.scally@ideasonboard.com>\nPatchset: cameras"
+ },
+ {
+  "sha": "40cc1148f242a304e16c2bb3256db8a959a209fe",
+  "author": "Kate Hsuan <hpa@redhat.com>",
+  "date": "Tue, 21 Mar 2023 23:37:16 +0800",
+  "subject": "platform: x86: int3472: Add MFD cell for tps68470 LED",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/platform/x86/intel/int3472/tps68470.c"
+  ],
+  "stat": "1 file changed, 4 insertions(+), 3 deletions(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "cameras"
+   ],
+   "Reviewed-by": [
+    "Daniel Scally <dan.scally@ideasonboard.com>",
+    "Hans de Goede <hdegoede@redhat.com>"
+   ]
+  },
+  "signed_off": [
+   "Kate Hsuan <hpa@redhat.com>"
+  ],
+  "message": "Add MFD cell for tps68470-led.\n\nReviewed-by: Daniel Scally <dan.scally@ideasonboard.com>\nSigned-off-by: Kate Hsuan <hpa@redhat.com>\nReviewed-by: Hans de Goede <hdegoede@redhat.com>\nPatchset: cameras"
+ },
+ {
+  "sha": "5c1827a1589da8e2b26b51da47bb82fbbec86d75",
+  "author": "Kate Hsuan <hpa@redhat.com>",
+  "date": "Tue, 21 Mar 2023 23:37:17 +0800",
+  "subject": "include: mfd: tps68470: Add masks for LEDA and LEDB",
+  "series": "0013-cameras.patch",
+  "files": [
+   "include/linux/mfd/tps68470.h"
+  ],
+  "stat": "1 file changed, 5 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "cameras"
+   ],
+   "Reviewed-by": [
+    "Daniel Scally <dan.scally@ideasonboard.com>",
+    "Hans de Goede <hdegoede@redhat.com>"
+   ]
+  },
+  "signed_off": [
+   "Kate Hsuan <hpa@redhat.com>"
+  ],
+  "message": "Add flags for both LEDA(TPS68470_ILEDCTL_ENA), LEDB\n(TPS68470_ILEDCTL_ENB), and current control mask for LEDB\n(TPS68470_ILEDCTL_CTRLB)\n\nReviewed-by: Daniel Scally <dan.scally@ideasonboard.com>\nReviewed-by: Hans de Goede <hdegoede@redhat.com>\nSigned-off-by: Kate Hsuan <hpa@redhat.com>\nPatchset: cameras"
+ },
+ {
+  "sha": "3b09b8d7a15145279dc7a8f96d3cee30cab95e7c",
+  "author": "Kate Hsuan <hpa@redhat.com>",
+  "date": "Tue, 21 Mar 2023 23:37:18 +0800",
+  "subject": "leds: tps68470: Add LED control for tps68470",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/leds/Kconfig",
+   "drivers/leds/Makefile",
+   "drivers/leds/leds-tps68470.c"
+  ],
+  "stat": "3 files changed, 198 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "cameras"
+   ],
+   "Reviewed-by": [
+    "Hans de Goede <hdegoede@redhat.com>"
+   ]
+  },
+  "signed_off": [
+   "Kate Hsuan <hpa@redhat.com>"
+  ],
+  "message": "There are two LED controllers, LEDA indicator LED and LEDB flash LED for\ntps68470. LEDA can be enabled by setting TPS68470_ILEDCTL_ENA. Moreover,\ntps68470 provides four levels of power status for LEDB. If the\nproperties called \"ti,ledb-current\" can be found, the current will be\nset according to the property values. These two LEDs can be controlled\nthrough the LED class of sysfs (tps68470-leda and tps68470-ledb).\n\nSigned-off-by: Kate Hsuan <hpa@redhat.com>\nReviewed-by: Hans de Goede <hdegoede@redhat.com>\nPatchset: cameras"
+ },
+ {
+  "sha": "2c86d2697fa314128876747db9661cba7f44c8af",
+  "author": "mojyack <mojyack@gmail.com>",
+  "date": "Tue, 26 Mar 2024 05:55:44 +0900",
+  "subject": "media: i2c: dw9719: fix probe error on surface go 2",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/media/i2c/dw9719.c"
+  ],
+  "stat": "1 file changed, 3 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "cameras"
+   ]
+  },
+  "signed_off": [],
+  "message": "On surface go 2, sometimes probing dw9719 fails with \"dw9719: probe of i2c-INT347A:00-VCM failed with error -121\".\nThe -121(-EREMOTEIO) is came from drivers/i2c/busses/i2c-designware-common.c:575, and indicates the initialize occurs too early.\nSo just add some delay.\nThere is no exact reason for this 10000us, but 100us failed.\n\nPatchset: cameras"
+ },
+ {
+  "sha": "67efcb009a0701280e5a0539a86cce2fefbc43c7",
+  "author": "Tooraj Taraz <tooraj.taraz@yahoo.com>",
+  "date": "Wed, 31 Dec 2025 00:35:50 +0100",
+  "subject": "Add camera support for Surface Pro 9",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/media/i2c/ov13858.c",
+   "drivers/media/i2c/ov5693.c",
+   "drivers/media/pci/intel/ipu-bridge.c",
+   "drivers/platform/x86/intel/int3472/discrete.c"
+  ],
+  "stat": "4 files changed, 177 insertions(+), 2 deletions(-)",
+  "mentions_sp9": true,
+  "mentions_sp8": false,
+  "tags": {
+   "Link": [
+    "https://github.com/linux-surface/linux-surface/pull/1867"
+   ],
+   "Patchset": [
+    "cameras"
+   ]
+  },
+  "signed_off": [],
+  "message": "Experimental camera support for the Surface Pro 9.\n\nLink: https://github.com/linux-surface/linux-surface/pull/1867\nPatchset: cameras"
+ },
+ {
+  "sha": "1b5d3956144c116e55da996bbf905fff05c177b3",
+  "author": "gabrielstedman <gabrielstedman@users.noreply.github.com>",
+  "date": "Fri, 13 Mar 2026 08:52:07 +0000",
+  "subject": "media: ipu-bridge: Add front camera rotation quirks for Surface Pro 8 and 9",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/media/pci/intel/ipu-bridge.c"
+  ],
+  "stat": "1 file changed, 14 insertions(+)",
+  "mentions_sp9": true,
+  "mentions_sp8": true,
+  "tags": {
+   "Link": [
+    "https://github.com/linux-surface/kernel/pull/160"
+   ],
+   "Patchset": [
+    "cameras"
+   ]
+  },
+  "signed_off": [],
+  "message": "On the Surface Pro 8 and 9, camera rotation in `ssdb.degree` is `0` (no\nrotation) but should be `180`. Add these devices to the respective quirk\nlist.\n\nLink: https://github.com/linux-surface/kernel/pull/160\nPatchset: cameras"
+ },
+ {
+  "sha": "72a7ae3f8cfcb1d0ef55db525f7b29df9a9449c9",
+  "author": "Daniel Scally <dan.scally@ideasonboard.com>",
+  "date": "Tue, 21 Jul 2026 23:07:51 +0100",
+  "subject": "media: i2c: Expand gain values for ov5693",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/media/i2c/ov5693.c"
+  ],
+  "stat": "1 file changed, 4 insertions(+), 4 deletions(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "cameras"
+   ]
+  },
+  "signed_off": [
+   "Daniel Scally <dan.scally@ideasonboard.com>"
+  ],
+  "message": "The ov5693 driver currently allows values for the\nV4L2_CID_ANALOGUE_GAIN control in the range 1-127. The input values\nare left-shifted 4 bits before being applied to the hardware. The 4\nleast significant bits are fractional bits, which means that in\npractice gain can only be applied in steps of 1.0.\n\nUpdate the allowed range to take any value that fits into the 11-bit\nregister and stop masking off the fractional bits.\n\nSigned-off-by: Daniel Scally <dan.scally@ideasonboard.com>\nPatchset: cameras"
+ },
+ {
+  "sha": "9ae94737ee6d05769950c68ac61d03d286eda22a",
+  "author": "=?UTF-8?q?Jos=C3=A9=20Mar=C3=ADa=20Mart=C3=ADn?= <jmmartinf@hotmail.com>",
+  "date": "Mon, 10 Aug 2026 00:12:12 +0200",
+  "subject": "media: ipu-bridge: fix rear camera rotation on Surface Pro 9",
+  "series": "0013-cameras.patch",
+  "files": [
+   "drivers/media/pci/intel/ipu-bridge.c"
+  ],
+  "stat": "1 file changed, 7 insertions(+)",
+  "mentions_sp9": true,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "cameras"
+   ]
+  },
+  "signed_off": [
+   "José María Martín <jmmartinf@hotmail.com>"
+  ],
+  "message": "The SSDB provided by the firmware for the rear OV13858 camera\n(OVTID858) of the Microsoft Surface Pro 9 reports degree=0, but the\nmodule is mounted upside down, so the image comes out rotated 180\ndegrees. Add a DMI quirk entry for it, next to the existing one for\nthe front OVTI5693 camera of the same machine.\n\nTested on a Surface Pro 9: both cameras now report Rotation = 180 and\nrender upright in libcamera clients, with no regression on the front\ncamera.\n\nSigned-off-by: José María Martín <jmmartinf@hotmail.com>\nPatchset: cameras"
+ },
+ {
+  "sha": "bd21bc1c151d78acaacee8802deb42b2d593c43d",
+  "author": "Sachi King <nakato@nakato.io>",
+  "date": "Sat, 29 May 2021 17:47:38 +1000",
+  "subject": "ACPI: Add quirk for Surface Laptop 4 AMD missing irq 7 override",
+  "series": "0014-amd-gpio.patch",
+  "files": [
+   "arch/x86/kernel/acpi/boot.c"
+  ],
+  "stat": "1 file changed, 17 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "amd-gpio"
+   ]
+  },
+  "signed_off": [],
+  "message": "This patch is the work of Thomas Gleixner <tglx@linutronix.de> and is\ncopied from:\nhttps://lore.kernel.org/lkml/87lf8ddjqx.ffs@nanos.tec.linutronix.de/\n\nThis patch adds a quirk to the ACPI setup to patch in the the irq 7 pin\nsetup that is missing in the laptops ACPI table.\n\nThis patch was used for validation of the issue, and is not a proper\nfix, but is probably a better temporary hack than continuing to probe\nthe Legacy PIC and run with the PIC in an unknown state.\n\nPatchset: amd-gpio"
+ },
+ {
+  "sha": "fd99c5efff1363760bca506a40eed9fbf9a49ca2",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "date": "Thu, 3 Jun 2021 14:04:26 +0200",
+  "subject": "ACPI: Add AMD 13\" Surface Laptop 4 model to irq 7 override quirk",
+  "series": "0014-amd-gpio.patch",
+  "files": [
+   "arch/x86/kernel/acpi/boot.c"
+  ],
+  "stat": "1 file changed, 8 insertions(+), 1 deletion(-)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "amd-gpio"
+   ]
+  },
+  "signed_off": [],
+  "message": "The 13\" version of the Surface Laptop 4 has the same problem as the 15\"\nversion, but uses a different SKU. Add that SKU to the quirk as well.\n\nPatchset: amd-gpio"
+ },
+ {
+  "sha": "a5ff289c71a62b0b2405efa2cbcaadef3ff483a9",
+  "author": "=?UTF-8?q?Ciar=C3=A1n=20Coffey?= <github@ccoffey.ie>",
+  "date": "Fri, 10 Oct 2025 19:04:03 +0100",
+  "subject": "HID: Add hid-surface driver to filter BTN_0 (FN key)",
+  "series": "0015-hid-surface.patch",
+  "files": [
+   "drivers/hid/Kconfig",
+   "drivers/hid/Makefile",
+   "drivers/hid/hid-surface.c"
+  ],
+  "stat": "3 files changed, 99 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "hid-surface"
+   ],
+   "Fixes": [
+    "https://github.com/linux-surface/linux-surface/issues/1851"
+   ]
+  },
+  "signed_off": [],
+  "message": "The Surface Aggregator Module firmware incorrectly reports the FN key\nas BTN_0 (button 256) through runtime HID events. This button can get\nstuck in pressed state, flooding the input system and breaking focus\ntracking in KWin Wayland compositor.\n\nAdd a new hid-surface driver that filters BTN_0 events using the event\ncallback. The FN key should be handled as a hardware modifier and not\nreported to the OS.\n\nTested on Surface Laptop 4 AMD with KDE Plasma Wayland. After the fix:\n- FN key combinations work correctly (volume, brightness)\n- Focus tracking no longer breaks\n- Mouse clicks work on all windows\n\nFixes: https://github.com/linux-surface/linux-surface/issues/1851\nPatchset: hid-surface"
+ },
+ {
+  "sha": "ece36942a80b6ca1d678a83a3ad5bda95c6cb3a1",
+  "author": "LegendaryFire <tristan.balon@outlook.com>",
+  "date": "Fri, 13 Mar 2026 10:16:37 +0100",
+  "subject": "hid/multitouch: Prevent mode set on Surface Laptop Studio 2 touch pad",
+  "series": "0015-hid-surface.patch",
+  "files": [
+   "drivers/hid/hid-multitouch.c"
+  ],
+  "stat": "1 file changed, 31 insertions(+)",
+  "mentions_sp9": false,
+  "mentions_sp8": false,
+  "tags": {
+   "Patchset": [
+    "hid-surface"
+   ]
+  },
+  "signed_off": [],
+  "message": "Note: Is this still required with MT_QUIRK_KEEP_LATENCY_ON_CLOSE now\nbeing available?\n\nPatchset: hid-surface"
+ }
+]

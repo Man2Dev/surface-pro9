@@ -1,0 +1,338 @@
+# Surface Pro 9 (Intel, Alder Lake-P) on Fedora: per-feature status map.
+# This is the entry point for agents. Every claim points at evidence in data/indexes/ or docs/.
+# Snapshot: 2026-11-13. Mainline = torvalds/linux master at v7.4-rc2 (ee83899302a0).
+# linux-surface = linux-surface/linux-surface patches/7.3 (BASE v7.3.4, ea852b4eff5e).
+# fedora_config = kernel-ark os-build redhat/configs (checked via GitLab API).
+#
+# status vocabulary (see docs/conventions.md):
+#   works        works on a stock mainline/Fedora kernel with stock userspace
+#   works-ls     works only with the linux-surface kernel and/or its userspace packages
+#   works-fork   works only with patches that live in forks / PRs (not in linux-surface releases)
+#   partial      works with caveats or workarounds
+#   broken       known not to work anywhere
+#   unknown      no data, needs a test on a real SP9
+# upstream_class: upstreamable | rework | downstream | superseded | unknown
+
+device:
+  name: Microsoft Surface Pro 9 (Intel)
+  dmi_product_name: "Surface Pro 9"
+  dmi_sku_example: "Surface_Pro_9_2038"   # used by the downstream surface_gpe patch
+  cpu: Intel Core i5-1235U / i7-1255U (Alder Lake-P, 12th gen)
+  sam_acpi_hid: MSHW0343        # mainline aggregator_registry -> ssam_node_group_sp9 (shared with SP10, SP11, SP12 Intel)
+  touch_controller: Intel THC ADL-P, PCI 8086:51d0 / 8086:51d1 (driven by downstream ITHC)
+  touch_hid_id: "045E:0C52"     # iptsd virtual devices, libwacom match virt|045e|0c52
+  cameras: {front: "OV5693 (ACPI OVTI5693)", rear: "OV13858 (ACPI OVTID858)", ir: "ST VD55G0"}
+  isp: Intel IPU6 (intel-ipu6 in mainline, libcamera simple pipeline / software ISP in userspace)
+  wifi_bt: Intel AX211 CNVi (iwlwifi, btintel)
+  # IDs below seen in SP9 dmesg/lspci posted in linux-surface #1141, #1453, #1503, #1919 (2023 to 2025)
+  sam_hid_nodes:   # mainline ssam_node_group_sp9; HID id as reported by hid-generic/surface_hid
+    "01:15:02:01 kip keyboard": "045E:09AE (Type Cover keyboard)"
+    "01:15:02:02 kip penstash": "045E:09B0 on covers with a pen tray; empty descriptor on others (#1845)"
+    "01:15:02:03 kip touchpad": "045E:09AF"
+    "01:15:02:05 kip fwupd": "045E:0991 or 045E:09CF depending on the cover"
+    "01:15:01:06 sam sensors": "045E:005D (accelerometer, light, gyro, ...)"
+  pci_ids: {thc: "8086:51d0 (class 0x090100)", audio: "8086:51c8 (class 0x040380, DSP present; SP9 logs show both snd_hda_intel and sof-audio-pci-intel-tgl binding)", wifi: "8086:51f0", xhci: "8086:51ed"}
+  not_in_scope: "Surface Pro 9 with 5G (SQ3, ARM, MSHW0510 node group sp9_5g): different machine"
+
+features:
+
+  keyboard-typecover:
+    title: Signature / Pro Keyboard (keys, touchpad) via SAM KIP
+    mainline: works          # ssam_node_group_sp9 has hub_kip, hid_kip_keyboard, hid_kip_touchpad
+    linux_surface: works
+    fedora_config: ok        # SURFACE_AGGREGATOR*, SURFACE_HID, SERIAL_DEV_BUS=y, SERIAL_DEV_CTRL_TTYPORT=y
+    caveats:
+      - "Probe ordering: SAM serial hub can fail with -EINVAL instead of -EPROBE_DEFER when the wakeup GPIO is not ready (#2219, #1645, #2064). Fix posted upstream (Wu Enqiang v2, pdx86 20261024054921.48209-1-janussss@163.com), carried in linux-surface 0007."
+      - "Not available in the initramfs, so no LUKS unlock with the cover (#1221, #1126, #1491, #1828, discussion 2024). Corrected 2026-11-14 after reading dracut master: 70kernel-modules installs =drivers/hid (surface_hid, surface_hid_core), =drivers/tty/serial (8250_dw, 8250_lpss), =drivers/pinctrl, intel_lpss_pci and surface_aggregator_registry, and in the default hostonly_mode (sloppy, Fedora's default) these go in regardless of the host. The only missing module is surface_aggregator_hub (KIP hub; the SP8/SP9 cover keyboard and touchpad are its children). Confirm with lsinitrd."
+      - "Field-tested module list: ublue-os/hwe modules-load.d/ublue-surface.conf (surface_aggregator, surface_aggregator_registry, surface_aggregator_hub, surface_hid_core, 8250_dw, surface_hid, surface_kbd, intel_lpss, intel_lpss_pci, pinctrl_tigerlake). Tablet without cover: unl0kr (postmarketOS buffybox), #1857."
+      - "Discussion 2282: after attaching the cover it takes a moment before it works. No SP9 issue found; closest: #1651 (keyboard and touchpad unresponsive on boot), #1536 (SP6 input delay). Needs a timestamped dmesg of an attach."
+      - "Discussion 2282: booting without the cover sometimes leaves a black screen until the cover is attached. No SP9 issue matches; candidates to check against a boot log: #1845 (SP9, Fedora 42 hangs at boot with surface_hid), SAM serial hub probe ordering (#2219, fix posted upstream as v2)."
+      - "Maintainers' own list (wiki Disk-Encryption.md): surface_aggregator, surface_aggregator_registry, surface_aggregator_hub, surface_hid_core, 8250_dw, surface_hid, intel_lpss, intel_lpss_pci, pinctrl_tigerlake. surface_kbd is only for Surface Laptop 1/2, so the ublue and Omarchy lists carry it needlessly for SP9. ADL-P's pin controller is INTC1055 and binds pinctrl_tigerlake (pinctrl_alderlake is ADL-S/ADL-N only). The wiki page does not list the Pro 8/9 and its Fedora example is incomplete."
+      - "Omarchy (Arch, mkinitcpio) ships the same list minus intel_lpss; three distros now agree on it. dracut-ng/dracut has no Surface issue or PR yet (repo renamed from dracut-ng/dracut-ng). Precedent: Benjamin Drung's 'fix(90kernel-modules): add surface_aggregator_registry for Surface Laptop 4' (dracut 8cc89664, 2023-11)."
+      - "Closed issues: SERIAL_DEV_BUS and SERIAL_DEV_CTRL_TTYPORT must be built in (#1136); on SP9 the cover died after 6.12.4 until pinctrl_tigerlake was loaded first in the initrd (#1645); SP9 LUKS list from #1491 adds surface_battery, surface_charger, surface_fan. Fedora fallback without the cover at LUKS: Clevis plus TPM2 (#2039, SP8)."
+      - "Disable-while-typing needs the cover tagged as an internal keyboard (#67). Upstream libinput already does it: 50-system-microsoft.quirks matches '*Microsoft Surface *Keyboard*' on DMI vendor Microsoft Corporation (the DMI modalias drops spaces, so the #2257 leading space does not matter). Nothing to send; check with 'libinput quirks list' if it misbehaves."
+      - "'unknown device posture' dropouts were a worn connector (#2036)."
+      - "Fedora SP9 boots stall about 2 min (#1845, also F43): surface_hid probes the pen stash node 01:15:02:02:00, which mainline's ssam_node_group_sp9 also lists (so this is an upstream bug, not only downstream); on covers with a pen tray it answers as 045E:09B0; covers without a pen stash return an empty descriptor and probe fails with -EPROTO. qzed: should be -ENODEV. Small upstream patch; check an affected SP9 boot log for 'unexpected descriptor length'."
+      - "#1651 (SP9): cover sometimes dead at boot or after resume, no logs; same family as the serial hub probe race (#2219). Hibernate: SP8 cover dead after S4 because SAM event source enable times out (-110) on restore, one retry after 200 ms fixes it (#2294, pentop's tested patch)."
+    upstream_targets: [dracut-ng/dracut, platform-driver-x86]
+    next_action: "Check lsinitrd on the SP9, then send the one-module dracut change (surface_aggregator_hub next to surface_aggregator_registry, see docs/subsystems/boot-initramfs-fedora.md). The EPROBE_DEFER v2 (Wu Enqiang) is accepted in platform-driver-x86 (patchwork state, rechecked 2026-11-14), so it should reach 7.5 and stable."
+
+  keyboard-backlight:
+    title: Keyboard backlight control from the desktop
+    mainline: unknown
+    linux_surface: unknown
+    caveats:
+      - "Discussion 2282: backlight works but is not exposed to Plasma. No SP9 issue tracks it."
+      - "New upstream patch: 'HID: surface-hid: support keyboard backlight on Surface Pro Keyboard (045E:09AE)' (Ramon Jesus Miranda, pdx86, 2026-10-23, state new on 2026-11-14). The SP9 KIP keyboard is 045E:09AE: SP9 logs in #1141, #1453, #1503 and #1919 show 'Microsoft Surface 045E:09AE Keyboard' on MSHW0343 01:15:02:01. The patch applies to the SP9."
+      - "linux-surface hid-multitouch Type Cover backlight code targets USB covers; CmdrShepardsPie fork limits it to USB devices so it does not touch SAM keyboards."
+    next_action: "Build with the 2026-10-23 patch, check that Plasma shows a keyboard backlight control, reply on-list with Tested-by (msgid 20261023173213.6219-1-ramonjesusmiranda@gmail.com)."
+
+  flex-keyboard:
+    title: Surface Pro Flex Keyboard (attached and detached / Bluetooth)
+    mainline: unknown
+    linux_surface: unknown
+    caveats:
+      - "No SP9 report found. Flex Keyboard data points: SP10/SP11/SP12 issues (#1608, #1694, #2144, #2231), kernel#173 'aggregator_tabletsw: accept zero-padded source' (open)."
+    next_action: "Test attached and detached (BT) on SP9; open an issue with diagnostics if broken."
+
+  tablet-mode:
+    title: Tablet-mode switch (cover folded / detached)
+    mainline: works          # 'Add support for tablet-mode switch on Surface Pro 9', accepted 2023-03 (pdx86 20230304194611.87770-1-luzmaximilian@gmail.com)
+    caveats:
+      - "#1141: rotation only with the type cover attached (open, Fedora 38 era). iio-sensor-proxy interplay."
+      - "kernel#173 (open): aggregator_tabletsw zero-padded source (Flex Keyboard)."
+
+  touchscreen:
+    title: Touchscreen (multitouch)
+    mainline: broken         # no ITHC; intel-thc-hid (QuickSPI/QuickI2C) only claims MTL and newer (quo, discussion 1581; quo/ithc-linux a82c299)
+    linux_surface: works-ls  # 0006-ithc + iptsd daemon
+    fedora_config: n/a       # CONFIG_INTEL_THC_HID=m exists but does not bind ADL-P
+    userspace: "iptsd (linux-surface/iptsd v3.1.1) required for multitouch; without it single touch only (discussion 2282). NOT packaged in Fedora (src.fedoraproject.org has no iptsd)."
+    caveats:
+      - "Erratic touch: wiki calibration override /etc/iptsd.d/91-calibration.conf (iptsd#171)."
+      - "#2367 (open): ithc_legacy_init failed, touch and pen dead on 6.19/7.2."
+      - "#1862: some users report better touch without iptsd on GNOME 48."
+      - "iptsd#220/#221/#224/#229: udev duplicates and probe issues on ITHC devices."
+      - "Stock Fedora-derived kernel + out-of-tree ithc.ko works: John-S-Reddick/bazzite-surface builds quo/ithc-linux against Bazzite's kernel-devel, signs it with a MOK and adds iptsd; everything else (cover, battery, tablet switch, profiles, Wi-Fi, BT, audio, suspend) already works there. Pattern for an ITHC kmod/akmod package while the driver is not upstream."
+      - "Intel's own out-of-tree THC drivers (intel/thc-drivers, synced to 7.4-rc1) exclude ADL and leave IPTS mode to linux-surface. quo/ithc-linux#34: SL5 (same 8086:51d0) gets zero events on F44."
+      - "Terra now ships iptsd for f43 to f45 (terrapkg/packages#16814)."
+      - "Orphaned fix: closed linux-surface#2210 carries 'drivers/hid/ithc: Fix PM suspend/resume to preserve hid_device across s2idle' (keeps the hid_device so iptsd holding hidraw cannot deadlock on wake). Author promised a resubmit that never came. Applies to v7.3-surface ITHC; untested. orphaned-patches/."
+      - "Open iptsd PRs with no maintainer reply that fix SP9-visible problems, all mergeable today: #219 (service stops itself ~6 s after cold boot), #221 (duplicate raw ITHC input nodes), #224 (udev systemd tag lost on change events), #214 (DisableOnStylusLevel), #233 (Slim Pen 2 spurious button/eraser), #234/#235 (erratic touch detection). See data/indexes/open-prs.tsv."
+      - "Touch dead after resume is the most repeated unsolved problem in closed issues: iptsd#122, #1171 (mentions quo's ITHC DMA fix b51f328), #1799 (SP10), all closed without a fix. Most other 'touch not working' issues were iptsd missing or the stock kernel (#1156, #1330, #1848; /dev/ipts is gone, iptsd uses hidraw). docs/research/closed-issues.md."
+      - "Orphaned iptsd fix: closed iptsd#227 'Retain lost contacts for a few frames' (swipes breaking on a one-frame miss, SP8). Never resubmitted; rebases cleanly on master. orphaned-patches/."
+      - "EFI stub: ITHC failed with 'invalid dma rx data' when the kernel booted as an EFI stub (#1078, quo/ithc-linux#26, both SP9). quo found bit 5 of THC register 0x1128 set only on working boots and committed a fix (quo/ithc-linux 18afc6f, 2024-04, 'hopefully fixed'); #1078 is still open, so test once before relying on a UKI. Other open issues: one SP9 unit never initialises (ithc_legacy_init -110, #2367); touchscreen locks up while the magnetic charger is attached (#1470). iptsd's udev rule probes every hidraw node and can stall input for seconds (iptsd#228, iptsd#229): fix the rule before a Fedora package ships. docs/research/open-issues.md."
+      - "Upstream path (quo, quo/ithc-linux#29 and #7): Intel's intel-thc-hid (QuickSPI/QuickI2C, mainline since 6.14) covers MTL and newer. ADL QuickSPI would be easy (opcode registers in a different order), but the SP9 runs the THC in legacy mode ('no ACPI config, using legacy mode', #2367), which needs ithc-legacy.c merged into intel-thc-hid. quo will not upstream under a pseudonym; someone else has to carry it. quo's review of ithc#33 (2026) spells out what error recovery needs (full re-init via devres_release_group() + ithc_start(), proper locking)."
+    upstream_class: rework   # ITHC is 'downstream for now'; mainline needs either ITHC or intel-thc-hid support for the Surface protocol on ADL
+    upstream_targets: [linux-input (HID), Fedora (iptsd package)]
+    next_action: "Package iptsd for Fedora (new package review). Ask quo / linux-input whether intel-thc-hid can grow ADL + IPTS-style mode, or ITHC can be submitted."
+
+  pen:
+    title: Surface Slim Pen 2 (MPP 2.x)
+    mainline: broken
+    linux_surface: works-ls  # ITHC + iptsd (iptsd#156 MPP v2+, Slim Pen 2, Surface Pro 9 improvements)
+    caveats:
+      - "libwacom: upstream libwacom has no SP9 data and no virtual bus; libwacom-surface fork carries BUS_VIRTUAL + MEI bus patches and surface-pro9.tablet (Stylus=false). libwacom-surface conflicts with Fedora libwacom required by plasma-desktop; Terra repo + 'dnf swap libwacom libwacom-surface' works (discussion 2282)."
+      - "Palm rejection: put pen and touch in one LIBINPUT_DEVICE_GROUP with a udev rule (recipe in discussion 2282, copy in docs/workarounds.md)."
+      - "Haptics not supported (#1066, intel-precise-touch#27)."
+      - "Jagged fast lines / low poll rate (#1588, AndyGozas/iptsd bundle-events-workaround), Slim Pen 2 BT disconnects (#1656)."
+      - "Background: iwanders/analysis-ithc-iptsd, THC and Slim Pen 2 analysis done on an SP9 (basis of iptsd#156)."
+      - "KWin shows the mouse cursor when the pen enters proximity (rhbz#2524606, SP7+, patch attached); same on SP9 with iptsd. Upstream target: KDE."
+      - "SP9 sysinfo already contributed to linuxwacom/wacom-hid-descriptors#490."
+      - "Slim Pen 2 random button presses: [DFT] ButtonMinMag = 20000 in /etc/iptsd.d (#1233, 2023; iptsd 3.x adds Mpp2ButtonMinMag, default 50000); open iptsd#233 fixes it in code. Palm rejection lost after an iptsd update: recalibrate (#1273). Pen BT link drops when idle (#1656, btmon on SP9), unsolved."
+      - "Pen report rate stuck near 66 Hz (#1588): an SP9 user processes position on every DFT window and reaches about 266 to 300 Hz in iptsd, patch attached to the issue, tilt and pressure still rough. Slim Pen 2 dropouts: raise [DFT] Mpp2ButtonMinMag above 50000 (iptsd#161). Haptics need BT HID output report 65 (Simple Haptics Controller, #1066); an old lore series never merged."
+    upstream_targets: [libwacom (linuxwacom/libwacom#89), iptsd]
+    next_action: "Revive libwacom#89: upstream libwacom already honours UINPUT_DEVICE/UINPUT_SUBSYSTEM udev properties (get_uinput_subsystem), so iptsd could tag its uinput devices instead of libwacom needing BUS_VIRTUAL. Verify, then propose data file + udev tagging."
+
+  camera-front:
+    title: Front camera OV5693 on IPU6
+    mainline: partial        # in v7.4: OVTI5693 ACPI HID, MIPI clock-lane gating for non-continuous clock, ipu-bridge per-IPU config + non-continuous clock for ov5693 on IPU6, SP9 upside-down quirk
+    linux_surface: partial   # 7.3 carries the older PR 1867 variant; Fernando Rimoli backports live in the CmdrShepardsPie fork, kernel#180 (open)
+    userspace: "libcamera (simple pipeline + software ISP); v4l2-relayd / v4l2loopback for browsers and Zoom (discussion 2198, loisBreant/surface-pro-9-camera, el-amin-dev/sp9-ov5693-dkms, luqqas96/surface-zoom-bridge). Upstream libcamera has ov5693/ov13858 sensor helpers but only uncalibrated.yaml for the soft ISP; fildunsky/linux-surface-pro8-cameras carries six soft-ISP patches and tuning tools that could go upstream."
+    caveats:
+      - "Binned 1296x972 mode returns no frames on IPU6 (#2234); fix in #2252 (dmanresa-saes)."
+      - "After intel-ipu6 unload/reload or hibernate, ov5693 fails to re-probe (discussion 2202); upstream fix 'ipu-bridge: survive module unload and reuse the software nodes on rebind' (D. Manresa v3, linux-media 2026-10-26)."
+      - "ov5693 fixes: mode changes, flips, autosuspend (Marco Ziliani v2, 2026-10-29); gain range (Dan Scally 2026-07-21, in linux-surface 0013)."
+      - "IPU6 V4L2 64-device limit drops virtual cameras in WebRTC (#2242)."
+      - "Binned-mode patch owner: Simon Kruse (Simon0x) asked D. Manresa in dmanresa-saes/surface-ipu6-cameras#1 and got the go-ahead (2026-10-27) to send it to linux-media with Manresa's authorship (D. Manresa <dmanresa@gmail.com>); Manresa warns not to send 548281df as is because Rimoli's clock-lane gate is now in media next, and that he cannot respin (hardware donated). Not on the list as of 2026-11-13. An SP9 Tested-by on Simon's posting is the useful contribution."
+      - "Upstream alone is not enough on SP9: on media next with Rimoli's series, libcamera picks binned 1296x972 plus both flips (sensor reports 180 degrees) and the binned mode with flips gives csi2 frame sync errors, so the front camera returns empty buffers (dmanresa-saes/surface-ipu6-cameras#1, SP9 data). The binned-mode patch from #2252 has to go upstream too."
+      - "SP9 Windows driver package (holds the camera AIQB tuning and the Surface APO): SurfacePro9_Win11_22621_22.101.15506.0.msi (2022, from an OSD catalog gist); newer versions on Microsoft's download center. Needed to check whether the SP9 tuning differs from the SP8 values Emfox Zhou used."
+      - "Tuning: Emfox Zhou's libcamera series 'ipa: softisp: Add tuning data for the ov13858 and ov5693' v3 (2026-11-13, from the SP8 Windows AIQB) is on libcamera-devel; libcamera picks tuning by sensor name, so it applies to SP9. OV5693 black levels already accepted (Dan Scally)."
+    upstream_class: superseded   # for the PR 1867 bits; remaining items are on-list already
+    next_action: "On 7.4 drop linux-surface's SP9 camera patch, test mainline + the ov5693 binned-mode patch + pending linux-media patches, send Tested-by; test Emfox Zhou's libcamera tuning v3 on SP9 and reply with Tested-by."
+
+  camera-rear:
+    title: Rear camera OV13858 on IPU6
+    mainline: partial        # OVTID858 sensor config (2 link frequencies: 540 and 270 MHz), flip controls (Lebedev), SP9 rear upside-down quirk
+    linux_surface: partial   # kernel#170 rotation (merged), kernel#174/#191 link-frequency fixes (open), #2227 (open)
+    caveats:
+      - "Probe failure 'ov13858 i2c-OVTID858:00: probe with driver failed' around link frequency checks (#1753, kernel#174, kernel#191 referencing torvalds/linux 2ee01a094aba)."
+      - "Swapped red/blue reported on SP8 rear (rspilk fork)."
+      - "Pending upstream: ov13858 regulator/clock/reset GPIO handling v4, colorspace, gain cap (Sergey Lebedev, George Neacsu)."
+    next_action: "linux-surface PR 1867 declares IPU_SENSOR_CONFIG(\"OVTID858\", 4, 540000000): link-frequency count 4 with one frequency, which kernel#191 fixes; mainline has (2, 540000000, 270000000). Drop the downstream entry on 7.4 and test the pending ov13858 series."
+
+  camera-ir:
+    title: IR camera ST VD55G0 (face login)
+    mainline: broken
+    linux_surface: works-fork   # kernel#169 (petm5, open), discussion 2198 (femito1, petm5), petm5/linux vd55g0-camera-support-v2-9
+    caveats:
+      - "Two competing upstream series on linux-media: Peter Marshall 'st-vd55g1: Genericize driver and add VD55G0 support' (2026-09-18) and Sergey Lebedev 'Add the ST VD55G0 global shutter sensor' v2 (2026-11-10). Plus vd55g1 fixes by Rimoli, Neacsu, Tong."
+      - "IR flood LED: int3472 GPIO type 0x02 (STROBE) is mapped to ir_flood in mainline v7.4-rc3 (Marco Nenciarini series), so no downstream code is needed for the LED."
+      - "Working reference on the SP8 (same sensor, ACPI SMO55F0): fildunsky/linux-surface-pro8-cameras. Vendor driver: STMicroelectronics/vd55g0-linux-driver. Branches: petm5/linux surface-devel-v7.3 (Lebedev VD55G0 + SP9 quirks), vd55g0-camera-support-v2-9 (Marshall series)."
+      - "Recipe seen on a ThinkPad VD55G1 (rhbz#2509956): ACPI match in the sensor driver, an ipu-bridge IPU_SENSOR_CONFIG entry and an int3472 vana mapping were enough to stream. The SP8/SP9 VD55G0 (SMO55F0) needs the same three pieces plus the type 0x02 LED GPIO."
+    next_action: "Pick the series the media maintainers prefer, test on SP9, reply with Tested-by."
+
+  battery-ac:
+    title: Battery and AC status
+    mainline: works            # surface_battery / surface_charger via SAM
+    caveats:
+      - "'Report not charging while idle on AC' fix only in the CmdrShepardsPie fork, untested on device per its message."
+      - "Upstream patch 'surface_battery: handle battery event 0x1a' (2026-10-23, new)."
+      - "#1837 battery shows full while discharging, #1781 charging stopped after Ubuntu update, #1800, #1580 charge limit, kernel#167 smart charging (open)."
+      - "kernel#167 (smart charging) has qzed's review; he asked Cloveian to send the charge limit as a separate patch, which exists as a branch but not as a PR."
+      - "Closed issues: battery stuck near 50 % or not charging is the UEFI battery limit or Windows smart charging, not the driver (#348, #354, SP9 #1781). A leftover blacklist-intel_lpss.conf breaks SAM and battery (#464)."
+      - "Cloveian's charge limit patch (kernel#167 thread, 2026-11-10): uses the standard charge_types + charge_control_end_threshold power-supply attributes and only registers when BAT 0x23 reports a cmd_revision and BAT 0x09 (GetUserChargeMode) works, which is how Windows decides; tested on SP11 with 7.2 and 7.3, applies to v6.18 too. Not a PR yet."
+      - "Branches: petm5/linux-surface-kernel v6.18-surface-devel-battery-features (smart charging, authentication status), Cloveian/kernel battery-charge-limit (charge limit, 2026-11-10)."
+      - "Discussion 2282 (2026-11-16): NexGen-3D-Printing is logging and debugging the SP9 battery charge bug, seen on Fedora 44 and 45 and Bazzite 45 with linux-surface kernels."
+      - "Open issues: SP9 stops charging on AC (#2232, two SP9 reports, also SL5); toggling the UEFI battery limit on, booting once, then off again restores charging. Battery stuck at full while discharging (#1837). qzed in #1580: the 80 % limiter is EC controlled; Jelle van der Waa works on a common charge_types API."
+
+  thermal-fan-profile:
+    title: Platform profile, fan, thermal sensors
+    mainline: works            # fan driver + fan profile (Ivor Wanders, 2024), thermal sensors (2024)
+    linux_surface: works-ls    # + 'platform_profile: add fan power state handling' (kernel#166, merged into 7.3)
+    caveats:
+      - "Upstream version 'platform/surface: platform_profile: handle fan standby state' is changes-requested (2026-11-11)."
+      - "#1445 fan still running during suspend, #1726 fan ~3800 rpm at low temperature (open), discussion 1734 thermald setup."
+      - "WIP fan curve offset and fan base rpm: petm5/linux-surface-kernel v6.18-surface-devel-fan-ctrl."
+      - "SAM command reference: Microsoft's Surface app ships SurfaceCommonHeadersDotNet.dll, a generated copy of the SSH command headers (1017 commands in 36 categories with names and request/response types; Cloveian, kernel#167). FAN 0x19 to 0x1d look like the fan curve setters, 0x02/0x04/0x06/0x07/0x11 are readable. Useful for any SAM upstream work."
+      - "#1726 explained: Windows leaves a fan floor set with SAM FAN 0x0b (SetMinFanRpm in Microsoft's SurfaceCommonHeadersDotNet.dll, Cloveian 2026-11-10; FAN 0x17 reads it back). Linux never clears it, so the fan keeps spinning. Sending 0x0b 0 at probe from the platform profile driver would fix it: small upstream patch to pair with the fan standby series."
+      - "thermald: --adaptive fails on SP9 (no DPTF tables); a hand-written thermal-conf.xml exists (iwanders/nixos-surface thermald/). intel/thermal_daemon#616 (SB3) shows passive trips release PL1 fully and saw."
+
+  buttons:
+    title: Power and volume buttons (MSHW0040 via soc_button_array)
+    mainline: works            # ed22ad5fdbdb 'Input: soc_button_array - fix MS Surface Pro 11 probe failure' (7.3; stable 7.2.8, 6.18.54, 6.12.112) propagates -EPROBE_DEFER except on BYT/CHT
+    linux_surface: works-ls    # 0009 'soc_button_array: defer MSHW0040 probe until GPIO is ready' (kernel#172), now redundant
+    fedora_config: ok          # INPUT_SOC_BUTTON_ARRAY=m and PINCTRL_TIGERLAKE=m; the race is handled by deferral on 7.2.8+
+    caveats:
+      - "Race: soc_button_array loads before pinctrl_tigerlake (#1392). Wiki workaround: force pinctrl_tigerlake into the initramfs (dracut force_drivers) or reload soc_button_array."
+      - "Fixed upstream: de Goede's SP11 probe fix (ed22ad5fdbdb, checked in mainline soc_button_array.c) also fixes the SP9. CmdrShepardsPie verified it on an SP9 with an initramfs holding soc_button_array but not pinctrl_tigerlake: gpio-keys binds once the pin controller loads (#1392, 2026-10-25). Torokhov's 'use resources to set up IRQ info' (2026-10-21) is separate cleanup."
+      - "Same silent probe failure on the Framework Laptop 12 (INT33D3, rhbz#2488614): a second user for the defer fix. Userspace workaround seen in the wild: modprobe.d 'softdep soc_button_array pre: pinctrl_tigerlake'."
+    upstream_class: superseded
+    next_action: "Nothing to send. Confirm buttons on the stock Fedora kernel in phase 0; the initramfs and softdep workarounds are no longer needed on 7.2.8+."
+
+  lid-wake:
+    title: Wake from suspend by opening the lid / cover (surface_gpe)
+    mainline: broken           # surface_gpe has no SP9 entry (SP8 entry accepted 2022)
+    linux_surface: partial     # 0012 adds SP9 by DMI SKU; #2257 says the DMI sys_vendor has a leading space on some units, surface-gpe#7 fixes the match; Business SKU needs surface-gpe#5
+    caveats:
+      - "#1919 'surface_gpe: no compatible Microsoft Surface device found on Surface Pro 9'."
+      - "Ready patch for the vendor match: dragged9698 gist 'platform/surface: gpe: Tolerate padded DMI sys_vendor strings' (DMI_MATCH instead of DMI_EXACT_MATCH, verified on SP9 2038, GPE 0x52), see data/indexes/external-repos.yaml."
+      - "#1183, #1224, #1684, #1910: cannot wake from suspend with cover closed / at all."
+      - "Discussion 2282: opening the cover does not wake the device; the power button is needed. Matches the missing SP9 surface_gpe entry and the vendor match problem (#2257)."
+      - "Open linux-surface#2011 carries Maximilian Luz's own 'gpe: Add support for Surface Pro 9 and Surface Laptop 5' with an SL5 entry (GPE 0x52); with surface-gpe#7 and #5 that is all input for one upstream patch."
+      - "SP9 Business SKU string is 'Surface_Pro_9_for_Business_2038' (Meatwo310/dotnix PR #13, lid suspend and resume verified)."
+      - "bugzilla.kernel.org 218923 (SP9): ACPI error storm and failed later suspends with surface_gpe loaded; same family as #1082. Expect reviewers to ask about it."
+      - "Interaction: an SP9 user in #1082 (2025-10) reports that with pci=hpiosize=0 opening the cover no longer wakes the device. #1446 blacklists surface_gpe against sleep ACPI errors, which also drops lid wake. Test lid wake with and without hpiosize=0."
+      - "Open: kernel#162 (SL5) shows INTC1055 PADCFG0 corruption firing GPE 0x52 in s2idle; the SP9 lid uses the same GPE, so test whether it explains failed or spurious lid wakes (see suspend-s0ix). surface-gpe#3: an SP9 Business user added the entry locally and wake still failed."
+    upstream_class: upstreamable
+    next_action: "Fix the match (all SP9 SKUs, tolerate the vendor string), then send to platform-driver-x86 with Maximilian Luz as author if he agrees."
+
+  shutdown:
+    title: S5 power off
+    mainline: broken           # EFI ResetSystem(EFI_RESET_SHUTDOWN) returns, machine stays on (#1058)
+    linux_surface: works-ls    # 0011 'PCI: Add quirk to prevent calling shutdown method' (DMI SP9 + SL5, TB4 + GPU devices)
+    caveats:
+      - "Some users also need pci=hpiosize=0 (#1058, #1664, #1507)."
+      - "#1113 kernel panic prevents shutdown (older kernels)."
+    upstream_class: rework
+    next_action: "Write up root cause for linux-pci / x86 maintainers; a DMI-gated pci quirk needs justification."
+
+  acpi-interrupt-storm:
+    title: ACPI GPE / interrupt storm (lid close on AC, TB hotplug, lid resume)
+    mainline: partial
+    workaround: "pci=hpiosize=0 (wiki, #1082). Earlier wiki workarounds, now removed: intel_idle.max_cstate=0 (2023-03) and disabling hibernation in sleep.conf."
+    caveats:
+      - "Trade-off: hpiosize=0 can break lid wake (#1082, 2025-10 SP9 report), see lid-wake. Alternative in #1446: TLP plus blacklisting surface_gpe."
+    next_action: "Find the root cause (hpiosize=0 changes PCI hotplug I/O window); file on bugzilla.kernel.org / linux-pci."
+
+  suspend-s0ix:
+    title: s2idle / S0ix
+    mainline: partial
+    caveats:
+      - "Low runtime PC10 residency with screen off (wiki, S0ixSelftestTool)."
+      - "#2258 s2idle hang in pm_fs_sync with btrfs; #1445 fan on in suspend; #1164 cannot turn on when suspended."
+      - "History: Intel Thread Director patches broke wake on ADL/RPL including SP9 and were removed (#1084, #1120, #1188). S0ix broken after reboot was fixed by current intel microcode (#2279, SL3). SP9 wake reports closed without a fix: #1684 (works on a self-built 6.12.12 for one user, F41 broken for another), #1161."
+      - "Discussion 2282: suspending with the power button while the cover is detached sometimes does not fully suspend and the fan keeps running; suspending by closing the cover works. Related: #1445 (fan on in suspend; linux-surface 7.3 carries 'platform_profile: add fan power state handling', kernel#166, upstream version changes-requested), #1164. Check which kernel was running and whether /sys/power/suspend_stats shows a failed or aborted entry."
+      - "Lead 1 (SL5, same ADL-P PCH, #1010): the second suspend hangs because the SOF audio DSP 8086:51c8 stays in D0 after the first resume; snd_intel_dspcfg.dsp_driver=1 (legacy HDA) fixed it. Test on SP9 with an rtcwake loop; if it holds, report to SOF (thesofproject) rather than keep the parameter."
+      - "Lead 2 (SL5, kernel#162, open): INTC1055 pin 213 PADCFG0 is corrupted in s2idle and fires GPE 0x52, which blocks or forces wake-up. SP9 has the same pin controller and lid GPE. qzed prefers a userspace fix; root cause belongs with the Intel pinctrl maintainers (Andy Shevchenko, Mika Westerberg) if it reproduces on SP9."
+      - "Wake fails when the lid moves during suspend (#1910, #1811, SP9); logind lid handling off plus pci=hpiosize=0 made resume reliable on an SL5. SP7 s2idle hard freezes since 2026-11-12 on 7.2.15 and 7.3.3 (kernel#192): watch for it on SP9."
+
+  hibernate:
+    title: Hibernate
+    mainline: partial
+    caveats:
+      - "With Secure Boot lockdown hibernate is disabled; linux-surface 0001 adds lockdown_hibernate param (downstream, upstream has refused similar relaxations)."
+      - "Upstream route (2026): Kelvie Wong's lockdown_hibernate RFC (2023-11) got no follow-up; active instead are Matthew Garrett's 'PM: hibernate: Allow hibernation under lockdown with signed images' (changes requested 2026-10), Sean Rhodes' 'permit encrypted snapshot device under lockdown' (v3 RESEND 2026-09) and a TPM2 image encryption RFC (2026-03). Follow these rather than carry 0001."
+      - "Wiki: HibernateMode=reboot. Discussion 2202 suspend-then-hibernate recipe, camera re-probe bug after resume."
+      - "Cover dead after resume from S4 on SP8: SAM event source enable times out (-110) during restore, a retry after 200 ms succeeds (#2294, pentop). Same restore path on SP9; candidate SAM patch for platform-driver-x86. iptsd can block suspend-then-hibernate (iptsd#190)."
+
+  audio:
+    title: Speakers and microphones
+    mainline: partial          # speakers work
+    linux_surface: partial
+    caveats:
+      - "Internal mic gain too high: 'ALSA: hda/realtek: Limit internal mic gain on Microsoft Surface Pro 9' only in CmdrShepardsPie fork (0016-sound). Not posted upstream."
+      - "Speaker hiss while headphones play: amixer sset 'Auto-Mute Mode' Disabled (wiki FAQ)."
+      - "#168: petm5 posted an SP9 speaker impulse response; StollD suggested an asahi-audio style package for Surface DSP presets, which fits a Fedora package."
+      - "IDs: Realtek ALC274, codec 10EC0274 subsystem 10EC1284, controller subsystem 8086:7270, speaker pin 0x1b. Speaker voicing: Windows Surface APO (SurfaceAPO_1284.json) converted by antoinecellerier/speaker-tuning-to-easyeffects (#113, SP9 user reports much better sound)."
+    upstream_class: upstreamable
+    # thesofproject/linux#5509 (SP8): SOF developer says the SP8 has no DMIC so legacy HDA is the default; lowering 'Internal Mic Boost' fixed the noisy mic, the same symptom the SP9 quirk addresses.
+    next_action: "Post the realtek quirk to alsa-devel (Takashi Iwai merges these quickly). No SP9 mic patch has ever been posted (patchwork alsa-devel search)."
+
+  display:
+    title: Internal display
+    mainline: partial
+    caveats:
+      - "Flicker: i915.enable_psr=0 (wiki, #862)."
+      - "#1200 brightness mapping, #1725 backlight bleed after shutdown, #899 external 4K at 30 Hz only."
+      - "PSR2 selective fetch: in 2022 the SP9 wiki recorded a ~50 s frozen screen after resume with an i915 'Selective fetch area calculation failed' message; the SP10 wiki still uses i915.enable_psr2_sel_fetch=0 against an s2idle freeze. Worth testing against black screens on resume."
+      - "VRR: page flip failures when fullscreening on the internal panel (pop-os/cosmic-comp#1372). Some users run xe instead of i915 (xe.force_probe=46a8, zeroxoneafour/linux-surface-config); untested here."
+
+  wifi-bluetooth:
+    title: Intel AX211 Wi-Fi and Bluetooth
+    mainline: works
+    caveats:
+      - "#1503 Wi-Fi switches off, #1405 dropouts, #1178/#1302 BT mouse drops, #1988 BT disconnects, #1973 iwlwifi crash on resume (ADL-P)."
+      - "Closed with workarounds: Wi-Fi dropouts on SP9 went away with separate 2.4 and 5 GHz SSIDs (#1405); BT disconnects fixed by removing and re-pairing (#1988)."
+      - "Open: iwlwifi crash on resume on ADL-P CNVi (#1973), iwlmvm power_scheme=1 made it rarer; SP9 Wi-Fi failing on connect fixed once by pinning linux-firmware 20240610 (#1503, 2024); BT mouse autosuspend rule (#1178)."
+
+  sensors:
+    title: Accelerometer, ambient light (SAM HID sensors)
+    mainline: partial          # ssam_node_hid_sam_sensors in the SP9 group; readings work, iio-sensor-proxy 3.6+ hangs on them
+    caveats:
+      - "#1141 rotation without cover."
+      - "Long KDE Wayland login delay caused by iio-sensor-proxy (#1969). 120 Hz, rotation and ambient light confirmed on SP9 (#1096)."
+      - "iio-sensor-proxy claim timeouts and frozen rotation on SP9 (#2160, Fedora 43 to 45): the hub (045E:005D) reports accel and light only on change (in_accel_hysteresis 0.05, illuminance 1 / relative 20) and surface_hid cannot fetch input reports, so sysfs reads wait 5 s; iio-sensor-proxy 3.6+ polls them on its main thread. A udev rule setting the hysteresis to 0 fixes it (CmdrShepardsPie, iio-sensor-proxy 3.9). Light sensor can also stop after a short sleep (hid-sensor-trigger, kernel side)."
+      - "Kernel bug behind the light sensor stopping after sleep (CmdrShepardsPie, traced with kprobes, #2160 2026-10-26): if system suspend starts inside hid-sensor-trigger's 3 s autosuspend window, hid_sensor_suspend() powers the sensor off but leaves runtime PM 'active'; on resume nothing powers it back on, and hid_sensor_runtime_resume() is never called when the proxy re-enables the buffer. Upstream target: linux-iio (hid-sensor-trigger, Jiri Kosina / Srinivas Pandruvada). Writing power/autosuspend_delay_ms=0 avoids it but the kernel refuses that write until the sensor is first released."
+      - "freedesktop GitLab (iio-sensor-proxy#432) shows a verification page to automated access, so the issue was not read here; read it in a normal browser."
+    upstream_targets: [iio-sensor-proxy (freedesktop GitLab hadess/iio-sensor-proxy#432), linux-iio]
+    next_action: "Confirm on an SP9 (docs/testing.md), then propose hysteresis 0 (or a hwdb property) on iio-sensor-proxy#432 with the measurements from #2160, crediting CmdrShepardsPie."
+
+  usb-c-ucsi:
+    title: USB-C UCSI / dock
+    mainline: partial          # ssam_node_hid_sam_ucm_ucsi
+    caveats: ["#2371 Fedora 45 dock USB keyboard no input (open). kernel#184 UCSI-over-HID driver (open)."]
+
+  boot-secure-boot:
+    title: Booting, Secure Boot, Secured-core
+    mainline: works
+    caveats:
+      - "Disable Secured-core to boot from USB (wiki)."
+      - "Fedora freezes on Microsoft logo after firmware updates / MOK enrolment (#1162, #1274, #1453)."
+      - "NX: since the June 2023 firmware, Surfaces enforce NX and some distros froze at boot (philbudden gist, #1162, #1274). linux-surface 0001 reverts the kernel's unconditional NX_COMPAT flag for GRUB. bazzite-surface boots Bazzite's own Fedora-based kernel on SP9 with Secure Boot on, so current Fedora shim/GRUB likely cope; confirm on an SP9 with the stock Fedora kernel (SP9-601)."
+      - "UEFI 'Enable boot configuration lock' blocks EFI variable writes, so bootloader installs fail until it is off (wiki UEFI.md). Fedora: linux-surface ships surface-secureboot (MOK password 'surface') and kernel-surface-default-watchdog."
+      - "6.10 hangs and panics on SP9 were IPU6 (kernel#157, #1533, #1537, #1541, #1555): blacklist intel_ipu6 and intel_ipu6_isys (underscores, #1516); #1560 closed as fixed in 6.15. GRUB fonts and gfxmode need signed modules under Secure Boot (#1320)."
+      - "Open issues: Fedora 41 ISO hung on SP9 because of IPU6 in 6.11 (#1690, use a current ISO); Fedora 45 dual boot shows only the Windows Boot Manager after install (#2361, unanswered); Secured-core makes GRUB reset once (#1070); 'bad shim signature' fixed by reinstalling the MOK package (#1742); MokManager does not start (#1453)."
+      - "Own Secure Boot keys with sbctl work and do not brick the SP9 (ArchWiki Microsoft_Surface_Pro_9: enroll as the last step, power off, then check UEFI Security)."
+
+  initramfs-keyboard:
+    see: keyboard-typecover
+
+  firmware-updates:
+    title: UEFI / SAM / ME firmware via fwupd
+    mainline: partial
+    caveats: ["linux-surface/surface-uefi-firmware (WIP). Several SP9 issues fixed by updating firmware from Windows (discussion 1746, 1366).", "UEFI downgrade 12.200.143 to 9.12.143 done with a repacked cab (plover43/sp9_downgrade, #1162); risky."]
+
+fedora:
+  linux_surface_repo: "Built automatically since 2026-10: F43, F44, F45 at 7.3.4-1 (package status #2318). Since 2026-11-12 some release files are uploaded as .rpm.blob (#2370). Earlier 404s: discussions 2296, 1889."
+  default_kernel: "A generic kernel update becomes the default despite kernel-surface-default-watchdog; UPDATEDEFAULT=no in /etc/sysconfig/kernel works around it (#1937). akmods with kernel-surface fixed in 9db9d9b2e1 (#1872)."
+  alternative_kernels:
+    - "CmdrShepardsPie/surface-kernel-copr: COPR, linux-surface 7.3.1 + 20 SP9 fixes (kernel-surface-cmdrshepardspie)"
+    - "orthogonaleety/linux-surface f44-* branches (SP8-tested Fedora 44 builds)"
+  packages_missing_in_fedora: [iptsd, "libwacom SP9 data (needs upstream libwacom)"]
+  iptsd_packaging: "No Fedora review request exists (Red Hat Bugzilla). Packaged only in AUR, nixpkgs, Solus, Terra (repology 2026-11-14). All build deps are in rawhide: cli11-devel, eigen3-devel 5.0.1 (matches iptsd's wrap), fmt-devel, inih-cpp, guidelines-support-library-devel, spdlog-devel; optional tools need sdl2-compat and cairomm. No bundling needed."
+  libwacom_upstream: "Upstream refused MEI bus support twice (libwacom#92/#93 2019, #400 2021): no buses that need out-of-tree kernel code, bus id must be in linux/input.h. Upstream knows only usb, serial, bluetooth, i2c (plus a UINPUT_SUBSYSTEM override limited to those). Only the Surface Go and Go 2 (I2C Wacom) are upstream. Raise the IPTS/ITHC virtual-bus and THC/SPI question with Peter Hutterer before writing SP9 data."
+  third_party_repos: "Terra ships iptsd (f43 to f45, el10), kernel-surface and libwacom-surface (terrapkg/packages#16814, #17551)."
+  kernel_backport_path: "Fedora's kernel carries camera fixes ahead of mainline through kernel-ark merge requests (ark !4395 ipu-bridge upside-down DMI quirk for Dell, !4757 int3472, !4884 open; Kate Hsuan hpa1, Hans de Goede). Once an SP9 fix is accepted in a maintainer tree, ask for the same backport."
+  repo_history: "The linux-surface Fedora repo regularly lags new Fedora and kernel releases (repo#9, #1578, #1735, #1888, #2139, repo#15 missing iptsd for F42, #1972, #2055); CI broke on a CONFIG_SCSI_UFSHCD config check (#2082). Argument for getting the pieces into Fedora itself. data/indexes/closed-issues.tsv."
+  stock_kernels: "Bodhi on 2026-11-14: F45 kernel-7.3.3-300 stable and 7.3.4-300 in testing, F44 7.3.3-200 / 7.3.4-200, F43 7.3.3-100 / 7.3.4-100, rawhide (F46) 7.4.0-rc2. All stock Fedora kernels already carry the soc_button_array fix; rawhide is where the 7.4 camera work can be tested without patches."
+  kernel_config: "All needed options are enabled in kernel-ark (see docs/subsystems/boot-initramfs-fedora.md)."

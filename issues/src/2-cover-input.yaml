@@ -1,0 +1,288 @@
+# Type Cover, keyboard, buttons, sensors. Source for issues/SP9-2xx-*.md.
+
+- id: SP9-201
+  title: "Type Cover does not work at the LUKS passphrase prompt (dracut lacks surface_aggregator_hub)"
+  area: cover
+  kind: upstreaming
+  status: open
+  priority: P1
+  layers: {mainline: works, linux_surface: works, fedora: broken}
+  problem: |
+    With an encrypted root, the Type Cover keyboard is dead at the LUKS prompt on Fedora, so the disk cannot
+    be unlocked without a USB keyboard.
+  origin: |
+    The cover keyboard and touchpad are children of the SAM KIP hub, bound by `surface_aggregator_hub`.
+    dracut master already installs `=drivers/hid` (surface_hid, surface_hid_core), `=drivers/tty/serial`
+    (8250_dw, 8250_lpss), `=drivers/pinctrl`, `intel_lpss_pci` and `surface_aggregator_registry` in the default
+    (sloppy) hostonly mode, but not `surface_aggregator_hub` (read 2026-11-14, dracut 04e04cfe). A second cause,
+    the SAM probe race, is SP9-202.
+  reports:
+    - "#1221 | SP9 Fedora 38 LUKS with Signature Keyboard (solved with modules)"
+    - "#1126 | SP9 Debian keyboard not in initramfs"
+    - "#1491 | SP9 NixOS LUKS module list"
+    - "#1709 | Fedora 41 LUKS keyboard (unanswered)"
+    - "#2039 | SP8 Fedora: cover dead at LUKS (surface_serial_hub IRQ bug), Clevis plus TPM2 fallback"
+    - "#911 | SP8 LUKS module list"
+    - "#1350 | SP8 Silverblue LUKS"
+    - "rhbz#1322128 | SP3/4 Type Cover at LUKS (old)"
+    - "omacom/omarchy#14195 | Omarchy LUKS keyboard module list"
+  fixes:
+    - "commit:dracut-ng/dracut@8cc89664 | precedent: add surface_aggregator_registry for Surface Laptop 4 (Benjamin Drung, 2023)"
+    - "ublue-os/surface#29 | Universal Blue initramfs module list"
+    - "Madmaxx636/surface-companion | app fix with the same module list, surface_aggregator_hub included (disc#2282, 2026-11-16)"
+  solutions:
+    - "One-line dracut PR: add surface_aggregator_hub next to surface_aggregator_registry in 70kernel-modules, citing 8cc89664."
+    - "Local workaround now: add_drivers+=\" surface_aggregator_hub \" in /etc/dracut.conf.d and regenerate."
+    - "Tablet without cover: unl0kr on-screen keyboard (#1857)."
+  next:
+    - "Check what Fedora's initramfs contains on an SP9, then open the dracut PR."
+  commands: |
+    lsinitrd | grep -E 'surface|8250|pinctrl|lpss'
+    printf '%s\n' 'add_drivers+=" surface_aggregator_hub "' | sudo tee /etc/dracut.conf.d/surface-hub.conf
+    sudo dracut -f --regenerate-all
+  upstream: ["dracut-ng/dracut"]
+  people: ["Benjamin Drung"]
+  depends_on: []
+  related: [SP9-202, SP9-601]
+  kb: ["docs/subsystems/boot-initramfs-fedora.md", "docs/research/upstream-efforts.md"]
+
+- id: SP9-202
+  title: "Type Cover dead or slow after boot: SAM probe returns -EINVAL before the pin controller is ready"
+  area: cover
+  kind: bug
+  status: fix-pending
+  priority: P1
+  layers: {mainline: partial, linux_surface: works, fedora: partial}
+  problem: |
+    Sometimes the cover keyboard and touchpad do not work after boot (or only after reattaching or a
+    suspend cycle). Discussion 2282 reports the cover taking a moment to start after attaching.
+  origin: |
+    When surface_aggregator probes before pinctrl_tigerlake has bound the wakeup GPIO, ssam_irq_setup()
+    returns -EINVAL instead of -EPROBE_DEFER, so the probe is never retried. Wu Enqiang's v2 fix is accepted
+    in platform-driver-x86 and should reach 7.5 and stable.
+  reports:
+    - "#2219 | surface_serial_hub -EINVAL instead of -EPROBE_DEFER (confirmed on SP9)"
+    - "#1645 | SP9 NixOS keyboard dead after 6.12.4 until pinctrl_tigerlake loaded first"
+    - "#1651 | SP9 keyboard and touchpad sometimes dead at boot or after resume"
+    - "#2064 | keyboard not always available after boot"
+    - "disc#2282 | cover takes a moment after attaching"
+  fixes:
+    - "lore:20261024054921.48209-1-janussss@163.com | Wu Enqiang v2, accepted in platform-driver-x86"
+    - "kernel#182 | CmdrShepardsPie's variant, closed in favour of v2"
+    - "lore:20240505130800.2546640-2-weifeng.liu.z@gmail.com | earlier defer-probe series (2024)"
+  solutions:
+    - "Until the fix is in Fedora's kernel: load pinctrl_tigerlake early (dracut force_drivers)."
+  next:
+    - "Check when the accepted patch reaches Fedora's kernel; ask for a kernel-ark backport if it misses 7.4."
+  commands: |
+    printf '%s\n' 'force_drivers+=" pinctrl_tigerlake "' | sudo tee /etc/dracut.conf.d/surface-pinctrl.conf
+    sudo dracut -f --regenerate-all
+  upstream: ["platform-driver-x86 (Hans de Goede, Ilpo Jarvinen)", "Fedora kernel-ark"]
+  people: ["Wu Enqiang", CmdrShepardsPie]
+  depends_on: []
+  related: [SP9-201, SP9-203]
+  kb: ["status.yaml", "data/indexes/upstream-submissions.tsv"]
+
+- id: SP9-203
+  title: "Boot stalls about 2 minutes: surface_hid probes the pen stash node and fails with -EPROTO"
+  area: cover
+  kind: bug
+  status: open
+  priority: P1
+  layers: {mainline: broken, linux_surface: broken, fedora: broken}
+  problem: |
+    On Fedora 42/43 the SP9 sits at a black screen for about two minutes before reaching the desktop;
+    blacklisting surface_hid removes the delay but also the keyboard. Possibly related to the black screen
+    when booting without the cover.
+  origin: |
+    Mainline's ssam_node_group_sp9 lists the KIP pen stash node 01:15:02:02:00. Covers with a pen tray answer
+    with HID 045E:09B0; covers without one return an empty descriptor, surface_hid fails with -EPROTO
+    ("unexpected descriptor length: got 0, expected 9"). qzed: it should return -ENODEV and refuse quietly.
+    Why that costs two minutes is not explained yet.
+  reports:
+    - "#1845 | SP9 Fedora 42 hanging on boot with surface_hid (also Fedora 43, SP3)"
+    - "disc#2282 | black screen without cover until the cover is attached"
+  fixes: []
+  solutions:
+    - "Patch surface_hid to treat an empty descriptor as -ENODEV (small upstream patch to linux-input / platform-driver-x86)."
+    - "Find what blocks for two minutes (udev settle, a waiting firmware request) with systemd-analyze and a timed journal."
+  next:
+    - "Check an affected boot log, then write and test the patch."
+  commands: |
+    systemd-analyze blame | head -20
+    journalctl -b -k | grep -E 'surface_hid|descriptor length'
+  upstream: ["linux-input / platform-driver-x86 (Maximilian Luz)"]
+  people: [qzed, AegerUSA]
+  depends_on: []
+  related: [SP9-202]
+  kb: ["status.yaml", "docs/hardware.md"]
+
+- id: SP9-204
+  title: "Keyboard backlight cannot be controlled from the desktop"
+  area: cover
+  kind: missing-feature
+  status: fix-pending
+  priority: P2
+  layers: {mainline: broken, linux_surface: broken, fedora: broken}
+  problem: |
+    The cover backlight works with Fn keys but Plasma shows no keyboard backlight control.
+  origin: |
+    surface_hid exposes no LED class device for the KIP keyboard (045E:09AE). A patch adding it is on
+    platform-driver-x86, with no review yet.
+  reports:
+    - "disc#2282 | backlight works but Plasma has no control"
+    - "#469 | keyboard backlight cannot be turned on (older device)"
+  fixes:
+    - "lore:20261023173213.6219-1-ramonjesusmiranda@gmail.com | HID: surface-hid: support keyboard backlight on Surface Pro Keyboard (045E:09AE)"
+  solutions:
+    - "Test the patch on the SP9 (its cover is 045E:09AE) and reply with Tested-by."
+  next:
+    - "Build a kernel with the patch, check /sys/class/leds and Plasma, reply on-list."
+  upstream: ["platform-driver-x86"]
+  people: ["Ramon Jesus Miranda"]
+  depends_on: []
+  related: [SP9-202]
+  kb: ["status.yaml"]
+
+- id: SP9-205
+  title: "Power and volume buttons dead when soc_button_array probes before the pin controller"
+  area: buttons
+  kind: bug
+  status: fixed-upstream
+  priority: P3
+  layers: {mainline: works, linux_surface: works, fedora: works}
+  problem: |
+    Power and volume buttons silently did nothing when soc_button_array loaded before pinctrl_tigerlake.
+  origin: |
+    soc_button_array ignored -EPROBE_DEFER. Fixed in mainline by ed22ad5fdbdb (7.3; stable 7.2.8, 6.18.54,
+    6.12.112), verified on an SP9. Kept here for traceability; linux-surface 0009 is now redundant.
+  reports:
+    - "#1392 | SP9 buttons after arch 6.7.9; CmdrShepardsPie verified the fix on SP9 (2026-10-25)"
+    - "#1481 | SP7 buttons sometimes dead"
+    - "#1914 | SP8 buttons dead on Ubuntu 25.10"
+    - "#2144 | SP12 MSHW0040 deferred probe"
+    - "rhbz#2488614 | Framework Laptop 12 same bug"
+  fixes:
+    - "mainline:ed22ad5fdbdb | Input: soc_button_array - fix MS Surface Pro 11 probe failure"
+    - "kernel#172 | downstream defer patch (merged 2026-11-09, now redundant)"
+    - "lore:20261021015004.1537738-1-dmitry.torokhov@gmail.com | Torokhov: use resources to set up IRQ info (cleanup)"
+  solutions:
+    - "Nothing to send. Ask linux-surface to drop 0009 on 7.3+; close #1392."
+  next:
+    - "Confirm buttons on the stock Fedora kernel in phase 0 (SP9-901)."
+  upstream: ["linux-input"]
+  people: ["Hans de Goede", CmdrShepardsPie]
+  depends_on: []
+  related: [SP9-901, SP9-902]
+  kb: ["docs/research/open-issues.md"]
+
+- id: SP9-206
+  title: "Rotation and light sensor hang in iio-sensor-proxy (claims time out, rotation freezes)"
+  area: sensors
+  kind: bug
+  status: open
+  priority: P1
+  layers: {mainline: partial, linux_surface: partial, fedora: broken}
+  problem: |
+    With iio-sensor-proxy 3.6+ (Fedora ships 3.9) the SP9 accelerometer and light sensor claims time out,
+    screen rotation freezes and `systemctl stop iio-sensor-proxy` hangs.
+  origin: |
+    The SAM sensor hub (045E:005D) reports accel and light only on change (in_accel_hysteresis 0.05, light 1 /
+    relative 20) and surface_hid cannot fetch input reports on request, so every sysfs raw read waits 5 s when
+    the tablet is still. iio-sensor-proxy 3.6+ polls these sensors on its main thread.
+  reports:
+    - "#2160 | iio-sensor-proxy not working (SLS); CmdrShepardsPie's SP9 analysis and udev rule"
+    - "fdo:hadess/iio-sensor-proxy#432 | upstream issue (not readable from here)"
+    - "#1969 | long KDE Wayland login delay from iio-sensor-proxy"
+    - "#1141 | SP9 rotation only with cover attached"
+  fixes: []
+  solutions:
+    - "udev rule setting the hub's hysteresis attributes to 0 (CmdrShepardsPie, tested on SP9 with Fedora 45); copy in docs/workarounds.md."
+    - "Upstream: iio-sensor-proxy sets hysteresis 0 itself, or a hwdb property marks such sensors."
+  next:
+    - "Confirm on an SP9, then comment on iio-sensor-proxy#432 with the measurements, crediting CmdrShepardsPie."
+  upstream: ["iio-sensor-proxy (freedesktop GitLab)", "systemd hwdb"]
+  people: [CmdrShepardsPie, hadess]
+  depends_on: []
+  related: [SP9-207]
+  kb: ["docs/workarounds.md", "status.yaml"]
+
+- id: SP9-207
+  title: "Light sensor stops after a short sleep (hid-sensor-trigger runtime PM bug)"
+  area: sensors
+  kind: bug
+  status: open
+  priority: P2
+  layers: {mainline: broken, linux_surface: broken, fedora: broken}
+  problem: |
+    With the hysteresis rule in place, the ambient light sensor sometimes returns nothing after a short
+    suspend; automatic brightness stops until it is toggled.
+  origin: |
+    Traced by CmdrShepardsPie with kprobes: if system suspend starts inside hid-sensor-trigger's 3 s
+    autosuspend window, hid_sensor_suspend() powers the sensor off but leaves runtime PM "active"; on resume
+    nothing powers it back on and hid_sensor_runtime_resume() is never called. No patch exists.
+  reports:
+    - "#2160 | trace and workaround attempts (2026-10-26, 2026-10-27)"
+  fixes: []
+  solutions:
+    - "Kernel fix in drivers/iio/common/hid-sensors/hid-sensor-trigger.c: mark the device suspended in the system suspend path or re-power it on resume when the buffer is re-enabled."
+  next:
+    - "Reproduce on an SP9, write the patch, send to linux-iio with CmdrShepardsPie's analysis credited."
+  upstream: ["linux-iio (Jiri Kosina, Srinivas Pandruvada, Jonathan Cameron)"]
+  people: [CmdrShepardsPie]
+  depends_on: []
+  related: [SP9-206]
+  kb: ["status.yaml"]
+
+- id: SP9-208
+  title: "Surface Dock USB keyboard gives no input on Fedora 45; USB-C UCSI over SAM missing"
+  area: usb
+  kind: bug
+  status: open
+  priority: P3
+  layers: {mainline: partial, linux_surface: partial, fedora: partial}
+  problem: |
+    A USB keyboard behind the Surface Dock (Surface Connect) is detected but gives no input on Fedora 45.
+    USB-C UCSI (charger and role reporting) over the SAM HID node has no driver.
+  origin: |
+    Unknown for the dock keyboard. UCSI: the SP9 group has ssam_node_hid_sam_ucm_ucsi but no consumer driver.
+  reports:
+    - "#2371 | SP9 Fedora 45 dock USB keyboard no input"
+  fixes:
+    - "kernel#184 | UCSI over SAM HID driver (active, tested by qzed on Pro X)"
+  solutions:
+    - "Test kernel#184 on the SP9."
+  next:
+    - "Low priority; collect lsusb -t and evtest from the dock case."
+  upstream: ["linux-usb (typec/ucsi)"]
+  people: [JValdivia23, qzed]
+  depends_on: []
+  related: []
+  kb: ["status.yaml"]
+
+- id: SP9-209
+  title: "Surface Pro Flex Keyboard untested on the SP9"
+  area: cover
+  kind: needs-test
+  status: needs-test
+  priority: P3
+  layers: {mainline: unknown, linux_surface: unknown, fedora: unknown}
+  problem: |
+    No SP9 report exists for the Flex Keyboard attached or detached (Bluetooth).
+  origin: |
+    Data points only from SP10/SP11/SP12; the tablet switch may need zero-padded source handling.
+  reports:
+    - "#1608 | SP10 support"
+    - "#2144 | SP12 enablement tracker"
+    - "#1845 | pen stash node answers only on covers with a tray"
+  fixes:
+    - "kernel#173 | aggregator_tabletsw: accept zero-padded source-list responses (needs update)"
+  solutions:
+    - "Test if a Flex Keyboard is available."
+  next:
+    - "Skip unless the hardware is at hand."
+  upstream: []
+  people: [zR-JB]
+  depends_on: []
+  related: [SP9-203]
+  kb: ["status.yaml"]

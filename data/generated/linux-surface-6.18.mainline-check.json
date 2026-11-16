@@ -1,0 +1,296 @@
+[
+ {
+  "series": "0001-secureboot.patch",
+  "sha": "f44270e8c060e7fd1d3db4a96b5ee3ebd929cf45",
+  "subject": "Revert \"efi/x86: Set the PE/COFF header's NX compat flag unconditionally\"",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0001-secureboot.patch",
+  "sha": "9482c950fe9dc51714e87c2b9350676fb389d4ec",
+  "subject": "PM: hibernate: Add a lockdown_hibernate parameter",
+  "mainline_status": "partial/diverged",
+  "detail": "1 hunks rejected"
+ },
+ {
+  "series": "0002-surface3.patch",
+  "sha": "d28476c2a4b3a549dabd6071555e630f2d626dd1",
+  "subject": "(surface3-oemb) add DMI matches for Surface 3 with broken DMI table",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0002-surface3.patch",
+  "sha": "618cb87bcc814573386ea6d37e7cacc6deb1a07c",
+  "subject": "surface3-spi: workaround: disable DMA mode to avoid crash by default",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0003-mwifiex.patch",
+  "sha": "23fd9d5925b016368fc938d685287ffb4d5dcb3b",
+  "subject": "mwifiex: Add quirk resetting the PCI bridge on MS Surface devices",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0003-mwifiex.patch",
+  "sha": "39e45053db03530886afb24fed7100e052946771",
+  "subject": "mwifiex: pcie: disable bridge_d3 for Surface gen4+",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0003-mwifiex.patch",
+  "sha": "eb7f4bf578dc0cfef3d9a0b92e1b87b841076373",
+  "subject": "Bluetooth: btusb: Lower passive lescan interval on Marvell 88W8897",
+  "mainline_status": "partial/diverged",
+  "detail": "0 hunks rejected, missing files: ['drivers/bluetooth/btusb.c']"
+ },
+ {
+  "series": "0004-ath10k.patch",
+  "sha": "fcb314a3176faca1de386b51b93fdbe098fb4ad4",
+  "subject": "ath10k: Add module parameters to override board files",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0005-ipts.patch",
+  "sha": "b275dd8296d2b6c1a25264396f54ed98e0f97dbe",
+  "subject": "mei: me: Add Icelake device ID for iTouch",
+  "mainline_status": "partial/diverged",
+  "detail": "1 hunks rejected"
+ },
+ {
+  "series": "0005-ipts.patch",
+  "sha": "973fc9bfe413de04a19f249478b663675172c729",
+  "subject": "iommu: Use IOMMU passthrough mode for IPTS",
+  "mainline_status": "partial/diverged",
+  "detail": "2 hunks rejected"
+ },
+ {
+  "series": "0005-ipts.patch",
+  "sha": "019c4ed118b7ef3e2d14084300a40dc167867566",
+  "subject": "hid: Add support for Intel Precise Touch and Stylus",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0005-ipts.patch",
+  "sha": "f4b936811bc5d80e906d755d5aea4470da2ed6d5",
+  "subject": "hid: ipts: Fix size of synthesized HID data report",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0006-ithc.patch",
+  "sha": "cba2abebd410e8a0e3469b768142fee62fa47355",
+  "subject": "iommu: intel: Disable source id verification for ITHC",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0006-ithc.patch",
+  "sha": "c73ac96adeb18d0f7c51e6753d24589aa04766d4",
+  "subject": "hid: Add support for Intel Touch Host Controller",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0007-surface-sam.patch",
+  "sha": "e480071b325c470d35e4ff2cbb6e082cca67f53d",
+  "subject": "rtc: Add basic support for RTC via Surface System Aggregator Module",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0007-surface-sam.patch",
+  "sha": "2ac480c204dd5a474b2dc9c70be9990fd7f26308",
+  "subject": "platform/surface: aggregator_registry: Add Surface Laptop 7 (ACPI)",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0008-surface-sam-over-hid.patch",
+  "sha": "c5adbf09639e360bd12cc8ef7efd4b3bd797c83d",
+  "subject": "i2c: acpi: Implement RawBytes read access",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0008-surface-sam-over-hid.patch",
+  "sha": "35a0240d31a67db8ab4630913bab10a46b0849e7",
+  "subject": "platform/surface: Add driver for Surface Book 1 dGPU switch",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0009-surface-button.patch",
+  "sha": "1bc8e6b176e3cf59ed477fbf719cb637e4e18e3d",
+  "subject": "Input: soc_button_array - support AMD variant Surface devices",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0009-surface-button.patch",
+  "sha": "068603a8dbf0de7a4cb63f48654dc7e8ab72c8bd",
+  "subject": "platform/surface: surfacepro3_button: don't load on amd variant",
+  "mainline_status": "partial/diverged",
+  "detail": "1 hunks rejected"
+ },
+ {
+  "series": "0010-surface-typecover.patch",
+  "sha": "bf68a66c5dd3210c7cb617fe1c6a9a51d85afb3d",
+  "subject": "USB: quirks: Add USB_QUIRK_DELAY_INIT for Surface Go 3 Type-Cover",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0010-surface-typecover.patch",
+  "sha": "ffb5b11807373e2fdc3b0c9b1a767c4b77f573fc",
+  "subject": "hid/multitouch: Turn off Type Cover keyboard backlight when suspending",
+  "mainline_status": "partial/diverged",
+  "detail": "1 hunks rejected"
+ },
+ {
+  "series": "0010-surface-typecover.patch",
+  "sha": "fe3fffe5fdd7b5066a802483299086d77b9a4056",
+  "subject": "hid/multitouch: Add support for surface pro type cover tablet switch",
+  "mainline_status": "partial/diverged",
+  "detail": "2 hunks rejected"
+ },
+ {
+  "series": "0011-surface-shutdown.patch",
+  "sha": "19f9c96220859fbabe1bafd066445ebe887d63d7",
+  "subject": "PCI: Add quirk to prevent calling shutdown method",
+  "mainline_status": "partial/diverged",
+  "detail": "1 hunks rejected"
+ },
+ {
+  "series": "0011-surface-shutdown.patch",
+  "sha": "d340867331986a526d36cfedc500d8869fc935a3",
+  "subject": "PCI: Add Surface Laptop Studio 2 devices to shutdown ops quirk",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0012-surface-gpe.patch",
+  "sha": "e0aeeb6b8dfa0fa6d0a68eeba4e0202ce182c904",
+  "subject": "platform/surface: gpe: Add support for Surface Pro 9",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0013-cameras.patch",
+  "sha": "2481d57bad70f6ce2e9f1a9785c9e72b7778673b",
+  "subject": "ACPI: delay enumeration of devices with a _DEP pointing to an INT3472 device",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0013-cameras.patch",
+  "sha": "d50fda86623cf3ed08372719fab116091d62d8e8",
+  "subject": "iommu: intel-ipu: use IOMMU passthrough mode for Intel IPUs",
+  "mainline_status": "partial/diverged",
+  "detail": "2 hunks rejected"
+ },
+ {
+  "series": "0013-cameras.patch",
+  "sha": "e13ccdf36b45657501cb9fab286a088d33619a6a",
+  "subject": "platform/x86: int3472: Enable I2c daisy chain",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0013-cameras.patch",
+  "sha": "f77bbbea4906a2cde3d5219790ce8ace3bacbacb",
+  "subject": "media: i2c: Clarify that gain is Analogue gain in OV7251",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0013-cameras.patch",
+  "sha": "274679102c67b75b4ffbf7cfb03d08513364041b",
+  "subject": "media: v4l2-core: Acquire privacy led in v4l2_async_register_subdev()",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0013-cameras.patch",
+  "sha": "66b1b92d598dfd53753a1a9bb85a0dcef6f1c009",
+  "subject": "platform: x86: int3472: Add MFD cell for tps68470 LED",
+  "mainline_status": "partial/diverged",
+  "detail": "1 hunks rejected"
+ },
+ {
+  "series": "0013-cameras.patch",
+  "sha": "856884094c488b27a4452797601ec52061635d66",
+  "subject": "include: mfd: tps68470: Add masks for LEDA and LEDB",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0013-cameras.patch",
+  "sha": "894a10a4bb38df665e2bf29e6461f2aaa4308b5b",
+  "subject": "leds: tps68470: Add LED control for tps68470",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0013-cameras.patch",
+  "sha": "0cfa333205cbfdb2caf012ad90102be5eeba7cb3",
+  "subject": "media: i2c: dw9719: fix probe error on surface go 2",
+  "mainline_status": "partial/diverged",
+  "detail": "1 hunks rejected"
+ },
+ {
+  "series": "0013-cameras.patch",
+  "sha": "a121af4ef2b5363ca7a5854d9c715f171d18f197",
+  "subject": "Add camera support for Surface Pro 9",
+  "mainline_status": "partial/diverged",
+  "detail": "4 hunks rejected"
+ },
+ {
+  "series": "0013-cameras.patch",
+  "sha": "1b5e31752695b334265b971cd417a27a7c8f678c",
+  "subject": "media: ipu-bridge: Add front camera rotation quirks for Surface Pro 8 and 9",
+  "mainline_status": "partial/diverged",
+  "detail": "3 hunks rejected"
+ },
+ {
+  "series": "0014-amd-gpio.patch",
+  "sha": "3593cf7c4dd2be87287441224991caec0f762780",
+  "subject": "ACPI: Add quirk for Surface Laptop 4 AMD missing irq 7 override",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0014-amd-gpio.patch",
+  "sha": "0547e8db859203abd24a6ce54fdfcb1945c8f5b0",
+  "subject": "ACPI: Add AMD 13\" Surface Laptop 4 model to irq 7 override quirk",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0015-rtc.patch",
+  "sha": "74c44a3eed54a0c96c4dd0bbe7d18ca4931e1295",
+  "subject": "acpi: allow usage of acpi_tad on HW-reduced platforms",
+  "mainline_status": "partial/diverged",
+  "detail": "4 hunks rejected"
+ },
+ {
+  "series": "0016-hid-surface.patch",
+  "sha": "8ba64ba859fe0d34bc935778379ad4809ee75045",
+  "subject": "HID: Add hid-surface driver to filter BTN_0 (FN key)",
+  "mainline_status": "not-upstream",
+  "detail": ""
+ },
+ {
+  "series": "0016-hid-surface.patch",
+  "sha": "e91f4f556f2f44e02a5ff5bc6446f6d7718a64c4",
+  "subject": "hid/multitouch: Prevent mode set on Surface Laptop Studio 2 touch pad",
+  "mainline_status": "partial/diverged",
+  "detail": "1 hunks rejected"
+ }
+]

@@ -1,0 +1,189 @@
+# Cameras. Source for issues/SP9-4xx-*.md.
+
+- id: SP9-401
+  title: "Front camera (OV5693) returns empty buffers on mainline 7.4: 2x2 binned mode with flips fails"
+  area: camera
+  kind: bug
+  status: fix-pending
+  priority: P1
+  layers: {mainline: partial, linux_surface: partial, fedora: broken}
+  problem: |
+    Mainline 7.4 has all the SP9 front camera plumbing, but libcamera picks the binned 1296x972 mode with both
+    flips (the sensor is mounted 180 degrees) and that mode gives CSI-2 frame sync errors, so applications get
+    empty frames.
+  origin: |
+    The ov5693 driver's binned mode does not stream correctly on IPU6 when flips are on. D. Manresa wrote a fix
+    (#2252); it was never posted. Simon Kruse has Manresa's go-ahead to send it to linux-media but it must be
+    rebased on Rimoli's clock-lane gate first (do not send 548281df as is). Manresa cannot respin (hardware donated).
+  reports:
+    - "dmanresa-saes/surface-ipu6-cameras#1 | SP9 results on media next, upstreaming agreement"
+    - "#2234 | SP8 binned mode zero-byte buffers; fails only with flips on (2026-11-10)"
+    - "#2154 | Surface Go 4 front camera status"
+  fixes:
+    - "#2252 | D. Manresa's binned-mode patch (linux-surface PR)"
+    - "kernel#181 | carries the same patch for the SP5 tree"
+    - "kernel#193 | backports the 7.4 camera work to 7.3 (CmdrShepardsPie)"
+    - "mainline:df7980112cee | ov5693: Add OVTI5693 ACPI HID (Rimoli)"
+    - "mainline:0e12587945f6 | ov5693: gate the MIPI clock lane for non-continuous clock (Rimoli)"
+    - "mainline:8e3def7bf410 | ipu-bridge: request non-continuous clock for ov5693 on IPU6 (Rimoli)"
+    - "mainline:db44b1792898 | ipu-bridge: SP9 upside-down sensor quirks (Rimoli)"
+    - "lore:20261029-ov5693-fixes-v2-1-2526d7b13030@gmail.com | ov5693 mode changes, flips, autosuspend (Ziliani, pending)"
+  solutions:
+    - "When Simon Kruse posts the rebased patch, test it on the SP9 (Fedora rawhide 7.4 kernel plus patch) and reply with Tested-by."
+  next:
+    - "Watch linux-media for Simon Kruse's posting; until then test #2252 on 7.4."
+  upstream: ["linux-media (sensor drivers: Sakari Ailus)"]
+  people: ["D. Manresa", "Simon Kruse", "Fernando Rimoli", CmdrShepardsPie]
+  depends_on: []
+  related: [SP9-402, SP9-405, SP9-406]
+  kb: ["docs/subsystems/camera.md", "status.yaml"]
+
+- id: SP9-402
+  title: "Camera colours are washed out: no libcamera software ISP tuning for OV5693 and OV13858"
+  area: camera
+  kind: missing-feature
+  status: fix-pending
+  priority: P2
+  layers: {mainline: n/a, linux_surface: n/a, fedora: broken}
+  problem: |
+    With libcamera's simple pipeline and software ISP the SP9 images have wrong colours, because only an
+    uncalibrated tuning file exists for these sensors.
+  origin: |
+    Nobody had converted the Windows tuning (AIQB in the Surface driver package) to libcamera. Emfox Zhou did
+    for the SP8 and posted it (applies to the SP9 by sensor name). A generic AIQB parser stalled in review.
+  reports:
+    - "kb:docs/subsystems/camera.md | colour and tuning notes"
+    - "#2166 | SP6 cameras green: ISP tuning missing"
+  fixes:
+    - "lcpw:28886 | ipa: softisp: Add tuning data for the ov13858 and ov5693 v3 (Emfox Zhou, no replies yet)"
+    - "lcpw:27355 | OV5693 black levels (accepted)"
+    - "lcpw:26761 | utils: tuning: AIQB parser for Intel IPU6 sensors (changes requested, stalled)"
+    - "lcpw:28721 | simple pipeline: no CMA DMA buffers for ipu6/7 (Hans de Goede, pending)"
+  solutions:
+    - "Test v3 on the SP9 and reply with Tested-by; compare the SP9 AIQB with the SP8 values."
+  next:
+    - "Apply series 6354 to libcamera, run qcam on the SP9 front and rear cameras."
+  upstream: ["libcamera-devel"]
+  people: ["Emfox Zhou", "Javier Tia", "Hans de Goede"]
+  depends_on: [SP9-401]
+  related: [SP9-403]
+  kb: ["data/indexes/trackers.tsv"]
+
+- id: SP9-403
+  title: "Rear camera (OV13858): finish the upstream series and drop the broken downstream link-frequency entry"
+  area: camera
+  kind: upstreaming
+  status: fix-pending
+  priority: P2
+  layers: {mainline: partial, linux_surface: partial, fedora: broken}
+  problem: |
+    The rear camera probes on 7.4 (sensor config, upside-down quirk), but flip controls, regulator handling,
+    colorspace and gain cap are still pending, and the linux-surface 7.3 entry declares four link frequencies
+    with only one listed, which breaks probing (-22).
+  origin: |
+    Downstream PR 1867 entry IPU_SENSOR_CONFIG("OVTID858", 4, 540000000) versus mainline (2, 540 and 270 MHz).
+  reports:
+    - "#1753 | SP9 ov13858 probe failed with -22"
+    - "#2227 | SP8/SP9 rear rotation, red/blue swap in an earlier version"
+  fixes:
+    - "mainline:2ee01a094aba | ipu-bridge: Add OV13858 sensor config (Lebedev)"
+    - "kernel#191 | fix the OVTID858 link frequency count"
+    - "kernel#174 | same fix, competing"
+    - "kernel#170 | SP9 rear camera rotation (merged downstream)"
+    - "lore:20260930073308.56811-1-lsa.uz@pm.me | ov13858 flip controls v4"
+    - "lore:20261016210246.58562-1-lsa.uz@pm.me | ov13858 regulator, clock and reset GPIO v4"
+    - "lore:20261016-ov13858-colorspace-v1-1-51f0379ada0c@gmail.com | ov13858 colorspace"
+    - "lore:20261002093507.43584-1-lsa.uz@pm.me | ov13858 gain cap"
+  solutions:
+    - "On 7.4 drop the downstream entry; test the pending ov13858 patches on the SP9 and send Tested-by."
+  next:
+    - "Test on Fedora rawhide 7.4 plus the pending series."
+  upstream: ["linux-media"]
+  people: ["Sergey Lebedev", "George Neacsu", jmmartinf]
+  depends_on: []
+  related: [SP9-401, SP9-402]
+  kb: ["docs/subsystems/camera.md"]
+
+- id: SP9-404
+  title: "IR camera (ST VD55G0) has no upstream driver, so no face login"
+  area: camera
+  kind: missing-driver
+  status: fix-pending
+  priority: P3
+  layers: {mainline: broken, linux_surface: broken, fedora: broken}
+  problem: |
+    The IR camera used for Windows Hello does not work; face login (Howdy) is impossible.
+  origin: |
+    Two competing VD55G0 series are on linux-media and maintainers have not picked one. The IR flood LED GPIO
+    (int3472 type 0x02) is already mapped in mainline 7.4.
+  reports:
+    - "disc#2198 | SP9 camera discussion incl. IR"
+    - "rhbz#2509956 | ThinkPad VD55G1: three-piece recipe"
+    - "rhbz#2516222 | int3472 GPIO type 0x02 on Dell"
+  fixes:
+    - "lore:20261110195454.48176-2-lsa.uz@pm.me | Add the ST VD55G0 global shutter sensor (Lebedev, v4 dt-bindings part)"
+    - "lore:20260918221705.323510-2-pm@petermarshall.ca | st-vd55g1: genericize and add VD55G0 (Marshall)"
+    - "kernel#169 | VD55G0 in linux-surface (petm5, on-list)"
+    - "lore:20260401203638.1601661-5-mnencia@kcore.it | int3472 GPIO type 0x02 (IR flood LED), accepted"
+  solutions:
+    - "Test the series the media maintainers prefer on the SP9 and reply with Tested-by."
+  next:
+    - "Low priority until one series is picked."
+  upstream: ["linux-media"]
+  people: ["Sergey Lebedev", "Peter Marshall", petm5, fildunsky]
+  depends_on: []
+  related: [SP9-401]
+  kb: ["status.yaml"]
+
+- id: SP9-405
+  title: "Cameras unusable in browsers and video calls without workarounds (v4l2loopback, 64-node limit)"
+  area: camera
+  kind: bug
+  status: open
+  priority: P2
+  layers: {mainline: partial, linux_surface: partial, fedora: partial}
+  problem: |
+    Browsers and Zoom/Teams do not see libcamera cameras directly; people use v4l2loopback or relays, and
+    intel-ipu6-isys registers 64 video nodes, which pushes a loopback device past WebRTC's limit.
+  origin: |
+    IPU6 needs libcamera; apps need PipeWire camera support (Firefox/Chromium flags) or a V4L2 bridge.
+  reports:
+    - "#2242 | V4L2 64-device limit drops the loopback camera"
+    - "#1893 | SP8 front camera in Firefox and Chromium through PipeWire on a stock kernel"
+    - "disc#2198 | relay and loopback recipes"
+  fixes:
+    - "luqqas96/surface-zoom-bridge | LD_PRELOAD shim and dual loopback bridge"
+  solutions:
+    - "Prefer the PipeWire camera portal (Firefox media.webrtc.camera.allow-pipewire, Chromium flag); document it for Fedora."
+  next:
+    - "Test PipeWire camera access in Firefox on an SP9 once SP9-401 works."
+  upstream: ["PipeWire / browsers"]
+  people: [luqqas96, nicheosala]
+  depends_on: [SP9-401]
+  related: [SP9-402]
+  kb: ["docs/subsystems/camera.md"]
+
+- id: SP9-406
+  title: "Camera fails to re-probe after intel-ipu6 reload or hibernate"
+  area: camera
+  kind: bug
+  status: fix-pending
+  priority: P3
+  layers: {mainline: broken, linux_surface: broken, fedora: broken}
+  problem: |
+    After unloading and reloading intel-ipu6, or after hibernation, ov5693 does not probe again.
+  origin: |
+    ipu-bridge software nodes reference the module image and are not reusable on rebind.
+  reports:
+    - "disc#2202 | camera re-probe bug after resume"
+  fixes:
+    - "lore:20261026082549.662885-2-dmanresa@gmail.com | ipu-bridge: survive module unload (D. Manresa v5, author cannot respin)"
+  solutions:
+    - "Test v5 on the SP9 and reply with Tested-by; someone may need to carry later versions."
+  next:
+    - "Low priority."
+  upstream: ["linux-media"]
+  people: ["D. Manresa"]
+  depends_on: []
+  related: [SP9-401, SP9-306]
+  kb: ["status.yaml"]

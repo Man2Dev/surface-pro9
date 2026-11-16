@@ -1,0 +1,1160 @@
+source: CmdrShepardsPie 7.3.1-pro9
+generated_by: tools/build_patch_index.py
+commits:
+- series: 0001-secureboot.patch
+  subject: 'Revert "efi/x86: Set the PE/COFF header''s NX compat flag unconditionally"'
+  author: Maximilian Luz <luzmaximilian@gmail.com>
+  date: Sun, 9 Jun 2024 19:48:58 +0200
+  source_sha: da33470e38e9e0a9613f651421a39b0a7cee7ab4
+  files:
+  - arch/x86/boot/header.S
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: low
+  subsystem: boot
+  upstream_class: downstream
+  note: Secure Boot shim compatibility workaround for the linux-surface MOK flow; not SP9 specific.
+- series: 0001-secureboot.patch
+  subject: 'PM: hibernate: Add a lockdown_hibernate parameter'
+  author: '"J. Eduardo" <j.eduardo@gmail.com>'
+  date: Sun, 25 Aug 2024 14:17:45 +0200
+  source_sha: a7830aec8b05981d671b85b8e7804e30f25ec32a
+  files:
+  - Documentation/admin-guide/kernel-parameters.txt
+  - kernel/power/hibernate.c
+  links:
+  - https://github.com/linux-surface/kernel/pull/158
+  - https://gist.github.com/brknkfr/95d1925ccdbb7a2d18947c168dfabbee
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 1 hunks rejected
+  sp9_relevance: medium
+  subsystem: power
+  upstream_class: rework
+  note: Lets hibernate work with Secure Boot lockdown. Original patch by Kelvie Wong (2022-10-02, brknkfr gist), carried via
+    kernel#158. SP9 hibernate is a wiki topic; upstream has rejected lockdown relaxations before, expect pushback.
+- series: 0002-surface3.patch
+  subject: (surface3-oemb) add DMI matches for Surface 3 with broken DMI table
+  author: Tsuchiya Yuto <kitakar@gmail.com>
+  date: Sun, 18 Oct 2020 16:42:44 +0900
+  source_sha: 7df1e53732671687bc0f785d3a852e6b08b92ae1
+  files:
+  - drivers/platform/surface/surface3-wmi.c
+  - sound/soc/codecs/rt5645.c
+  - sound/soc/intel/common/soc-acpi-intel-cht-match.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: other
+  upstream_class: unknown
+  note: ''
+- series: 0002-surface3.patch
+  subject: 'surface3-spi: workaround: disable DMA mode to avoid crash by default'
+  author: kitakar5525 <34676735+kitakar5525@users.noreply.github.com>
+  date: Fri, 6 Dec 2019 23:10:30 +0900
+  source_sha: 24c07b73a53722f0763d898e93fe84c17b73b70a
+  files:
+  - drivers/input/touchscreen/surface3_spi.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: other
+  upstream_class: downstream
+  note: ''
+- series: 0002-surface3.patch
+  subject: 'surface3-spi: Make use_dma static'
+  author: Chris Simpson <chris@nilk.net>
+  date: Mon, 12 Oct 2026 16:16:43 -0600
+  source_sha: ff6912227c8c43bc0124a53dc47c0b865bce418a
+  files:
+  - drivers/input/touchscreen/surface3_spi.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: other
+  upstream_class: downstream
+  note: ''
+- series: 0003-mwifiex.patch
+  subject: 'mwifiex: Add quirk resetting the PCI bridge on MS Surface devices'
+  author: =?UTF-8?q?Jonas=20Dre=C3=9Fler?= <verdre@v0yd.nl>
+  date: Tue, 3 Nov 2020 13:28:04 +0100
+  source_sha: 8c09ebc815dab9a5724e10bb93fd3806496fc606
+  files:
+  - drivers/net/wireless/marvell/mwifiex/pcie.c
+  - drivers/net/wireless/marvell/mwifiex/pcie_quirks.c
+  - drivers/net/wireless/marvell/mwifiex/pcie_quirks.h
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: wifi-bt
+  upstream_class: rework
+  note: SP9 Intel uses Intel AX211 (iwlwifi)
+- series: 0003-mwifiex.patch
+  subject: 'mwifiex: pcie: disable bridge_d3 for Surface gen4+'
+  author: Tsuchiya Yuto <kitakar@gmail.com>
+  date: Sun, 4 Oct 2020 00:11:49 +0900
+  source_sha: 88abec32e990d41615cd6605048d5e7be037d00a
+  files:
+  - drivers/net/wireless/marvell/mwifiex/pcie.c
+  - drivers/net/wireless/marvell/mwifiex/pcie_quirks.c
+  - drivers/net/wireless/marvell/mwifiex/pcie_quirks.h
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: wifi-bt
+  upstream_class: rework
+  note: ''
+- series: 0003-mwifiex.patch
+  subject: 'Bluetooth: btusb: Lower passive lescan interval on Marvell 88W8897'
+  author: =?UTF-8?q?Jonas=20Dre=C3=9Fler?= <verdre@v0yd.nl>
+  date: Thu, 25 Mar 2021 11:33:02 +0100
+  source_sha: 11c9fbd3dba7195887593a2cf204d72fc55a06fc
+  files:
+  - drivers/bluetooth/btusb.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: '0 hunks rejected, missing files: [''drivers/bluetooth/btusb.c'']'
+  sp9_relevance: none
+  subsystem: wifi-bt
+  upstream_class: rework
+  note: ''
+- series: 0004-ath10k.patch
+  subject: 'ath10k: Add module parameters to override board files'
+  author: Maximilian Luz <luzmaximilian@gmail.com>
+  date: Sat, 27 Feb 2021 00:45:52 +0100
+  source_sha: 50ca85903a3cf23f493e894462e0bec4a1be0935
+  files:
+  - drivers/net/wireless/ath/ath10k/core.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: wifi-bt
+  upstream_class: downstream
+  note: ''
+- series: 0005-ipts.patch
+  subject: 'mei: me: Add Icelake device ID for iTouch'
+  author: Dorian Stoll <dorian.stoll@tmsp.io>
+  date: Thu, 30 Jul 2020 13:21:53 +0200
+  source_sha: c45a424aeebc3620746c2b86c862bd555e2d86a8
+  files:
+  - drivers/misc/mei/hw-me-regs.h
+  - drivers/misc/mei/pci-me.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: touch-pen
+  upstream_class: upstreamable
+  note: IPTS over MEI is SP4 to SP7+; SP9 uses ITHC
+- series: 0005-ipts.patch
+  subject: 'iommu: Use IOMMU passthrough mode for IPTS'
+  author: Liban Hannan <liban.p@gmail.com>
+  date: Tue, 12 Apr 2022 23:31:12 +0100
+  source_sha: b518b485b85e609921fa1b6dd3909ae0e1cde253
+  files:
+  - drivers/iommu/intel/iommu.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 1 hunks rejected
+  sp9_relevance: none
+  subsystem: touch-pen
+  upstream_class: rework
+  note: ''
+- series: 0005-ipts.patch
+  subject: 'hid: Add support for Intel Precise Touch and Stylus'
+  author: Dorian Stoll <dorian.stoll@tmsp.io>
+  date: Sun, 11 Dec 2022 12:00:59 +0100
+  source_sha: 135b9ffadf3c2208d9dc03cd8de8b09b9394baed
+  files:
+  - drivers/hid/Kconfig
+  - drivers/hid/Makefile
+  - drivers/hid/ipts/Kconfig
+  - drivers/hid/ipts/Makefile
+  - drivers/hid/ipts/cmd.c
+  - drivers/hid/ipts/cmd.h
+  - drivers/hid/ipts/context.h
+  - drivers/hid/ipts/control.c
+  - drivers/hid/ipts/control.h
+  - drivers/hid/ipts/desc.h
+  - drivers/hid/ipts/eds1.c
+  - drivers/hid/ipts/eds1.h
+  - drivers/hid/ipts/eds2.c
+  - drivers/hid/ipts/eds2.h
+  - drivers/hid/ipts/hid.c
+  - drivers/hid/ipts/hid.h
+  - drivers/hid/ipts/main.c
+  - drivers/hid/ipts/mei.c
+  - drivers/hid/ipts/mei.h
+  - drivers/hid/ipts/receiver.c
+  - drivers/hid/ipts/receiver.h
+  - drivers/hid/ipts/resources.c
+  - drivers/hid/ipts/resources.h
+  - drivers/hid/ipts/spec-data.h
+  - drivers/hid/ipts/spec-device.h
+  - drivers/hid/ipts/spec-hid.h
+  - drivers/hid/ipts/thread.c
+  - drivers/hid/ipts/thread.h
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: touch-pen
+  upstream_class: rework
+  note: IPTS (MEI) devices only
+- series: 0005-ipts.patch
+  subject: 'hid: ipts: Fix size of synthesized HID data report'
+  author: Anthony Lee <108008609+orthogonaleety@users.noreply.github.com>
+  date: Sat, 11 Jul 2026 11:36:03 +0100
+  source_sha: 2a8d613dad3c16ff30f79e5d6cab96f5bc791048
+  files:
+  - drivers/hid/ipts/desc.h
+  links:
+  - https://github.com/linux-surface/linux-surface/issues/2150
+  - https://github.com/linux-surface/linux-surface/pull/2233
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: touch-pen
+  upstream_class: upstreamable
+  note: ''
+- series: 0006-ithc.patch
+  subject: 'iommu: intel: Disable source id verification for ITHC'
+  author: Dorian Stoll <dorian.stoll@tmsp.io>
+  date: Sun, 11 Dec 2022 12:03:38 +0100
+  source_sha: ac483fccda67edc3d77e9d97443459456eb49303
+  files:
+  - drivers/iommu/intel/irq_remapping.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: critical
+  subsystem: touch-pen
+  upstream_class: rework
+  note: Required for ITHC DMA on ADL. Hack in intel-iommu; mainline maintainers will want a proper quirk or a reason the THC
+    DMA requester ID is wrong.
+- series: 0006-ithc.patch
+  subject: 'hid: Add support for Intel Touch Host Controller'
+  author: quo <tuple@list.ru>
+  date: Sun, 11 Dec 2022 12:10:54 +0100
+  source_sha: 59629d8ff278efce62d9c6c48426bc26ad295e93
+  files:
+  - drivers/hid/Kconfig
+  - drivers/hid/Makefile
+  - drivers/hid/ithc/Kbuild
+  - drivers/hid/ithc/Kconfig
+  - drivers/hid/ithc/ithc-debug.c
+  - drivers/hid/ithc/ithc-debug.h
+  - drivers/hid/ithc/ithc-dma.c
+  - drivers/hid/ithc/ithc-dma.h
+  - drivers/hid/ithc/ithc-hid.c
+  - drivers/hid/ithc/ithc-hid.h
+  - drivers/hid/ithc/ithc-legacy.c
+  - drivers/hid/ithc/ithc-legacy.h
+  - drivers/hid/ithc/ithc-main.c
+  - drivers/hid/ithc/ithc-quickspi.c
+  - drivers/hid/ithc/ithc-quickspi.h
+  - drivers/hid/ithc/ithc-regs.c
+  - drivers/hid/ithc/ithc-regs.h
+  - drivers/hid/ithc/ithc.h
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: critical
+  subsystem: touch-pen
+  upstream_class: rework
+  note: SP9 touchscreen and pen (THC ADL-P 8086:51d0/51d1). Mainline intel-thc-hid (QuickSPI/QuickI2C) only covers MTL and
+    newer and the standard HID-SPI protocol; quo says SP9 needs ITHC (quo/ithc-linux#29). Source of truth is quo/ithc-linux.
+- series: 0007-surface-sam.patch
+  subject: 'rtc: Add basic support for RTC via Surface System Aggregator Module'
+  author: Maximilian Luz <luzmaximilian@gmail.com>
+  date: Fri, 17 Jun 2022 02:14:00 +0200
+  source_sha: f27d65ffc1e5df415804c539b4d1b466ec7d1479
+  files:
+  - drivers/rtc/Kconfig
+  - drivers/rtc/Makefile
+  - drivers/rtc/rtc-surface.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: verify
+  subsystem: sam
+  upstream_class: rework
+  note: Check whether SP9 exposes the SAM RTC or uses CMOS RTC
+- series: 0007-surface-sam.patch
+  subject: 'platform/surface: aggregator_registry: Add Surface Laptop 7 (ACPI)'
+  author: Maximilian Luz <luzmaximilian@gmail.com>
+  date: Sun, 20 Apr 2025 01:05:14 +0200
+  source_sha: 959935a654dc8482ab885730b4ae6bebe00fda7a
+  files:
+  - drivers/platform/surface/surface_aggregator_registry.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: sam
+  upstream_class: upstreamable
+  note: ''
+- series: 0007-surface-sam.patch
+  subject: 'surface: aggregator: propagate -EPROBE_DEFER from ssam_irq_setup()'
+  author: Wu Enqiang <janussss@163.com>
+  date: Sat, 24 Oct 2026 13:49:21 +0800
+  source_sha: 53f532df1b3932f18e50980774a8e2261780d1a2
+  files:
+  - drivers/platform/surface/aggregator/controller.c
+  links:
+  - https://lore.kernel.org/platform-driver-x86/d0bb21cc-6d3c-4526-8204-2511da51a6ac@nilk.net
+  - https://github.com/linux-surface/linux-surface/issues/2219
+  - https://patchwork.kernel.org/project/platform-driver-x86/patch/20261024054921.48209-1-janussss@163.com/
+  fixes:
+  - 'b27622f13172 ("platform/surface: Add OF support")'
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: high
+  subsystem: sam
+  upstream_class: upstreamable
+  note: Already posted to platform-driver-x86 (v2, patchwork 14911881). Affects SAM probe on every SAM device including SP9;
+    follow it to merge.
+- series: 0007-surface-sam.patch
+  subject: 'power: supply: surface_battery: Report not charging while idle on AC'
+  author: Chris Simpson <chris@nilk.net>
+  date: Thu, 5 Nov 2026 09:43:53 -0700
+  source_sha: 0ed12682e4d23cda2479eee45ec449a52848b16a
+  files:
+  - drivers/power/supply/surface_battery.c
+  links: []
+  fixes: []
+  mentions_sp9: true
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: high
+  subsystem: sam
+  upstream_class: upstreamable
+  note: CmdrShepardsPie fork, SP9 battery status fix. Not yet run on a device per its commit message.
+- series: 0008-surface-sam-over-hid.patch
+  subject: 'i2c: acpi: Implement RawBytes read access'
+  author: Maximilian Luz <luzmaximilian@gmail.com>
+  date: Sat, 25 Jul 2020 17:19:53 +0200
+  source_sha: 51bcff6df633dc55d2801f2af8f1ca0693332310
+  files:
+  - drivers/i2c/i2c-core-acpi.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: sam
+  upstream_class: rework
+  note: SAM-over-HID (SL1/SL2/SB1)
+- series: 0008-surface-sam-over-hid.patch
+  subject: 'platform/surface: Add driver for Surface Book 1 dGPU switch'
+  author: Maximilian Luz <luzmaximilian@gmail.com>
+  date: Sat, 13 Feb 2021 16:41:18 +0100
+  source_sha: 9767bb54c0168c143045109c0ea659adf26d687a
+  files:
+  - drivers/platform/surface/Kconfig
+  - drivers/platform/surface/Makefile
+  - drivers/platform/surface/surfacebook1_dgpu_switch.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: true
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: sam
+  upstream_class: upstreamable
+  note: ''
+- series: 0009-surface-button.patch
+  subject: 'Input: soc_button_array - support AMD variant Surface devices'
+  author: Sachi King <nakato@nakato.io>
+  date: Tue, 5 Oct 2021 00:05:09 +1100
+  source_sha: 3fb0341c2b84585da8a59d3d435c0380af530db1
+  files:
+  - drivers/input/misc/soc_button_array.c
+  links: []
+  fixes:
+  - 'c394159310d0 ("Input: soc_button_array - add support for newer surface devices")'
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: buttons
+  upstream_class: rework
+  note: ''
+- series: 0009-surface-button.patch
+  subject: 'platform/surface: surfacepro3_button: don''t load on amd variant'
+  author: Sachi King <nakato@nakato.io>
+  date: Tue, 5 Oct 2021 00:22:57 +1100
+  source_sha: 618b92bacfb1cc046a8b6ef6141063897e9753d9
+  files:
+  - drivers/platform/surface/surfacepro3_button.c
+  links: []
+  fixes:
+  - '64dd243d7356 ("platform/x86: surfacepro3_button: Fix device check")'
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: buttons
+  upstream_class: rework
+  note: ''
+- series: 0010-surface-typecover.patch
+  subject: 'USB: quirks: Add USB_QUIRK_DELAY_INIT for Surface Go 3 Type-Cover'
+  author: Maximilian Luz <luzmaximilian@gmail.com>
+  date: Sat, 18 Feb 2023 01:02:49 +0100
+  source_sha: 8459a9afbb85d1d8445524554b4c2c591952df22
+  files:
+  - drivers/usb/core/quirks.c
+  links:
+  - https://github.com/linux-surface/linux-surface/issues/1059
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: keyboard
+  upstream_class: upstreamable
+  note: ''
+- series: 0010-surface-typecover.patch
+  subject: 'hid/multitouch: Turn off Type Cover keyboard backlight when suspending'
+  author: =?UTF-8?q?Jonas=20Dre=C3=9Fler?= <verdre@v0yd.nl>
+  date: Thu, 5 Nov 2020 13:09:45 +0100
+  source_sha: 29a917e8061af4bf5898def500e837419cb889e8
+  files:
+  - drivers/hid/hid-multitouch.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: low
+  subsystem: keyboard
+  upstream_class: rework
+  note: USB Type Covers (SP4 to SP7+). SP9 keyboard goes through SAM KIP
+- series: 0010-surface-typecover.patch
+  subject: 'hid/multitouch: Add support for surface pro type cover tablet switch'
+  author: PJungkamp <p.jungkamp@gmail.com>
+  date: Fri, 25 Feb 2022 12:04:25 +0100
+  source_sha: 5a973a438cd473f6067826a5c41571fb5db55f39
+  files:
+  - drivers/hid/hid-multitouch.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: low
+  subsystem: keyboard
+  upstream_class: rework
+  note: SP9 tablet switch is ssam_node_pos_tablet_switch (already upstream)
+- series: 0010-surface-typecover.patch
+  subject: 'hid/multitouch: Register Type Cover PM notifier after starting the device'
+  author: Chris Simpson <chris@nilk.net>
+  date: Mon, 12 Oct 2026 16:12:52 -0600
+  source_sha: 414c2abca1d40450098c1cc13b91b2a67cda6d02
+  files:
+  - drivers/hid/hid-multitouch.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: low
+  subsystem: keyboard
+  upstream_class: downstream
+  note: Fix to a linux-surface-only patch
+- series: 0010-surface-typecover.patch
+  subject: 'hid/multitouch: Only toggle Type Cover backlight on USB devices'
+  author: Chris Simpson <chris@nilk.net>
+  date: Mon, 12 Oct 2026 16:38:49 -0600
+  source_sha: bc52780717a61d5225b50dd05e78d4a4548a8548
+  files:
+  - drivers/hid/hid-multitouch.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: medium
+  subsystem: keyboard
+  upstream_class: downstream
+  note: Stops the USB Type Cover backlight code from touching non-USB (SAM KIP) keyboards such as SP9
+- series: 0010-surface-typecover.patch
+  subject: 'hid/multitouch: Add missing NULL checks to Type Cover tablet switch'
+  author: Chris Simpson <chris@nilk.net>
+  date: Mon, 12 Oct 2026 16:39:06 -0600
+  source_sha: d53d23830ce3a8d5ddde74a223b4e55dbaadf619
+  files:
+  - drivers/hid/hid-multitouch.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: low
+  subsystem: keyboard
+  upstream_class: downstream
+  note: ''
+- series: 0010-surface-typecover.patch
+  subject: 'hid/multitouch: Write Type Cover backlight value by usage index'
+  author: Chris Simpson <chris@nilk.net>
+  date: Mon, 12 Oct 2026 17:00:52 -0600
+  source_sha: 0c946a12bb3d3dbd0dddaac3f70663db14e8dba2
+  files:
+  - drivers/hid/hid-multitouch.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: low
+  subsystem: keyboard
+  upstream_class: downstream
+  note: ''
+- series: 0011-surface-shutdown.patch
+  subject: 'PCI: Add quirk to prevent calling shutdown method'
+  author: Maximilian Luz <luzmaximilian@gmail.com>
+  date: Sun, 19 Feb 2023 22:12:24 +0100
+  source_sha: b20616dc4aef7fc5fa33744bb37cb32d14058eb1
+  files:
+  - drivers/pci/pci-driver.c
+  - drivers/pci/quirks.c
+  - include/linux/pci.h
+  links: []
+  fixes: []
+  mentions_sp9: true
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: critical
+  subsystem: power
+  upstream_class: rework
+  note: Fixes SP9 S5 shutdown (EFI ResetSystem(EFI_RESET_SHUTDOWN) returns instead of powering off unless the TB4/GPU PCI
+    shutdown ops are skipped). DMI-gated to Surface Pro 9 and Surface Laptop 5; wiki says shutdown works since 6.1.12-2 because
+    of this. A DMI-gated PCI quirk is a plausible upstream shape but needs discussion on linux-pci.
+- series: 0011-surface-shutdown.patch
+  subject: 'PCI: Add Surface Laptop Studio 2 devices to shutdown ops quirk'
+  author: LegendaryFire <tristan.balon@outlook.com>
+  date: Wed, 7 Jan 2026 01:06:25 +0100
+  source_sha: 474c5066938b86da060bf195ae148e89a68e4e04
+  files:
+  - drivers/pci/quirks.c
+  links:
+  - https://github.com/linux-surface/linux-surface/pull/1948
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: power
+  upstream_class: rework
+  note: ''
+- series: 0012-surface-gpe.patch
+  subject: 'platform/surface: gpe: Add support for Surface Pro 9'
+  author: Maximilian Luz <luzmaximilian@gmail.com>
+  date: Sun, 12 Mar 2023 01:41:57 +0100
+  source_sha: be356cfd8e6ce07e72c368702667fb3dc7c136a8
+  files:
+  - drivers/platform/surface/surface_gpe.c
+  links: []
+  fixes: []
+  mentions_sp9: true
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: high
+  subsystem: power
+  upstream_class: upstreamable
+  note: Lid GPE wakeup for SP9 (Maximilian Luz, 2023). Small, self-contained, still not in mainline 7.4-rc2. Good first upstream
+    candidate; ask qzed whether he wants to send it or wants someone to send it with his authorship.
+- series: 0013-cameras.patch
+  subject: 'ACPI: delay enumeration of devices with a _DEP pointing to an INT3472 device'
+  author: Hans de Goede <hdegoede@redhat.com>
+  date: Sun, 10 Oct 2021 20:56:57 +0200
+  source_sha: 8472b0751723e7600d09b3a353f7f9d46086a6e6
+  files:
+  - drivers/acpi/scan.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: medium
+  subsystem: camera
+  upstream_class: rework
+  note: Hans de Goede; mainline solved part of this differently (see discussion 1731, andy-shev says one camera patch is obsolete
+    since 6.14).
+- series: 0013-cameras.patch
+  subject: 'iommu: intel-ipu: use IOMMU passthrough mode for Intel IPUs'
+  author: zouxiaoh <xiaohong.zou@intel.com>
+  date: Fri, 25 Jun 2021 08:52:59 +0800
+  source_sha: 0b1c7e2968e58883117b371aca7bbfb4eb12f224
+  files:
+  - drivers/iommu/intel/iommu.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 1 hunks rejected
+  sp9_relevance: verify
+  subsystem: camera
+  upstream_class: downstream
+  note: IPU6 in mainline uses its own MMU; test whether SP9 still needs it
+- series: 0013-cameras.patch
+  subject: 'platform/x86: int3472: Enable I2c daisy chain'
+  author: Daniel Scally <djrscally@gmail.com>
+  date: Sun, 10 Oct 2021 20:57:02 +0200
+  source_sha: aa030505ad7e6b68f868aeb9f1f453a331b7b832
+  files:
+  - drivers/platform/x86/intel/int3472/tps68470.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: camera
+  upstream_class: rework
+  note: TPS68470 PMIC devices (IPU3 Surfaces)
+- series: 0013-cameras.patch
+  subject: 'media: i2c: Clarify that gain is Analogue gain in OV7251'
+  author: Daniel Scally <dan.scally@ideasonboard.com>
+  date: Tue, 21 Mar 2023 13:45:26 +0000
+  source_sha: cee3b0de1a8e29b36833b7a1860863344ddf3a86
+  files:
+  - drivers/media/i2c/ov7251.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: camera
+  upstream_class: upstreamable
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'media: v4l2-core: Acquire privacy led in v4l2_async_register_subdev()'
+  author: Daniel Scally <dan.scally@ideasonboard.com>
+  date: Wed, 22 Mar 2023 11:01:42 +0000
+  source_sha: 4adcb3c82c37178441afd03ca40c2c9850e47318
+  files:
+  - drivers/media/v4l2-core/v4l2-async.c
+  - drivers/media/v4l2-core/v4l2-fwnode.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: medium
+  subsystem: camera
+  upstream_class: rework
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'platform: x86: int3472: Add MFD cell for tps68470 LED'
+  author: Kate Hsuan <hpa@redhat.com>
+  date: Tue, 21 Mar 2023 23:37:16 +0800
+  source_sha: a61d1626856b207fb5417d33493941c3c2ea0b20
+  files:
+  - drivers/platform/x86/intel/int3472/tps68470.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 1 hunks rejected
+  sp9_relevance: none
+  subsystem: camera
+  upstream_class: rework
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'include: mfd: tps68470: Add masks for LEDA and LEDB'
+  author: Kate Hsuan <hpa@redhat.com>
+  date: Tue, 21 Mar 2023 23:37:17 +0800
+  source_sha: 49152db20778993518d761bdd820c15153ca99c8
+  files:
+  - include/linux/mfd/tps68470.h
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: camera
+  upstream_class: rework
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'leds: tps68470: Add LED control for tps68470'
+  author: Kate Hsuan <hpa@redhat.com>
+  date: Tue, 21 Mar 2023 23:37:18 +0800
+  source_sha: 1732fd50f4622f9802786d4855129a096981ef88
+  files:
+  - drivers/leds/Kconfig
+  - drivers/leds/Makefile
+  - drivers/leds/leds-tps68470.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: camera
+  upstream_class: rework
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'media: i2c: dw9719: fix probe error on surface go 2'
+  author: mojyack <mojyack@gmail.com>
+  date: Tue, 26 Mar 2024 05:55:44 +0900
+  source_sha: ae5e56d930d4d5244acb950277fda5555a4a2f72
+  files:
+  - drivers/media/i2c/dw9719.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: camera
+  upstream_class: upstreamable
+  note: ''
+- series: 0013-cameras.patch
+  subject: Add camera support for Surface Pro 9
+  author: Tooraj Taraz <tooraj.taraz@yahoo.com>
+  date: Wed, 31 Dec 2025 00:35:50 +0100
+  source_sha: a422b65b8bb5b86586bde067adc5bfee4af134f1
+  files:
+  - drivers/media/i2c/ov13858.c
+  - drivers/media/i2c/ov5693.c
+  - drivers/media/pci/intel/ipu-bridge.c
+  - drivers/platform/x86/intel/int3472/discrete.c
+  links:
+  - https://github.com/linux-surface/linux-surface/pull/1867
+  fixes: []
+  mentions_sp9: true
+  mentions_sp8: false
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 5 hunks rejected
+  sp9_relevance: high
+  subsystem: camera
+  upstream_class: superseded
+  note: PR 1867 (Tooraj Taraz). Mainline 7.4-rc2 already has OVTI5693 in ov5693 ACPI match, OVTI5693/OVTID858 in ipu-bridge
+    sensor table, and INT3472_GPIO_TYPE_POWER1 (0x08). Remaining deltas vs mainline are the OVTID858 entry (patch declares
+    4 link frequencies but lists one, fixed by kernel#191; mainline lists 540 and 270 MHz) and the int3472 type 0x08 debug
+    path. Re-evaluate on 7.4, most of it can be dropped.
+- series: 0013-cameras.patch
+  subject: 'media: ipu-bridge: Add front camera rotation quirks for Surface Pro 8 and 9'
+  author: gabrielstedman <gabrielstedman@users.noreply.github.com>
+  date: Fri, 13 Mar 2026 08:52:07 +0000
+  source_sha: 8a11842dd64acaffedf67a1893bc3499819373cf
+  files:
+  - drivers/media/pci/intel/ipu-bridge.c
+  links:
+  - https://github.com/linux-surface/kernel/pull/160
+  fixes: []
+  mentions_sp9: true
+  mentions_sp8: true
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 1 hunks rejected
+  sp9_relevance: medium
+  subsystem: camera
+  upstream_class: rework
+  note: SP9 entries superseded by mainline upside_down_sensor_dmi_ids (front OVTI5693 and rear OVTID858 for "Surface Pro 9").
+    SP8 entry is not upstream.
+- series: 0013-cameras.patch
+  subject: 'media: ipu-bridge: Move Surface rotation quirks to start of DMI table'
+  author: Maximilian Luz <luzmaximilian@gmail.com>
+  date: Mon, 19 Oct 2026 00:24:46 +0200
+  source_sha: b4fd734ad2492686f3131cda7d2350c67610ca38
+  files:
+  - drivers/media/pci/intel/ipu-bridge.c
+  links: []
+  fixes: []
+  mentions_sp9: true
+  mentions_sp8: true
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 1 hunks rejected
+  sp9_relevance: medium
+  subsystem: camera
+  upstream_class: downstream
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'media: i2c: ov13858: Don''t log uninitialised chip ID on read failure'
+  author: Chris Simpson <chris@nilk.net>
+  date: Mon, 12 Oct 2026 16:15:22 -0600
+  source_sha: c4ac595f678362826424a0803a4b8c13ad605339
+  files:
+  - drivers/media/i2c/ov13858.c
+  links: []
+  fixes: []
+  mentions_sp9: true
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: low
+  subsystem: camera
+  upstream_class: upstreamable
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'media: v4l2-core: Release privacy LED when registration fails'
+  author: Chris Simpson <chris@nilk.net>
+  date: Mon, 12 Oct 2026 16:16:17 -0600
+  source_sha: c651402b0f57398565e16d2e521dc33fc702679e
+  files:
+  - drivers/media/v4l2-core/v4l2-async.c
+  - drivers/media/v4l2-core/v4l2-fwnode.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: medium
+  subsystem: camera
+  upstream_class: upstreamable
+  note: Fix to a linux-surface-only patch; only upstreamable together with it
+- series: 0013-cameras.patch
+  subject: 'media: v4l2-core: Only look up privacy LED for sub-devices with a device'
+  author: Chris Simpson <chris@nilk.net>
+  date: Mon, 12 Oct 2026 17:01:33 -0600
+  source_sha: 122a00e119259b6abe1f962dd1674d66070832ad
+  files:
+  - drivers/media/v4l2-core/v4l2-async.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: medium
+  subsystem: camera
+  upstream_class: upstreamable
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'media: ipu-bridge: Add ipu_bridge_get_ipu6()'
+  author: Sakari Ailus <sakari.ailus@linux.intel.com>
+  date: Mon, 7 Sep 2026 17:30:21 +0300
+  source_sha: fbd6c7be0ac972490c238cbf26a590a95546fc83
+  files:
+  - drivers/media/pci/intel/ipu-bridge.c
+  - include/media/ipu-bridge.h
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: upstream
+  mainline_check_detail: ''
+  sp9_relevance: high
+  subsystem: camera
+  upstream_class: superseded
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'media: i2c: ov5693: Gate the MIPI clock lane for non-continuous clock'
+  author: Fernando Rimoli <fernandorimoli11@gmail.com>
+  date: Wed, 2 Sep 2026 16:23:18 +0200
+  source_sha: e5c26dc9c7a6704f1f94a6e9728dd34b29ec49b4
+  files:
+  - drivers/media/i2c/ov5693.c
+  links:
+  - https://github.com/linux-surface/linux-surface/pull/2171
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: true
+  mainline_apply_check: upstream
+  mainline_check_detail: ''
+  sp9_relevance: critical
+  subsystem: camera
+  upstream_class: superseded
+  note: The SP9 front camera fix (MIPI_CTRL00 / 0x4800)
+- series: 0013-cameras.patch
+  subject: 'media: ipu-bridge: Assign endpoint property indices dynamically'
+  author: Fernando Rimoli <fernandorimoli11@gmail.com>
+  date: Wed, 2 Sep 2026 16:23:19 +0200
+  source_sha: e076a8c6abcd1d58a701ee8117dafed52ac4ce2e
+  files:
+  - drivers/media/pci/intel/ipu-bridge.c
+  - include/media/ipu-bridge.h
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: true
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 4 hunks rejected
+  sp9_relevance: high
+  subsystem: camera
+  upstream_class: superseded
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'media: ipu-bridge: Match sensor configs per IPU and add config flags'
+  author: Fernando Rimoli <fernandorimoli11@gmail.com>
+  date: Wed, 2 Sep 2026 16:23:20 +0200
+  source_sha: 774417e64b5aa40626e2100d8442205fe06fd7d0
+  files:
+  - drivers/media/pci/intel/ipu-bridge.c
+  - include/media/ipu-bridge.h
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: true
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 7 hunks rejected
+  sp9_relevance: critical
+  subsystem: camera
+  upstream_class: superseded
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'media: ipu-bridge: Request non-continuous clock for ov5693 on IPU6'
+  author: Fernando Rimoli <fernandorimoli11@gmail.com>
+  date: Wed, 2 Sep 2026 16:23:21 +0200
+  source_sha: 997fb9fa9c71be558321fb4d3f40ada162be81dc
+  files:
+  - drivers/media/pci/intel/ipu-bridge.c
+  - include/media/ipu-bridge.h
+  links: []
+  fixes: []
+  mentions_sp9: true
+  mentions_sp8: true
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 5 hunks rejected
+  sp9_relevance: critical
+  subsystem: camera
+  upstream_class: superseded
+  note: Part of the Rimoli OV5693-on-IPU6 series
+- series: 0013-cameras.patch
+  subject: 'media: ipu-bridge: Keep the clock-noncontinuous property name out of rodata'
+  author: Fernando Rimoli <fernandorimoli11@gmail.com>
+  date: Sun, 13 Sep 2026 20:38:40 +0100
+  source_sha: e6e051e7b6fa40db0902653fb5a9523aa96e63e3
+  files:
+  - drivers/media/pci/intel/ipu-bridge.c
+  - include/media/ipu-bridge.h
+  links:
+  - https://lore.kernel.org/linux-media/20260905211307.542810-1-dmanresa@gmail.com/
+  fixes:
+  - '8e3def7bf410 ("media: ipu-bridge: Request non-continuous clock for ov5693 on IPU6")'
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: upstream
+  mainline_check_detail: ''
+  sp9_relevance: high
+  subsystem: camera
+  upstream_class: superseded
+  note: ''
+- series: 0013-cameras.patch
+  subject: 'media: i2c: ov13858: add horizontal and vertical flip controls'
+  author: Sergey Lebedev <lsa.uz@pm.me>
+  date: Wed, 30 Sep 2026 07:33:12 +0000
+  source_sha: c3b19ccf37dc7cbf5b8f319d5345a3b356f86af8
+  files:
+  - drivers/media/i2c/ov13858.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: upstream
+  mainline_check_detail: ''
+  sp9_relevance: high
+  subsystem: camera
+  upstream_class: superseded
+  note: SP9 rear sensor
+- series: 0013-cameras.patch
+  subject: 'media: ipu-bridge: Add upside-down sensor quirks for the Surface Pro 9'
+  author: Fernando Rimoli <fernandorimoli11@gmail.com>
+  date: Tue, 15 Sep 2026 01:01:40 +0100
+  source_sha: 79b5684e7051f41e489621a9eec415f8864d025c
+  files:
+  - drivers/media/pci/intel/ipu-bridge.c
+  links: []
+  fixes: []
+  mentions_sp9: true
+  mentions_sp8: false
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 1 hunks rejected
+  sp9_relevance: high
+  subsystem: camera
+  upstream_class: superseded
+  note: Fernando Rimoli; in mainline as db44b1792898 per CmdrShepardsPie notes.
+- series: 0013-cameras.patch
+  subject: 'media: ipu-bridge: Drop the Surface Pro 9 front camera quirk superseded upstream'
+  author: Chris Simpson <chris@nilk.net>
+  date: Sat, 24 Oct 2026 16:36:34 +0000
+  source_sha: 4808ed7b5cd1efe50770454fccfc4b897312a415
+  files:
+  - drivers/media/pci/intel/ipu-bridge.c
+  links:
+  - https://github.com/linux-surface/linux-surface/issues/2257
+  fixes: []
+  mentions_sp9: true
+  mentions_sp8: true
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: high
+  subsystem: camera
+  upstream_class: downstream
+  note: Cleanup when carrying the upstream backport on 7.3
+- series: 0014-amd-gpio.patch
+  subject: 'ACPI: Add quirk for Surface Laptop 4 AMD missing irq 7 override'
+  author: Sachi King <nakato@nakato.io>
+  date: Sat, 29 May 2021 17:47:38 +1000
+  source_sha: 4829547aa0fae51c09df2a71e22313ff164710a3
+  files:
+  - arch/x86/kernel/acpi/boot.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: other
+  upstream_class: rework
+  note: ''
+- series: 0014-amd-gpio.patch
+  subject: 'ACPI: Add AMD 13" Surface Laptop 4 model to irq 7 override quirk'
+  author: Maximilian Luz <luzmaximilian@gmail.com>
+  date: Thu, 3 Jun 2021 14:04:26 +0200
+  source_sha: 855a7af1d3c803c88e96da3ae86af8128a282060
+  files:
+  - arch/x86/kernel/acpi/boot.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: other
+  upstream_class: rework
+  note: ''
+- series: 0015-hid-surface.patch
+  subject: 'HID: Add hid-surface driver to filter BTN_0 (FN key)'
+  author: =?UTF-8?q?Ciar=C3=A1n=20Coffey?= <github@ccoffey.ie>
+  date: Fri, 10 Oct 2025 19:04:03 +0100
+  source_sha: de40c832f27257a140f440f6acfcd515c9dea273
+  files:
+  - drivers/hid/Kconfig
+  - drivers/hid/Makefile
+  - drivers/hid/hid-surface.c
+  links: []
+  fixes:
+  - https://github.com/linux-surface/linux-surface/issues/1851
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: verify
+  subsystem: keyboard
+  upstream_class: rework
+  note: Matches BUS_HOST 045E:09AE/09AF (SL4 AMD SAM HID). Check SP9 KIP keyboard IDs before assuming it applies
+- series: 0015-hid-surface.patch
+  subject: 'hid/multitouch: Prevent mode set on Surface Laptop Studio 2 touch pad'
+  author: LegendaryFire <tristan.balon@outlook.com>
+  date: Fri, 13 Mar 2026 10:16:37 +0100
+  source_sha: 3c3f95abeff01f34e204410bbc0b3e86a2a4a94b
+  files:
+  - drivers/hid/hid-multitouch.c
+  links: []
+  fixes: []
+  mentions_sp9: false
+  mentions_sp8: false
+  mainline_apply_check: not-upstream
+  mainline_check_detail: ''
+  sp9_relevance: none
+  subsystem: keyboard
+  upstream_class: rework
+  note: ''
+- series: 0016-sound.patch
+  subject: 'ALSA: hda/realtek: Limit internal mic gain on Microsoft Surface Pro 9'
+  author: Chris Simpson <chris@nilk.net>
+  date: Sat, 17 Oct 2026 07:25:21 +0000
+  source_sha: 068dbb1d9046b77ee8bbf429364a3b51360fda72
+  files:
+  - sound/hda/codecs/realtek/alc269.c
+  links: []
+  fixes: []
+  mentions_sp9: true
+  mentions_sp8: false
+  mainline_apply_check: partial/diverged
+  mainline_check_detail: 2 hunks rejected
+  sp9_relevance: high
+  subsystem: audio
+  upstream_class: upstreamable
+  note: CmdrShepardsPie fork (0016-sound.patch). Classic SND_PCI_QUIRK, maintainers take these readily.

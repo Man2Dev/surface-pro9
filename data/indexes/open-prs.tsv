@@ -1,0 +1,68 @@
+# Open pull requests in the linux-surface org by people (3 surfacebot update PRs left out). Snapshot 2026-11-13.
+# Source: GitHub search is:pr is:open, each PR page read for review and maintainer comments, heads fetched with git and checked
+#   against the patch series (tools/closed_pr_novel.py), linux-surface/kernel v7.3 and iptsd master (git merge-tree).
+# maint_response: what qzed, StollD or danielzgtg said, if anything. Most open PRs have no maintainer reply.
+# state: new | active | waiting (no reply) | stalled (no movement for months) | needs-update (reviewer asked for changes) |
+#   competing | superseded-upstream | moved | on-list | draft | stale-repo
+repo	pr	author	created	updated	sp9	maint_response	state	note
+iptsd	235	hansakoch	2026-11-13	2026-11-13	direct	none	new	Skip detection on frames below the deactivation threshold. Merges cleanly.
+iptsd	234	antoine79	2026-11-07	2026-11-07	direct	none	waiting	Adaptive neutral mode for contact detection (addresses erratic touch that the wiki calibration works around). Merges cleanly.
+iptsd	233	06FallingLight90	2026-11-04	2026-11-07	direct	none	active	Debounce eraser and button flags to avoid spurious stylus lifts with MPP 2 pens (Slim Pen 2). Merges cleanly.
+iptsd	224	fildunsky	2026-09-25	2026-09-25	direct	none	waiting	udev: keep the systemd tag across change events (iptsd@ unit losing its device). Merges cleanly.
+iptsd	221	luqqas96	2026-08-30	2026-08-30	direct	none	waiting	udev: hide raw ithc input nodes duplicated by iptsd (iptsd#220: duplicate events, 16:9 distortion). Merges cleanly.
+iptsd	219	L0g0ff	2026-08-20	2026-08-20	direct	none	waiting	Remove StopWhenUnneeded=yes from iptsd@.service: the service stops itself about 6 s after a cold boot. Matches SP9 reports of touch missing after boot. One-line change, merges cleanly.
+iptsd	214	zeroxoneafour	2026-05-15	2026-10-20	direct	none (hmtheboy154: squash)	waiting	DisableOnStylusLevel: disable touch at proximity, contact or never. Author is an SP9 user who runs it (zeroxoneafour/linux-surface-config). Merges cleanly.
+kernel	193	CmdrShepardsPie	2026-11-13	2026-11-13	direct	none yet	new	Backports the v7.4-rc1 camera work to 7.3: Sakari ipu_bridge_get_ipu6(), Rimoli's ov5693 clock-lane gate and per-IPU sensor configs, Lebedev's ov13858 flip controls. Makes the SP9 front camera stream on 7.3; moot once the series moves to 7.4. Supersedes #180 and the 0x4800 write in #181.
+kernel	191	jmmartinf	2026-11-10	2026-11-10	direct	none	waiting	Fix OVTID858 link frequency count in the downstream ipu-bridge entry (count 4 with one frequency). Same goal as #174. Mainline v7.4 already has the correct entry, so only matters for 7.3 and older.
+kernel	184	JValdivia23	2026-11-02	2026-11-12	direct	qzed tested on Surface Pro X, discussing VERSION/seq handling from the SP9 (SQ3) Windows driver	active	UCSI over SAM HID and charger power rating. SP9 node group has ucm_ucsi; config PR linux-surface#2354.
+kernel	180	loisBreant	2026-10-23	2026-11-06	direct	none	superseded-upstream	ov5693 MIPI clock-lane gate for IPU6 front cameras; same as Rimoli's accepted series (media 0e12587945f6) and #193. Tested on SP9, SP8, Go 4.
+kernel	174	zR-JB	2026-08-12	2026-08-12	direct	none	stalled	OVTID858 link frequencies; overlaps #191.
+kernel	173	zR-JB	2026-08-12	2026-11-11	direct	qzed review: set max_sources to 5, simpler size check; author: will fix	needs-update	aggregator_tabletsw: accept zero-padded source-list responses (Flex Keyboard). Author has not pushed the requested changes.
+kernel	169	petm5	2026-08-02	2026-09-25	direct	none	on-list	VD55G0 IR: genericize st-vd55g, ipu-bridge and int3472 entries, IPU6 stream workaround. Series is on linux-media; fildunsky tested v1 on SP8 (needs Mugnier's vd55g1 patches on 7.2).
+kernel	167	petm5	2026-07-07	2026-11-10	direct	qzed reviewed (le32_to_cpu nits); asked Cloveian to send the charge limit as a separate patch	needs-update	Smart charging and battery authentication status. The charge limit work exists as Cloveian/kernel branch battery-charge-limit (2026-11-10) but no PR has been opened yet.
+linux-surface	2354	JValdivia23	2026-11-02	2026-11-02	direct	none	waiting	Enable CONFIG_UCSI_SURFACE_HID (for kernel#184).
+linux-surface	2252	dmanresa-saes	2026-08-27	2026-11-04	direct	danielzgtg (wiki only)	waiting	ov5693 binned 2x2 mode on IPU6, OV7251 IR illuminator, int3472 rails for SP7+/SP8. The binned-mode commit is what the SP9 front camera still needs on 7.4 (dmanresa-saes/surface-ipu6-cameras#1). Same commit also in kernel#181.
+linux-surface	2227	dixonSolutions	2026-08-11	2026-10-16	direct	none	needs-update	SP8/SP9 rear OV13858 rotation; thread found a red/blue swap bug in an earlier version. Mainline v7.4 has the SP9 upside-down quirks.
+linux-surface	2011	wowitsjack	2026-02-25	2026-04-01	direct	qzed asked to move to the kernel repo (done as kernel#162)	moved	Carries Maximilian Luz's 'platform/surface: gpe: Add support for Surface Pro 9 and Surface Laptop 5' with an SL5 entry (DMI_PRODUCT_NAME 'Surface Laptop 5', GPE 0x52) that linux-surface 0012 does not have. Useful for one combined upstream surface_gpe patch.
+surface-gpe	7	777HOST	2026-09-04	2026-09-04	direct	none	waiting	Tolerate the leading space in the SP9 DMI vendor string (#2257). Same fix as the dragged9698 gist.
+surface-gpe	5	Lucrtz	2026-02-21	2026-02-21	direct	none	waiting	SP9 Business SKU. Exact SKU string confirmed elsewhere: Surface_Pro_9_for_Business_2038.
+iptsd	225	fQwQf	2026-09-29	2026-11-07	sibling	none	active	Preserve button state across contact lifts; SL7 pen decoder discussion. Merges cleanly.
+kernel	181	rylos	2026-10-23	2026-11-05	sibling	none (dmanresa-saes review)	active	SP5 IPU3 cameras incl. D. Manresa's ov5693 2x2 binned mode on IPU6 (needed for SP9 front camera), OV7251 IR strobe, SP4 quirks. Tested SP4, SP5.
+kernel	162	wowitsjack	2026-03-13	2026-09-25	sibling	qzed: should be handled in userspace (systemd service)	stalled	SL5 s2idle/hibernate fix module, moved here from linux-surface#2011 on qzed's request.
+linux-surface	2358	lixiaowww	2026-11-04	2026-11-04	sibling	Copilot review only	waiting	contrib: libcamera to v4l2loopback virtual camera for Zoom/Teams.
+linux-surface	2355	technosf	2026-11-03	2026-11-03	sibling	none	waiting	Debian linux-headers ship private IPU6 headers for out-of-tree camera modules.
+linux-surface	2302	SlyAquaGuy	2026-10-15	2026-10-15	sibling	none	waiting	contrib: SP8 OV5693 libcamera tuning (same sensor as SP9 front).
+surface-uefi-firmware	47	navidmafi	2026-08-02	2026-08-02	sibling	none	waiting	Preserve raw FirmwareVersion, LVFS version hint (relevant to version mismatch errors when flashing).
+acpidumps	34	eidos-case	2026-08-30	2026-08-30	none	none	waiting	SP11 Intel ACPI dump.
+intel-precise-touch	32	leofricke	2024-12-21	2026-11-07	none	none	stale-repo	IPTS timeout; repo superseded by the kernel repo.
+iptsd	231	driedsquids	2026-10-28	2026-10-28	none	none	waiting	wiki text.
+kernel	190	larsschellhas	2026-11-10	2026-11-10	none	none	waiting	SB3 thermal sensors and fan.
+kernel	189	tfranssen	2026-11-09	2026-11-09	none	none	waiting	mwifiex card work race.
+kernel	188	jaydenmilne	2026-11-08	2026-11-08	none	none	competing	IPTS sleep fixes; author notes competing PRs (#178, #187).
+kernel	187	loafecho	2026-11-06	2026-11-09	none	none	competing	IPTS stop path rework (includes #178).
+kernel	186	GuyliandeJong	2026-11-03	2026-11-03	none	none	waiting	SL1/SL2 OV9734 front camera.
+kernel	185	technosf	2026-11-03	2026-11-05	none	none	waiting	intel-thc-hid read DMA page count; MTL and newer only.
+kernel	179	Dvaderfun	2026-10-20	2026-10-20	none	none	waiting	Surface GPU power controller driver (Surface Book); config PR linux-surface#2315.
+kernel	178	joshuaspaulding	2026-09-03	2026-11-07	none	none	competing	IPTS double list_del race.
+kernel	176	zR-JB	2026-08-12	2026-08-12	none	none	draft	IMX681 on SP12; converging with #164.
+kernel	175	zR-JB	2026-08-12	2026-08-12	none	none	stalled	SP12 rear rotation.
+kernel	164	AndreGilerson	2026-05-15	2026-08-12	none	none	stalled	SP11 Intel enablement (author busy with dissertation).
+kernel	163	ruslanbay	2026-03-13	2026-03-13	none	none	stalled	IPU4P.
+linux-surface	2315	Dvaderfun	2026-10-20	2026-10-20	none	none	waiting	config for kernel#179.
+linux-surface	2289	popos123	2026-09-28	2026-11-03	none	danielzgtg review	active	contrib: SB3 IPU4P cameras.
+linux-surface	2271	sentamalin	2026-09-04	2026-10-07	none	none	waiting	contrib: Studio 1 touch reset.
+linux-surface	2270	sentamalin	2026-09-04	2026-10-07	none	danielzgtg review	waiting	contrib: Studio 1 EDID.
+linux-surface	2267	eidos-case	2026-09-02	2026-10-07	none	danielzgtg review	waiting	contrib: SP11 cameras.
+linux-surface	2256	luqqas96	2026-08-29	2026-09-02	none	none	waiting	contrib: SP7+ S0ix tweaks (udev wakeup and NVMe runtime PM rules; ideas apply to any ADL/TGL Surface).
+linux-surface	2229	offyotto	2026-08-12	2026-08-12	none	none	waiting	diagnostics.sh output paths.
+linux-surface	2201	Sevron88	2026-07-14	2026-08-21	none	none	draft	SP7+ ov8865 pwr1 supply; mainline v7.4 maps int3472 POWER1 to dvdd.
+linux-surface	2159	djmulder	2026-05-31	2026-05-31	none	none	stalled	contrib: SP10 suspend fixes.
+linux-surface	2156	djmulder	2026-05-29	2026-10-13	none	danielzgtg: split cameras out; plans to jump from 6.18/6.19 straight to 7.3 (possible LTS), skipping 7.0	needs-update	SP10 cameras.
+linux-surface	2147	e5h5	2026-05-25	2026-05-31	none	none	stalled	SL7 Intel SoundWire.
+linux-surface	2060	jimnoneill	2026-04-11	2026-04-23	none	none	stalled	contrib: Brydge keyboard.
+linux-surface	2059	jimnoneill	2026-04-11	2026-05-23	none	none	stalled	contrib: Surface Go 2 camera bridge.
+linux-surface	2013	ruslanbay	2026-02-26	2026-10-16	none	qzed: move to kernel repo; danielzgtg: 147k lines, hard to review	stalled	IPU4/IPU4P drivers.
+linux-surface	1990	AndreGilerson	2026-02-11	2026-10-06	none	qzed: open kernel-repo PR (done as kernel#164)	moved	SP11 Intel.
+linux-surface	1029	raspbeguy	2023-01-05	2026-01-09	none	qzed: prefers an external repo maintained by the author	stalled	Alpine kernel port.
+surface-aggregator-module	71	LegendaryFire	2026-07-28	2026-07-28	none	none	waiting	Build fix for the old out-of-tree SAM module.
+surface-uefi-firmware	11	daveol	2020-12-29	2022-07-09	none	none	draft	Python cab builder.

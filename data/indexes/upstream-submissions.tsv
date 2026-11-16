@@ -1,0 +1,87 @@
+# Upstream kernel mailing-list submissions relevant to the Surface Pro 9, harvested from patchwork.kernel.org REST API
+# (projects platform-driver-x86, linux-input, linux-media, linux-pm, linux-acpi, linux-pci, alsa-devel, linux-usb, bluetooth,
+# linux-wireless), subject searches since 2021-06, on 2026-11-12. lore.kernel.org itself is behind a bot challenge, so open
+# threads with https://lore.kernel.org/r/<msgid> in a normal browser.
+# Rechecked 2026-11-14 by msgid for every row since 2026-07: no state changed. New since 2026-11-11: only the row for Antoine Pichot below.
+# state = patchwork state(s) across versions (new, changes-requested, accepted, handled-elsewhere, superseded, mainlined, ...).
+# n = patches seen in the group (all versions). sp9 = relevance for SP9 (direct, sibling, generic, none).
+date	list	author	state	n	subject	sp9	msgid
+2026-11-13	linux-media	Antoine Pichot	new	1	[v3,9/9] media: ipu-bridge: Add a rotation quirk for the Surface Book 2 and Pro 7+	sibling	20261113024059.1087031-10-antoine.pichot@gmail.com
+2026-11-11	platform-driver-x86	Peter Marshall	changes-requested	1	platform/surface: platform_profile: handle fan standby state	direct	20261111020916.3557508-2-pm@petermarshall.ca
+2026-11-12	linux-media	Emfox Zhou	new	1	[v2] media: ipu-bridge: Mark the Surface Pro 8 sensors as upside down	sibling	179444788333.52615.13387476304977602101@debian.org
+2026-11-10	linux-media	Sergey Lebedev	new	18	media: Add the ST VD55G0 global shutter sensor (v2)	direct	20261110195454.48176-2-lsa.uz@pm.me
+2026-11-08	platform-driver-x86	Antonio Vazquez Blanco	new	2	[v2] Fix MSHW0040 button driver selection on AMD Surface devices	generic	20261108213656.13031-2-antoniovazquezblanco@gmail.com
+2026-11-07	platform-driver-x86	Wentao Liang	new	2	[v2] platform/surface: aggregator: Fix packet list handling in ssh_ptl_shutdown()	generic	20261107080730.2-vulab@iscas.ac.cn
+2026-11-05	linux-media	Fernando Rimoli	new	2	[v3] media: i2c: vd55g1: Two control fixes	direct	20261105004907.150545-2-fernandorimoli11@gmail.com
+2026-11-05	linux-media	Jizhou Tong	new	1	media: i2c: vd55g0: register through the sensor helper	direct	010601a1ad26a461-7000cf48-b14a-45dc-b2bf-7b3fd5d81aef-000000@ap-northeast-1.amazonses.com
+2026-11-02	platform-driver-x86	Gopikrishna Garmidi	new	1	platform/surface: aggregator_registry: Add thermal sensors to SL7 group	none	20261102090128.582927-1-gopikrishna.garmidi@oss.qualcomm.com
+2026-10-29	linux-media	Marco Ziliani	new	6	[v2] media: i2c: ov5693: Fix mode changes, flips and autosuspend	direct	20261029-ov5693-fixes-v2-1-2526d7b13030@gmail.com
+2026-10-27	linux-media	Simon Kruse	new	1	media: i2c: ov5693: Use sub-device active state	direct	20261027074933.21921-1-simon0x+git@proton.me
+2026-10-26	linux-media	D. Manresa	new	10	[v3] media: ipu-bridge: survive module unload and reuse the software nodes on rebind	direct	20261026082549.662885-2-dmanresa@gmail.com
+2026-10-24	platform-driver-x86	Wu Enqiang	changes-requested/accepted	2	[v2] surface: aggregator: propagate -EPROBE_DEFER from ssam_irq_setup()	direct	20261024054921.48209-1-janussss@163.com
+2026-10-23	platform-driver-x86	Ramon Jesus Miranda	new	1	power: supply: surface_battery: handle battery event 0x1a	direct	20261023173215.6233-1-ramonjesusmiranda@gmail.com
+2026-10-23	platform-driver-x86	Ramon Jesus Miranda	new	1	HID: surface-hid: support keyboard backlight on Surface Pro Keyboard (045E:09AE)	direct	20261023173213.6219-1-ramonjesusmiranda@gmail.com
+2026-10-21	linux-input	Dmitry Torokhov	new	3	Input: soc_button_array - use resources to set up IRQ info for gpio-keys	generic	20261021015004.1537738-1-dmitry.torokhov@gmail.com
+2026-10-20	platform-driver-x86	Hans de Goede	handled-elsewhere	8	[v2] platform/x86: int3472: Fix AVDD and add DOVDD + DVDD mappings	direct	20261020142243.25072-3-johannes.goede@oss.qualcomm.com
+2026-10-18	linux-media	George Neacsu	new	4	[v2] media: ov13858: device tree support for the Surface Pro 11 (Snapdragon)	sibling	20261018-ov13858-x1e-v2-1-cd35434cfcfe@gmail.com
+2026-10-16	linux-media	Sergey Lebedev	new	4	[v4] media: i2c: ov13858: add regulator, clock and reset GPIO handling	direct	20261016210246.58562-1-lsa.uz@pm.me
+2026-10-16	linux-media	George Neacsu	new	2	[v2] media: i2c: vd55g1: fix VD55G0 streaming below 900 Mbps	direct	20261016-vd55g0-sp11-fix-v1-1-eb14bd80d8f8@gmail.com
+2026-10-16	linux-media	George Neacsu	new	1	media: i2c: vd55g1: Register as a sensor sub-device	direct	20261016-vd55g1-async-sensor-v1-1-cd72f6d68ea4@gmail.com
+2026-10-16	linux-media	George Neacsu	new	1	media: i2c: ov13858: Set the colorspace in the pad format	direct	20261016-ov13858-colorspace-v1-1-51f0379ada0c@gmail.com
+2026-10-13	linux-media	Jizhou Tong	new	6	[v3] media: i2c: vd55g1: preserve stream errors and always attempt stop	direct	010601a1333dc2ae-f24ce995-a0a2-4d38-80a6-43a3696713ef-000000@ap-northeast-1.amazonses.com
+2026-10-13	linux-media	Jizhou Tong	new	2	[v2] media: i2c: vd55g1: correct VD55G0 register access widths	direct	010601a1332f51fe-f5c0bb2d-cf7f-4e99-9feb-1e8f65057945-000000@ap-northeast-1.amazonses.com
+2026-10-02	linux-media	Sergey Lebedev	new	2	[v2] media: i2c: ov13858: cap analogue gain at 15.5x	direct	20261002093507.43584-1-lsa.uz@pm.me
+2026-09-30	linux-media	Sergey Lebedev	new	4	[v4] media: i2c: ov13858: add horizontal and vertical flip controls	direct	20260930073308.56811-1-lsa.uz@pm.me
+2026-09-19	linux-media	Sergey Lebedev	new	1	[v3] media: ipu-bridge: Add OV13858 sensor config	direct	20260919070837.92720-1-lsa.uz@pm.me
+2026-09-18	platform-driver-x86	Dale Whinham	changes-requested/accepted	6	[v2] SSAM registry fixes for Surface Pro 11	sibling	20260918-surface-pro-11-aggregator-registry-fixes-v2-1-c4ed9335814a@gmail.com
+2026-09-18	linux-media	Peter Marshall	handled-elsewhere/new	16	media: i2c: st-vd55g1: Genericize driver and add VD55G0 support (SP9 IR camera, petm5)	direct	20260918221705.323510-2-pm@petermarshall.ca
+2026-09-17	platform-driver-x86	Wentao Liang	changes-requested	1	platform/surface: aggregator: Fix use-after-free in ssh_ptl_shutdown()	generic	20260917135607.2154130-1-vulab@iscas.ac.cn
+2026-09-17	linux-media	Sergey Lebedev	new	1	[v2] media: ipu-bridge: Add upside-down quirk for Surface Pro 11	sibling	20260917144527.24804-1-lsa.uz@pm.me
+2026-09-15	linux-media	Fernando Rimoli	new	1	media: ipu-bridge: Add upside-down sensor quirks for the Surface Pro 9	direct	20260915000140.47125-1-fernandorimoli11@gmail.com
+2026-09-13	linux-media	Fernando Rimoli	new	1	media: ipu-bridge: Keep the clock-noncontinuous property name out of rodata	direct	20260913193840.75686-1-fernandorimoli11@gmail.com
+2026-09-13	linux-media	Sergey Lebedev	new	2	[v2] media: ipu-bridge: add the OV13858 rear sensor	direct	20260913100932.92087-1-lsa.uz@pm.me
+2026-09-09	linux-media	Sakari Ailus	new	6	[v2] Rework IPU6 PCI table	generic	20260909081953.3089179-3-sakari.ailus@linux.intel.com
+2026-09-09	linux-input	Hans de Goede	superseded/handled-elsewhere/mainlined	4	[v3] Input: soc_button_array - fix MS Surface Pro 11 probe failure	sibling	20260909093934.29411-2-johannes.goede@oss.qualcomm.com
+2026-09-02	linux-media	Fernando Rimoli	new	20	[v3] media: Enable the OV5693 front camera on IPU6 Surface devices	direct	20260902142322.73523-2-fernandorimoli11@gmail.com
+2026-08-31	platform-driver-x86	D. Manresa	handled-elsewhere	1	[v2] platform/x86: int3472: map the ov7251 power enable GPIO to "vdda"	sibling	20260831102306.36610-1-dmanresa@gmail.com
+2026-08-29	platform-driver-x86	Jakob Berg Jespersen	handled-elsewhere	2	[v3] platform/x86: int3472: support the POWER1 GPIO type	direct	20260829-sp7plus-int3472-v3-1-454b50485ce2@berg.pm
+2026-08-25	platform-driver-x86	Sakari Ailus	changes-requested/handled-elsewhere	2	Fix static analyser and compiler warnings in int3472	generic	20260825203553.3725132-4-sakari.ailus@linux.intel.com
+2026-08-18	platform-driver-x86	Hans de Goede	handled-elsewhere	2	[v2] platform/x86: int3472: Increase handshake GPIO delay to 200 ms	generic	20260818121445.160751-1-johannes.goede@oss.qualcomm.com
+2026-08-11	linux-media	Sakari Ailus	new	1	[1/1] MAINTAINERS: media: ipu-bridge: Add entry	generic	20260811153822.396946-1-sakari.ailus@linux.intel.com
+2026-08-10	linux-media	Jose Maria Martin	new	2	[v2] media: ipu-bridge: check all DMI entries when overriding sensor rotation	direct	VI6PPFD0A65370FCF422FFAE7B31E157D08A3DE2@VI6PPFD0A65370F.EURP195.PROD.OUTLOOK.COM
+2026-07-29	linux-media	Jakob Berg Jespersen	new	2	[v2] media: i2c: Surface Pro 7+ camera flip fixes	sibling	20260729-sp7plus-ov-flips-v2-2-91884b81a8f5@berg.pm
+2026-07-27	platform-driver-x86	Bartosz Golaszewski	handled-elsewhere	1	platform/surface: gpe: add missing err.h include	generic	20260727144308.61842-1-bartosz.golaszewski@oss.qualcomm.com
+2026-07-21	linux-media	Dan Scally	new	1	media: i2c: Expand gain values for ov5693	direct	20260721-ov5693-gain-v1-1-0eaaee0a7bd4@ideasonboard.com
+2026-07-19	platform-driver-x86	Jakob Berg Jespersen	changes-requested	1	platform/x86: int3472: handle GPIO type 0x08 as a power regulator	direct	20260719-sp7plus-int3472-v1-1-521a43f5c191@berg.pm
+2026-07-08	linux-media	Fernando Rimoli	new	1	media: ov5693: add OVTI5693 ACPI HID for IPU6 Surface devices	direct	20260708213633.18392-1-fernandorimoli11@gmail.com
+2026-07-07	platform-driver-x86	Rafael J. Wysocki	changes-requested/accepted	2	[v2] platform/surface: surfacepro3_button: Stop setting acpi_device_name()	generic	12927239.O9o76ZdvQC@rafael.j.wysocki
+2026-06-15	platform-driver-x86	Uwe Kleine-Koenig	accepted	1	power: supply: surface_{battery,charger}: define ssam_device_ids using named initializers	generic	bc8eff03b2f36c82af5a75fc7114c277228921db.1781526433.git.u.kleine-koenig@baylibre.com
+2026-05-12	platform-driver-x86	Rafael J. Wysocki	accepted	1	platform/surface: surfacepro3_button: Check ACPI_COMPANION()	generic	23119222.EfDdHjke4D@rafael.j.wysocki
+2026-04-01	platform-driver-x86	Marco Nenciarini	superseded/changes-requested/accepted	3	[v8] platform/x86: int3472: Add support for GPIO type 0x02 (IR flood LED)	direct	20260401203638.1601661-5-mnencia@kcore.it
+2026-02-10	platform-driver-x86	Leif Skunberg	accepted	1	[v2] platform/x86: int3472: Handle GPIO type 0x10 (DOVDD)	generic	20260210132129.17943-1-diamondback@cohunt.app
+2025-12-20	platform-driver-x86	Jerome de Bretagne	superseded/handled-elsewhere/accepted	16	Microsoft Surface Pro 11 support	sibling	20251220-surface-sp11-for-next-v5-1-16065bef8ef3@gmail.com
+2025-03-10	platform-driver-x86	Lukas Hetzenecker	accepted	1	platform/surface: aggregator_registry: Add Support for Surface Pro 11	sibling	20250310232803.23691-1-lukas@hetzenecker.me
+2025-02-11	platform-driver-x86	Sakari Ailus	changes-requested/accepted	12	[v7] int3472: Support GPIO con_id based on _HID	generic	20250211072841.7713-1-sakari.ailus@linux.intel.com
+2024-10-07	platform-driver-x86	Jerome de Bretagne	accepted	1	[v2,3/5] platform/surface: aggregator_registry: Add Surface Pro 9 5G	arm	CA+kEDGGJyHYy8T2GJgVA_t6BEqxdGCuovuu1aYuqQZz=Y4Cemw@mail.gmail.com
+2024-08-11	platform-driver-x86	Maximilian Luz	accepted	6	platform/surface: aggregator_registry: Add Support for various devices	generic	20240811131948.261806-1-luzmaximilian@gmail.com
+2024-05-05	platform-driver-x86	Weifeng Liu	superseded/accepted	6	Defer probing of SAM if serdev device is not ready	direct	20240505130800.2546640-2-weifeng.liu.z@gmail.com
+2024-03-30	platform-driver-x86	Maximilian Luz	accepted	4	Add thermal sensor driver for Surface Aggregator	direct	20240330112409.3402943-1-luzmaximilian@gmail.com
+2024-03-14	platform-driver-x86	Ivor Wanders	accepted	2	[v2] platform/surface: platform_profile: add fan profile	direct	20240314223733.6236-1-ivor@iwanders.net
+2024-01-31	platform-driver-x86	Ivor Wanders	accepted	14	[v5] Surface fan monitoring driver	direct	20240131005856.10180-1-ivor@iwanders.net
+2023-05-25	platform-driver-x86	Maximilian Luz	accepted	3	platform/surface: aggregator_tabletsw: Add support for book mode	generic	20230525213218.2797480-1-luzmaximilian@gmail.com
+2023-03-04	platform-driver-x86	Maximilian Luz	accepted	4	platform/surface: Add support for tablet-mode switch on Surface Pro 9	direct	20230304194611.87770-1-luzmaximilian@gmail.com
+2022-11-29	linux-media	Hans de Goede	changes-requested/new	7	ov5693/int3472: Privacy LED handling changes + IPU6 compatibility	direct	20221129231149.697154-2-hdegoede@redhat.com
+2022-11-24	platform-driver-x86	Hans de Goede	superseded	4	platform/x86: int3472/discrete: Make it work with IPU6	direct	20221124200007.390901-1-hdegoede@redhat.com
+2022-11-15	platform-driver-x86	Maximilian Luz	accepted	1	platform/surface: aggregator_registry: Add support for Surface Laptop 5	sibling	20221115231440.1338142-1-luzmaximilian@gmail.com
+2022-04-29	platform-driver-x86	Maximilian Luz	accepted	1	platform/surface: gpe: Add support for Surface Pro 8	sibling	20220429180049.1282447-1-luzmaximilian@gmail.com
+2022-04-29	linux-acpi	Maximilian Luz	superseded	1	ACPI: battery: Add "Not Charging" quirk for Microsoft Surface devices	generic	20220429174114.1277799-1-luzmaximilian@gmail.com
+2021-10-28	platform-driver-x86	Maximilian Luz	accepted	1	platform/surface: aggregator_registry: Add initial support for Surface Pro 8	sibling	20211028012845.1887219-1-luzmaximilian@gmail.com
+2021-11-09	linux-input	Sachi King	new	1	[1/2] Input: soc_button_array - support AMD variant Surface devices	none	20211109081125.41410-1-nakato@nakato.io
+2021-10-11	linux-pci	Jonas Dressler	not-applicable	1	mwifiex: Add quirk resetting the PCI bridge on MS Surface devices	none	20211011134238.16551-1-verdre@v0yd.nl
+# --- NOT FOUND on patchwork (never posted, as far as these searches show): ---
+# platform/surface: gpe: Add support for Surface Pro 9 (linux-surface 0012): SP8 version was accepted in 2022, SP9 never sent
+# PCI: Add quirk to prevent calling shutdown method (Surface Pro 9 / SL5 S5 fix, linux-surface 0011)
+# hid: Add support for Intel Touch Host Controller (ITHC, linux-surface 0006) and iommu ITHC source-id quirk
+# ALSA: hda/realtek: Limit internal mic gain on Microsoft Surface Pro 9 (CmdrShepardsPie fork)
+# power: supply: surface_battery: Report not charging while idle on AC (CmdrShepardsPie fork)
+# Input: soc_button_array: defer MSHW0040 probe until GPIO is ready (linux-surface 0009; related upstream work by Torokhov, de Goede)

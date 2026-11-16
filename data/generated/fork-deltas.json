@@ -1,0 +1,1398 @@
+[
+ {
+  "subject": "powercap: intel_rapl: Add PL4 support for Ice Lake",
+  "author": "Daniel Tang <danielzgtg.opensource@gmail.com>",
+  "links": [
+   "https://github.com/linux-surface/linux-surface/issues/706"
+  ],
+  "file": "0017-powercap.patch",
+  "where": [
+   "2tefan_linux-surface/master@6.18 (2026-02-23)",
+   "danielzgtg_linux-surface/backport/powercapIcelake@6.18 (2026-01-15)",
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)",
+   "ruslanbay_linux-surface/master@6.18 (2026-02-23)",
+   "supermepsipax_linux-surface/ipu4-6.18@6.18 (2026-02-17)",
+   "supermepsipax_linux-surface/autoupdate/patches-v6.18-20260217-092736@6.18 (2026-02-17)",
+   "supermepsipax_linux-surface/autoupdate/patches-v6.12-20260217-091601@6.18 (2026-02-17)",
+   "supermepsipax_linux-surface/autoupdate/patches-v6.12-20260213-091628@6.18 (2026-02-13)",
+   "supermepsipax_linux-surface/autoupdate/patches-v6.18-20260212-092717@6.18 (2026-02-12)",
+   "supermepsipax_linux-surface/autoupdate/patches-v6.12-20260212-092005@6.18 (2026-02-12)",
+   "tmarkov_linux-surface/master@6.18 (2026-02-01)",
+   "wowitsjack_linux-surface/surface-laptop-5-s2idle-fix@6.18 (2026-04-02)",
+   "wowitsjack_linux-surface/master@6.18 (2026-02-27)"
+  ]
+ },
+ {
+  "subject": "media: Add Surface camera support and IOMMU/INT3472 fixes",
+  "author": "surfacebot <surfacebot@users.noreply.github.com>",
+  "links": [],
+  "file": "0001-cameras.patch",
+  "where": [
+   "Cloveian_linux-surface/master@7.0 (2026-04-20)"
+  ]
+ },
+ {
+  "subject": "HID: Remove stale IPTS Kconfig/Makefile references",
+  "author": "surfacebot <surfacebot@users.noreply.github.com>",
+  "links": [],
+  "file": "0002-ipts-cleanup.patch",
+  "where": [
+   "Cloveian_linux-surface/master@7.0 (2026-04-20)"
+  ]
+ },
+ {
+  "subject": "int3472: Remove Surface Pro 9 GPIO quirks",
+  "author": "surfacebot <surfacebot@users.noreply.github.com>",
+  "links": [],
+  "file": "0003-int3472-sp11.patch",
+  "where": [
+   "Cloveian_linux-surface/master@7.0 (2026-04-20)"
+  ]
+ },
+ {
+  "subject": "int3472: Add GPIO type 0x08 power rail for Surface Pro 11 rear camera",
+  "author": "surfacebot <surfacebot@users.noreply.github.com>",
+  "links": [],
+  "file": "0004-int3472-sp11-ov13858-power.patch",
+  "where": [
+   "Cloveian_linux-surface/master@7.0 (2026-04-20)"
+  ]
+ },
+ {
+  "subject": "Apply surface button patches for MSHW0040 power/volume buttons",
+  "author": "surfacebot <surfacebot@users.noreply.github.com>",
+  "links": [],
+  "file": "0005-surface-button.patch",
+  "where": [
+   "Cloveian_linux-surface/master@7.0 (2026-04-20)"
+  ]
+ },
+ {
+  "subject": "surface3-spi: Make use_dma static",
+  "author": "Chris Simpson <chris@nilk.net>",
+  "links": [],
+  "file": "0002-surface3.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "power: supply: surface_battery: Report not charging while idle on AC",
+  "author": "Chris Simpson <chris@nilk.net>",
+  "links": [],
+  "file": "0007-surface-sam.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)"
+  ]
+ },
+ {
+  "subject": "hid/multitouch: Register Type Cover PM notifier after starting the device",
+  "author": "Chris Simpson <chris@nilk.net>",
+  "links": [],
+  "file": "0010-surface-typecover.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "hid/multitouch: Only toggle Type Cover backlight on USB devices",
+  "author": "Chris Simpson <chris@nilk.net>",
+  "links": [],
+  "file": "0010-surface-typecover.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "hid/multitouch: Add missing NULL checks to Type Cover tablet switch",
+  "author": "Chris Simpson <chris@nilk.net>",
+  "links": [],
+  "file": "0010-surface-typecover.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "hid/multitouch: Write Type Cover backlight value by usage index",
+  "author": "Chris Simpson <chris@nilk.net>",
+  "links": [],
+  "file": "0010-surface-typecover.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "media: ipu-bridge: Move Surface rotation quirks to start of DMI table",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov13858: Don't log uninitialised chip ID on read failure",
+  "author": "Chris Simpson <chris@nilk.net>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "media: v4l2-core: Release privacy LED when registration fails",
+  "author": "Chris Simpson <chris@nilk.net>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "media: v4l2-core: Only look up privacy LED for sub-devices with a device",
+  "author": "Chris Simpson <chris@nilk.net>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "media: ipu-bridge: Add ipu_bridge_get_ipu6()",
+  "author": "Sakari Ailus <sakari.ailus@linux.intel.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov5693: Gate the MIPI clock lane for non-continuous clock",
+  "author": "Fernando Rimoli <fernandorimoli11@gmail.com>",
+  "links": [
+   "https://github.com/linux-surface/linux-surface/pull/2171"
+  ],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)",
+   "gattolfo98_linux-surface/sp8-camera@7.2 (2026-10-07)"
+  ]
+ },
+ {
+  "subject": "media: ipu-bridge: Assign endpoint property indices dynamically",
+  "author": "Fernando Rimoli <fernandorimoli11@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "media: ipu-bridge: Match sensor configs per IPU and add config flags",
+  "author": "Fernando Rimoli <fernandorimoli11@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "media: ipu-bridge: Request non-continuous clock for ov5693 on IPU6",
+  "author": "Fernando Rimoli <fernandorimoli11@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)",
+   "gattolfo98_linux-surface/sp8-camera@7.2 (2026-10-07)"
+  ]
+ },
+ {
+  "subject": "media: ipu-bridge: Keep the clock-noncontinuous property name out of rodata",
+  "author": "Fernando Rimoli <fernandorimoli11@gmail.com>",
+  "links": [
+   "https://lore.kernel.org/linux-media/20260905211307.542810-1-dmanresa@gmail.com/"
+  ],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov13858: add horizontal and vertical flip controls",
+  "author": "Sergey Lebedev <lsa.uz@pm.me>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)"
+  ]
+ },
+ {
+  "subject": "media: ipu-bridge: Add upside-down sensor quirks for the Surface Pro 9",
+  "author": "Fernando Rimoli <fernandorimoli11@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)"
+  ]
+ },
+ {
+  "subject": "media: ipu-bridge: Drop the Surface Pro 9 front camera quirk superseded upstream",
+  "author": "Chris Simpson <chris@nilk.net>",
+  "links": [
+   "https://github.com/linux-surface/linux-surface/issues/2257"
+  ],
+  "file": "0013-cameras.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)"
+  ]
+ },
+ {
+  "subject": "ALSA: hda/realtek: Limit internal mic gain on Microsoft Surface Pro 9",
+  "author": "Chris Simpson <chris@nilk.net>",
+  "links": [],
+  "file": "0016-sound.patch",
+  "where": [
+   "CmdrShepardsPie_linux-surface-contrib/7.3.1-pro9@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.1-patches@7.3 (2026-11-05)",
+   "CmdrShepardsPie_linux-surface-contrib/7.3-pro9@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.3.0-patches@7.3 (2026-10-24)",
+   "CmdrShepardsPie_linux-surface-contrib/7.2.12-pro9@7.2 (2026-10-22)",
+   "CmdrShepardsPie_linux-surface-contrib/copr/7.2.12-patches@7.2 (2026-10-22)"
+  ]
+ },
+ {
+  "subject": "HID: Add ithc driver and hid-surface filter",
+  "author": "surfacebot <surfacebot@users.noreply.github.com>",
+  "links": [],
+  "file": "0001-ithc.patch",
+  "where": [
+   "PawelReich_linux-surface/patches/7.2-ov5693-mipi@7.2 (2026-10-20)",
+   "PawelReich_linux-surface/patches/7.2@7.2 (2026-09-30)"
+  ]
+ },
+ {
+  "subject": "PCI: Add quirk to prevent calling shutdown method on Surface devices",
+  "author": "surfacebot <surfacebot@users.noreply.github.com>",
+  "links": [],
+  "file": "0002-surface-shutdown.patch",
+  "where": [
+   "PawelReich_linux-surface/patches/7.2-ov5693-mipi@7.2 (2026-10-20)",
+   "PawelReich_linux-surface/patches/7.2@7.2 (2026-09-30)"
+  ]
+ },
+ {
+  "subject": "media: Add camera support for Surface Pro 9",
+  "author": "surfacebot <surfacebot@users.noreply.github.com>",
+  "links": [],
+  "file": "0003-cameras.patch",
+  "where": [
+   "PawelReich_linux-surface/patches/7.2-ov5693-mipi@7.2 (2026-10-20)",
+   "PawelReich_linux-surface/patches/7.2@7.2 (2026-09-30)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov5693: program MIPI_CTRL00 for IPU6 (Surface Pro 8/9 and Go 4 front cameras)",
+  "author": "Arsalan Naeem <naeemarsalan@gmail.com>",
+  "links": [
+   "https://github.com/linux-surface/linux-surface/pull/2171",
+   "https://github.com/linux-surface/linux-surface/issues/1893",
+   "https://github.com/linux-surface/linux-surface/issues/2154",
+   "https://github.com/linux-surface/linux-surface/issues/1892"
+  ],
+  "file": "0011-ov5693-mipi.patch",
+  "where": [
+   "PawelReich_linux-surface/patches/7.2-ov5693-mipi@7.2 (2026-10-20)",
+   "naeemarsalan_linux-surface/ov5693-ipu6-sp8-front-camera@6.19 (2026-07-09)",
+   "rspilk_linux-surface/main@7.2 (2026-10-29)",
+   "rspilk_linux-surface/sp8-cameras@7.2 (2026-10-15)"
+  ]
+ },
+ {
+  "subject": "acpi: tad: fix memory leak in tad_get_tad_info()",
+  "author": "RowdyRagamuffin <stevenandree@outlook.com>",
+  "links": [],
+  "file": "0005-acpi-tad-fix-memory-leak-in-tad_get_tad_info.patch",
+  "where": [
+   "RowdyRagamuffin_linux-surface/surface-port-7.0@7.0 (2026-07-24)"
+  ]
+ },
+ {
+  "subject": "pci-me.c changes",
+  "author": "RowdyRagamuffin <stevenandree@outlook.com>",
+  "links": [],
+  "file": "0006-pci-me.c-changes.patch",
+  "where": [
+   "RowdyRagamuffin_linux-surface/surface-port-7.0@7.0 (2026-07-24)"
+  ]
+ },
+ {
+  "subject": "pci-me: Update pci-me.c to fix issue with device initialization",
+  "author": "RowdyRagamuffin <stevenandree@outlook.com>",
+  "links": [],
+  "file": "0008-pci-me-Update-pci-me.c-to-fix-issue-with-device-init.patch",
+  "where": [
+   "RowdyRagamuffin_linux-surface/surface-port-7.0@7.0 (2026-07-24)"
+  ]
+ },
+ {
+  "subject": "further patch edits to fix the surface pro 7.0 quickspi driver and discrete driver for the intel-thc-hid driver. This patch fixes the issue where the quickspi driver was not properly initializing the device, causing it to not function correctly. The discrete driver was also updated to properly handle the device's power management features.",
+  "author": "RowdyRagamuffin <stevenandree@outlook.com>",
+  "links": [],
+  "file": "0009-further-patch-edits-to-fix-the-surface-pro-7.0-quick.patch",
+  "where": [
+   "RowdyRagamuffin_linux-surface/surface-port-7.0@7.0 (2026-07-24)"
+  ]
+ },
+ {
+  "subject": "drivers/hid/ithc: Fix PM suspend/resume to preserve hid_device across s2idle",
+  "author": "RowdyRagamuffin <stevenandree@outlook.com>",
+  "links": [],
+  "file": "0010-drivers-hid-ithc-Fix-PM-suspend-resume-to-preserve-h.patch",
+  "where": [
+   "RowdyRagamuffin_linux-surface/surface-port-7.0@7.0 (2026-07-24)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov8865: support an optional pwr1 supply",
+  "author": "Joseph V. Lavigne <jlavig88@gmail.com>",
+  "links": [
+   "https://github.com/linux-surface/linux-surface/issues/1702"
+  ],
+  "file": "0014-ov8865-pwr1.patch",
+  "where": [
+   "Sevron88_linux-surface/sp7plus-ov8865-pwr1-rfc@6.19 (2026-07-13)",
+   "Sevron88_linux-surface/sp7plus-ov8865-pwr1@6.19 (2026-07-13)"
+  ]
+ },
+ {
+  "subject": "media: i2c: dw9719: Add I2C device ID table",
+  "author": "Sakari Ailus <sakari.ailus@linux.intel.com>",
+  "links": [
+   "https://lore.kernel.org/all/20260326174909.2746696-1-sakari.ailus@linux.intel.com/"
+  ],
+  "file": "0013-cameras.patch",
+  "where": [
+   "YicenLab_linux-surface/fix-surface_pro5-camera@6.19 (2026-06-02)",
+   "toor11_linux-surface/fix/dw9719-i2c-device-id-6.19@6.19 (2026-05-11)"
+  ]
+ },
+ {
+  "subject": "platform/surface: aggregator: Defer probing when serdev is not ready",
+  "author": "Weifeng Liu <weifeng.liu.z@gmail.com>",
+  "links": [],
+  "file": "0006-surface-sam.patch",
+  "where": [
+   "ciarancoffey_linux-surface/arch-builtins@6.8 (2024-04-30)",
+   "daviddean-x_linux-surface/arch-builtins@6.8 (2024-04-30)",
+   "tabletseeker_linux-surface/arch-builtins@6.8 (2024-04-30)"
+  ]
+ },
+ {
+  "subject": "media: ipu3-cio2: Further clean up async subdev link creation",
+  "author": "Sakari Ailus <sakari.ailus@linux.intel.com>",
+  "links": [],
+  "file": "0012-cameras.patch",
+  "where": [
+   "ciarancoffey_linux-surface/arch-builtins@6.8 (2024-04-30)",
+   "ciarancoffey_linux-surface/6.8@6.8 (2024-03-17)",
+   "daviddean-x_linux-surface/arch-builtins@6.8 (2024-04-30)",
+   "daviddean-x_linux-surface/6.8@6.8 (2024-03-17)",
+   "tabletseeker_linux-surface/arch-builtins@6.8 (2024-04-30)",
+   "tabletseeker_linux-surface/6.8@6.8 (2024-03-17)",
+   "wowitsjack_linux-surface/6.8@6.8 (2024-03-17)"
+  ]
+ },
+ {
+  "subject": "media: staging: ipu3-imgu: Set fields before media_entity_pads_init()",
+  "author": "Hidenori Kobayashi <hidenorik@chromium.org>",
+  "links": [],
+  "file": "0012-cameras.patch",
+  "where": [
+   "ciarancoffey_linux-surface/6.8@6.8 (2024-03-17)",
+   "daviddean-x_linux-surface/6.8@6.8 (2024-03-17)",
+   "tabletseeker_linux-surface/6.8@6.8 (2024-03-17)",
+   "wowitsjack_linux-surface/6.8@6.8 (2024-03-17)"
+  ]
+ },
+ {
+  "subject": "media: i2c: Revert DW9719 driver",
+  "author": "mojyack <mojyack@gmail.com>",
+  "links": [],
+  "file": "0012-cameras.patch",
+  "where": [
+   "ciarancoffey_linux-surface/6.8@6.8 (2024-03-17)",
+   "daviddean-x_linux-surface/6.8@6.8 (2024-03-17)",
+   "tabletseeker_linux-surface/6.8@6.8 (2024-03-17)",
+   "wowitsjack_linux-surface/6.8@6.8 (2024-03-17)"
+  ]
+ },
+ {
+  "subject": "Fix syntax issues introduced in 0015-rtc.patch",
+  "author": "surfacebot <surfacebot@users.noreply.github.com>",
+  "links": [],
+  "file": "0017-Fix-syntax-issues-introduced-in-rtc.patch",
+  "where": [
+   "davidbitterlich_linux-surface/kernel-7.1-support@7.1 (2026-06-10)"
+  ]
+ },
+ {
+  "subject": "media: ipu3-cio2: Move functionality from .complete() to .bound()",
+  "author": "Daniel Scally <djrscally@gmail.com>",
+  "links": [],
+  "file": "0012-cameras.patch",
+  "where": [
+   "daviddean-x_linux-surface/no-nx@6.5 (2023-11-18)",
+   "tabletseeker_linux-surface/no-nx@6.5 (2023-11-18)",
+   "wowitsjack_linux-surface/no-nx@6.5 (2023-11-18)"
+  ]
+ },
+ {
+  "subject": "media: ipu3-cio2: Re-add .complete() to ipu3-cio2",
+  "author": "Daniel Scally <djrscally@gmail.com>",
+  "links": [],
+  "file": "0012-cameras.patch",
+  "where": [
+   "daviddean-x_linux-surface/no-nx@6.5 (2023-11-18)",
+   "tabletseeker_linux-surface/no-nx@6.5 (2023-11-18)",
+   "wowitsjack_linux-surface/no-nx@6.5 (2023-11-18)"
+  ]
+ },
+ {
+  "subject": "media: i2c: Add driver for DW9719 VCM",
+  "author": "Daniel Scally <djrscally@gmail.com>",
+  "links": [],
+  "file": "0012-cameras.patch",
+  "where": [
+   "daviddean-x_linux-surface/no-nx@6.5 (2023-11-18)",
+   "tabletseeker_linux-surface/no-nx@6.5 (2023-11-18)",
+   "wowitsjack_linux-surface/no-nx@6.5 (2023-11-18)"
+  ]
+ },
+ {
+  "subject": "drivers/media/i2c: Fix DW9719 dependencies",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "links": [],
+  "file": "0012-cameras.patch",
+  "where": [
+   "daviddean-x_linux-surface/no-nx@6.5 (2023-11-18)",
+   "tabletseeker_linux-surface/no-nx@6.5 (2023-11-18)",
+   "wowitsjack_linux-surface/no-nx@6.5 (2023-11-18)"
+  ]
+ },
+ {
+  "subject": "media: ipu-bridge/ov13858: fix Surface Pro 8 and 9 rear camera rotation",
+  "author": "Eva Dixon <eva@dixon.solutions>",
+  "links": [
+   "https://github.com/linux-surface/linux-surface/issues/1865",
+   "https://github.com/linux-surface/linux-surface/issues/1892",
+   "https://github.com/linux-surface/linux-surface/pull/2227#issuecomment-5481167166",
+   "https://github.com/fildunsky/linux-surface-pro8-cameras"
+  ],
+  "file": "0013-cameras.patch",
+  "where": [
+   "dixonSolutions_linux-surface/sp9-rear-camera-rotation@6.19 (2026-10-03)",
+   "rspilk_linux-surface/main@7.2 (2026-10-29)",
+   "rspilk_linux-surface/sp8-cameras@7.2 (2026-10-15)"
+  ]
+ },
+ {
+  "subject": "media: i2c: Add Sony IMX681 sensor driver for Surface Pro 10/11",
+  "author": "\"D.J. Mulder\" <djmulder@example.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "djmulder_linux-surface/feature/surface-pro-10-cameras@7.0 (2026-06-29)"
+  ]
+ },
+ {
+  "subject": "platform/x86: int3472: Add GPIO type 0x08 (DVDD) and 0x10 (DOVDD) support",
+  "author": "\"D.J. Mulder\" <djmulder@example.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "djmulder_linux-surface/feature/surface-pro-10-cameras@7.0 (2026-06-29)"
+  ]
+ },
+ {
+  "subject": "platform/x86: int3472: Mark clock critical and regulators always-on for SP10",
+  "author": "\"D.J. Mulder\" <djmulder@example.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "djmulder_linux-surface/feature/surface-pro-10-cameras@7.0 (2026-06-29)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov13858: Add reset GPIO handling for Surface Pro 10",
+  "author": "\"D.J. Mulder\" <djmulder@example.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "djmulder_linux-surface/feature/surface-pro-10-cameras@7.0 (2026-06-29)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov5693: make the 2x2-binned mode stream on IPU6",
+  "author": "\"D. Manresa\" <d.manresa@electronica-submarina.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "dmanresa-saes_linux-surface/surface-pro7plus-cameras@6.19 (2026-09-01)",
+   "rylos_linux-surface/sp5-cameras-7.2@7.2 (2026-10-16)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov7251: drive the IR illuminator while streaming",
+  "author": "\"D. Manresa\" <d.manresa@electronica-submarina.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "dmanresa-saes_linux-surface/surface-pro7plus-cameras@6.19 (2026-09-01)"
+  ]
+ },
+ {
+  "subject": "platform/x86: int3472: map the Surface Pro 7+ and Pro 8 sensor rails",
+  "author": "\"D. Manresa\" <d.manresa@electronica-submarina.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "dmanresa-saes_linux-surface/surface-pro7plus-cameras@6.19 (2026-09-01)"
+  ]
+ },
+ {
+  "subject": "ALSA: soc: intel: Add SoundWire audio support for Surface Laptop 7 (Intel)",
+  "author": "Eamonn Hayden <eamonnhayden@gmail.com>",
+  "links": [],
+  "file": "0025-surface-laptop-7-intel-sound.patch",
+  "where": [
+   "e5h5_linux-surface/feature/surface-laptop-7-intel-sound@6.19 (2026-05-25)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov5693: Reprogram the sensor mode when starting a stream",
+  "author": "Claude <noreply@anthropic.com>",
+  "links": [
+   "https://github.com/linux-surface/linux-surface/wiki/Camera-Support"
+  ],
+  "file": "0013-cameras.patch",
+  "where": [
+   "gattolfo98_linux-surface/sp8-camera@7.2 (2026-10-07)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov13858: Wait for the IPU bridge and tidy up power handling",
+  "author": "Claude <noreply@anthropic.com>",
+  "links": [
+   "https://github.com/linux-surface/linux-surface/issues/1893"
+  ],
+  "file": "0013-cameras.patch",
+  "where": [
+   "gattolfo98_linux-surface/sp8-camera@7.2 (2026-10-07)"
+  ]
+ },
+ {
+  "subject": "media: ipu-bridge: Fix the link frequencies of the ov13858",
+  "author": "Claude <noreply@anthropic.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "gattolfo98_linux-surface/sp8-camera@7.2 (2026-10-07)"
+  ]
+ },
+ {
+  "subject": "input/misc/soc_button_array: Defer instead of returning ENODEV if not found",
+  "author": "jonpetersathan <jonpetersathan@gmail.com>",
+  "links": [],
+  "file": "0009-surface-button.patch",
+  "where": [
+   "jonpetersathan_linux-cachyos-surface-patches/master@6.18 (2026-01-11)"
+  ]
+ },
+ {
+  "subject": "input/misc/soc-button-array: Fix wakeup from suspend not working",
+  "author": "jonpetersathan <jonpetersathan@gmail.com>",
+  "links": [],
+  "file": "0009-surface-button.patch",
+  "where": [
+   "jonpetersathan_linux-cachyos-surface-patches/upstream@6.18 (2026-01-11)"
+  ]
+ },
+ {
+  "subject": "platform/x86: int3472: Map Surface Pro 7+ ov8865 DVDD supply pin",
+  "author": "luqqas96 <282232570+luqqas96@users.noreply.github.com>",
+  "links": [
+   "https://github.com/linux-surface/linux-surface/pull/2201",
+   "https://github.com/linux-surface/linux-surface/issues/1702"
+  ],
+  "file": "0013-cameras.patch",
+  "where": [
+   "luqqas96_linux-surface/int3472-sp7plus-ov8865-dvdd@6.19 (2026-08-23)"
+  ]
+ },
+ {
+  "subject": "Fix speaker/jack audio on Surface Laptop 7 for Business (Intel, Lunar Lake)",
+  "author": "rdavis <ricky.c.davis.9@gmail.com>",
+  "links": [],
+  "file": "0025-surface-laptop7-audio.patch",
+  "where": [
+   "ricky-davis_linux-surface/surface-laptop7-intel-audio@6.19 (2026-07-18)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov13858: Don't move the crop window when flipping",
+  "author": "rspilk <432044+rspilk@users.noreply.github.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "rspilk_linux-surface/main@7.2 (2026-10-29)"
+  ]
+ },
+ {
+  "subject": "media: intel: Add IPU4 input and processing system drivers",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel: Add Kconfig and Makefile for IPU4 and IPU4P drivers",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: modify IPU4 related headers",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Remove legacy crlmodule header dependency",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Remove kernel version compatibility code",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Fix Bayer format propagation and",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Track DMA allocations with internal VMA list",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: v4l2: Rename CSI-2 frame descriptor fields to align with media API",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Use generic DMA API instead of PCI-specific functions",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Update to new media pad lookup API",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Use media_entity_pipeline() accessor function",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Implement virtual channel aware pipeline validation",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Replace dma_buf_map with iosys_map for buffer mapping",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Pass entity directly to media_graph_walk_start()",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Integrate IPU ISYS with ipu-bridge for sensor discovery",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Advertise media controller capability and filter formats by mbus code",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: v4l2: Add descriptions for vector Bayer pixel formats",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Use multiplanar buffer type for format enumeration",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Implement frame size enumeration (VIDIOC_ENUM_FRAMESIZES)",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Simplify DMA buffer allocation with dma_alloc_coherent()",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Simplify DMA buffer deallocation with dma_free_coherent()",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Use dma_map_sgtable helpers for scatter-gather mapping",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [
+   "https://github.com/intel/ipu6-drivers/blob/master/drivers/media/pci/intel/ipu-buttress.c#L778"
+  ],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Use v4l2_get_link_freq() helper for CSI-2 link frequency",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [
+   "https://github.com/intel/ipu6-drivers/blob/master/drivers/media/pci/intel/ipu-isys-csi2.c#L84"
+  ],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Replace strlcpy() with safer strscpy() function",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Use noop_llseek instead of deprecated no_llseek",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Update from_timer() to timer_container_of()",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Update try_to_del_timer_sync() to timer_delete_sync_try()",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Update get_user_pages() call to match new kernel signature",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Convert MODULE_IMPORT_NS to string literal format",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Update set_routing callback to match v4l2_subdev_pad_ops signature",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Modernize user page pinning with pin_user_pages_fast()",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Adapt to v4l2_get_link_freq() API signature change",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Use v4l2_async_connection for async sensor discovery",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Update ipu_bus_match() signature for const driver parameter",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Update v4l2_async_nf_init() call with v4l2_dev parameter",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Adapt to v4l2_async_nf_register() API signature change",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Update to new v4l2_subdev_state pad accessors",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: v4l2-subdev: Fix invalid array indexing on routing.routes",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Guard cleanup against uninitialized resources",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Handle uninitialized format state pointers safely",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Safely handle stream-aware subdevices without routing",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Initialize pad directions before media_entity_pads_init()",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Add guards for uninitialized array cleanup",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Add link validation infrastructure",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Fix format enumeration and add multiplanar format support",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Implement format-based link validation",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Fix format table lookup priority in link_validate()",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Count video devices for nr_queues initialization",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Fix IPU4P firmware port-to-array-index mapping",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Expand CSI-2 ports to support Surface Pro 7",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Use fwnode_graph_for_each_endpoint() for enumeration",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Replace polling loops with readl_poll_timeout()",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Retry buttress authentication on driver open",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Rename symbols to avoid IPU7 namespace collision",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Workaround to enable libcamera simple pipeline",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: intel/ipu4: Add OV5693 debug instrumentation",
+  "author": "Ruslan Bay <ruslanbey@proton.me>",
+  "links": [],
+  "file": "0018-ipu4.patch",
+  "where": [
+   "ruslanbay_linux-surface/ipu4@6.18 (2026-03-13)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov8865: Program the mode registers on stream start",
+  "author": "Marco Ziliani <rylos78@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "rylos_linux-surface/sp5-cameras-7.2@7.2 (2026-10-16)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov5693: Program the mode registers on stream start",
+  "author": "Marco Ziliani <rylos78@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "rylos_linux-surface/sp5-cameras-7.2@7.2 (2026-10-16)"
+  ]
+ },
+ {
+  "subject": "media: Surface Pro 5: fix front and rear camera orientation",
+  "author": "Marco Ziliani <rylos78@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "rylos_linux-surface/sp5-cameras-7.2@7.2 (2026-10-16)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov7251: Drive the Surface IR illuminator via STROBE",
+  "author": "Marco Ziliani <rylos78@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "rylos_linux-surface/sp5-cameras-7.2@7.2 (2026-10-16)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov5693: Surface Pro 5: upright front image by default",
+  "author": "Marco Ziliani <rylos78@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "rylos_linux-surface/sp5-cameras-7.2@7.2 (2026-10-16)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov8865: Reset VBLANK on mode change, 30 fps default on Surface Pro 5",
+  "author": "Marco Ziliani <rylos78@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "rylos_linux-surface/sp5-cameras-7.2@7.2 (2026-10-16)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov8865: Fix the VTS high byte mask",
+  "author": "Marco Ziliani <rylos78@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "rylos_linux-surface/sp5-cameras-7.2@7.2 (2026-10-16)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov8865: Allow fine analogue gain steps",
+  "author": "Marco Ziliani <rylos78@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "rylos_linux-surface/sp5-cameras-7.2@7.2 (2026-10-16)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov5693: 30 fps binned readout values",
+  "author": "Marco Ziliani <rylos78@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "rylos_linux-surface/sp5-cameras-7.2@7.2 (2026-10-16)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov7251: Surface IR strobe pulse follows the exposure",
+  "author": "Marco Ziliani <rylos78@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "rylos_linux-surface/sp5-cameras-7.2@7.2 (2026-10-16)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov8865: Program the mode on stream start if needed",
+  "author": "Jurison Murati <eng.juri@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "toor11_linux-surface/fix/ov8865-stale-mode-6.19@6.19 (2026-06-10)"
+  ]
+ },
+ {
+  "subject": "media: i2c: ov8865: Drop PM runtime reference if stream start fails",
+  "author": "Jurison Murati <eng.juri@gmail.com>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "toor11_linux-surface/fix/ov8865-stale-mode-6.19@6.19 (2026-06-10)"
+  ]
+ },
+ {
+  "subject": "platform/surface: gpe: Add support for Surface Pro 9 and Surface Laptop 5",
+  "author": "Maximilian Luz <luzmaximilian@gmail.com>",
+  "links": [],
+  "file": "0012-surface-gpe.patch",
+  "where": [
+   "wowitsjack_linux-surface/surface-laptop-5-s2idle-fix@6.18 (2026-04-02)",
+   "wowitsjack_linux-surface/master@6.18 (2026-02-27)"
+  ]
+ },
+ {
+  "subject": "platform/surface: Add s2idle/hibernate fix v5.4 for Surface Laptop 5",
+  "author": "removed for privacy",
+  "links": [
+   "https://github.com/linux-surface/linux-surface/issues/1782"
+  ],
+  "file": "0018-surface-s2idle-fix.patch",
+  "where": [
+   "wowitsjack_linux-surface/surface-laptop-5-s2idle-fix@6.18 (2026-04-02)"
+  ]
+ },
+ {
+  "subject": "=?UTF-8?q?surface:=20cameras=20(rebased=20from=206.?= =?UTF-8?q?19=20=E2=80=94=20extra=20INT3472=20GPIO=20cases=20for=20SL3/Pro?= =?UTF-8?q?9)?=",
+  "author": "yonaizuos <build@yonaizuos.local>",
+  "links": [],
+  "file": "0031-surface-cameras-rebased-from-6.19-extra-INT3472-GPIO.patch",
+  "where": [
+   "yonaizulab_linux-surface/master@7.0 (2026-05-20)"
+  ]
+ },
+ {
+  "subject": "surface: hid-surface (rebased from 6.19, applies with offset on 7.0)",
+  "author": "yonaizuos <build@yonaizuos.local>",
+  "links": [],
+  "file": "0032-surface-hid-surface-rebased-from-6.19-applies-with-o.patch",
+  "where": [
+   "yonaizulab_linux-surface/master@7.0 (2026-05-20)"
+  ]
+ },
+ {
+  "subject": "surface pro 9 camera patches",
+  "author": "Vaughan Milliman <vaughan@vaughanm.xyz>",
+  "links": [],
+  "file": "0013-cameras.patch",
+  "where": [
+   "zeroxoneafour_linux-surface/custom-patches@7.1 (2026-07-22)",
+   "zeroxoneafour_linux-surface/master@7.1 (2026-07-21)"
+  ]
+ }
+]

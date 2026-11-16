@@ -1,0 +1,84 @@
+# GitHub Discussions in linux-surface/linux-surface relevant to the Surface Pro 9 (319 discussions scanned, 2026-11-12; 2282 recounted 2026-11-16).
+# sp9 = about the SP9; sp8 = SP8 sibling; cam = camera; up = upstreaming status; pkg = Fedora/packaging/distro images;
+# touch, pen, kbd, power, boot. "read" = content extracted into docs/ (see docs/research/discussions-digest.md).
+n	created	comments	title	tags	read
+2374	2026-11-09	0	Bazzite-SDX: Bazzite-DX + Linux Surface Packages Pre Installed, Looking For Testers	pkg	read
+2368	2026-11-07	0	Surface Companion: an unofficial desktop app to control and fix Surface devices	tools	read
+2308	2026-10-18	1	Surface Go 3 cameras: Intel's IPU3 3A with the Windows tuning	cam	
+2296	2026-10-05	0	Fedora 44 Repos come back with 404	pkg	read
+2291	2026-09-29	0	Surface Pro 7 (IPU4P): working front and rear cameras on Fedora 43	cam	
+2282	2026-09-15	11	Collecting scattered SP9 fixes for upstreaming, links welcome	sp9,up,pkg,power	read
+2260	2026-08-31	0	Surface Pro 11 (Intel): the infrared camera, face login, and a software-ISP path	cam	
+2253	2026-08-27	0	Surface Pro 7+: all three cameras working, including the IPU6 hardware ISP (PSYS)	cam	read
+2243	2026-08-24	0	Microsoft Surface Book 2 - Fedora 44 KDE Installation	pkg	
+2217	2026-07-30	0	Moving the repository to Codeberg	up	
+2202	2026-07-14	0	Windows-like lid behavior on the Surface Pro 9: suspend, then hibernate after a delay	sp9,power,cam	read
+2198	2026-07-08	10	Surface Pro 9 camera working on Linux Mint (front + rear, IPU6/ov5693) full writeup	sp9,cam	read
+2184	2026-06-22	0	A Fedora silverblue based distro with the surface kernel slipstreamed into it	pkg	read
+2180	2026-06-16	5	Checking if a repo is updated	pkg	
+2145	2026-05-24	1	Surface Pro 10 for Business: Kernel 7.x feedback, thermal issues, and stylus support	pen	read
+2128	2026-05-14	11	Surface Pro 11 (Denali) Linux Boot Fix: instant reboot loop and keyboard init	boot	
+2100	2026-05-03	3	Surface Laptop 7 Intel Haptic Trackpad Working	kbd	
+2089	2026-04-30	2	Should fedora build-ark.py perhaps build ARCH_MACH specific srpm?	pkg	read
+2080	2026-04-26	0	Backlight timeout configurability ?	kbd	
+2041	2026-03-25	2	[libinput issue] input (keyboard, mouse) not responding on Surface Pro 9	sp9,kbd,pkg	read
+2024	2026-03-13	2	How to ready typecover keyboard at early initramfs to unlock encrypted volume?	sp8,kbd,boot	read
+2012	2026-02-25	2	Any chance upstream to kernel?	up	read
+1994	2026-02-14	0	Fedora 43 support secure boot	pkg,boot	
+1903	2025-11-14	4	Suddenly: Use touch and cursor disappears	touch	
+1899	2025-11-11	0	Surface Pro8 Camera working but upside down	sp8,cam	read
+1889	2025-10-28	7	404 error trying to install packages from f43	pkg	read
+1882	2025-10-19	0	Add which MOK option to choose to the installation and setup wiki page	boot	
+1779	2025-06-03	1	How can I turn off broken touch and pen input hardware?	touch	
+1777	2025-06-01	1	Screen Keyboard for Plasma Wayland startup login??	touch	
+1750	2025-04-23	0	If Fedora (42 KDE Plasma) Live USB hangs before installation, is linux-surface a possible cause	pkg	
+1746	2025-04-21	11	[Pro9] No touch or keyboard after 6.12.7	sp9,kbd,touch	read
+1741	2025-04-19	1	Experience with Surface Pen	pen	
+1734	2025-04-14	0	[SP9] Thermal/Power setup to prevent throttling	sp9,power	read
+1731	2025-04-12	0	At least one patch is not needed anymore starting from Linux kernel v6.14	up,cam	read
+1730	2025-04-09	0	Surface pro 8 - EVERYTHING WORKS	sp8	
+1691	2025-02-19	1	PSA: Nobara Linux is amazing on the SP9	sp9,pkg	read
+1687	2025-02-15	1	Why does the Surface require a separate kernel? Blockers for upstream?	up	read
+1672	2025-01-31	0	Fedora - Rawhide	pkg	
+1659	2025-01-10	6	Kernel Support for other devices	up	
+1649	2024-12-30	0	Surface Pro 8 - Linux Mint 22 - Battery not charging.	sp8,power	read
+1646	2024-12-26	0	Surface Pro 8 - Linux Mint 22 - intel-ipu6-dkms not working.	sp8,cam	read
+1618	2024-11-14	1	Phoronix: Intel Touch Host Controller	up,touch	read
+1610	2024-11-03	1	[SP8] Auto-brightness and auto-rotate are no longer available	sp8	read
+1581	2024-10-02	5	upstream to the mainline	up,touch	read
+1472	2024-06-17	0	Mint Installation with Dual Boot of Windows 11 on Surface Pro 9	sp9,boot	
+1462	2024-06-07	0	Issues with kernel 6.8.8 with SP9 (Intel) but don't know how to report.	sp9,kbd	read
+1455	2024-05-30	19	Workaround for installing Linux on Surface Pro where unable to boot (tested on gen7)	boot	
+1441	2024-05-07	2	What isn't upstream?	up	read
+1395	2024-03-14	3	Kb/Mouse SAM Module on Installation	kbd,up	read
+1373	2024-02-15	2	Looking to Get Best Experience on Surface Pro 8	sp8	read
+1366	2024-02-06	13	Unable to install Linux on Surface Pro 9.	sp9,boot	read
+1364	2024-02-05	0	Installation on Surface Pro 4 running Fedora Silverblue 39	pkg	
+1355	2024-01-30	14	Camera support (General)	cam	
+1354	2024-01-30	165	Camera support (IPU6)	cam,sp9,sp8	
+1353	2024-01-30	205	Camera support (IPU4)	cam	
+1352	2024-01-30	78	Camera support (IPU3)	cam	
+1328	2023-12-22	1	Surface pro 8 doesnt boot into linux	sp8,boot	
+1305	2023-11-22	3	Upstream status for touchscreen drivers	up,touch	read
+1291	2023-11-12	2	Which Distro/Desktopmanager for a Surface Pro 9?	sp9	read
+1290	2023-11-11	3	Surface pro 9, arch linux, doesn't sleep right	sp9,power	read
+1288	2023-11-10	0	Surface Pro 8 Ambient Light Sensor Device Information	sp8	read
+1256	2023-09-25	10	import_mok_state() failed: Not Found	boot	
+1193	2023-07-22	2	Help me with the keyboard backlight keycode	kbd	
+1169	2023-06-14	0	Surface Pro 8 - Linux Mint - Occasional Graphics Glitch	sp8	
+1166	2023-06-12	2	Does this kernel support manual battery limit?	power	
+1157	2023-06-08	6	I can't get my Pro 8 to work	sp8,pen	read
+1145	2023-05-26	3	Surface super-slow when battery is empty	power	
+1132	2023-05-06	1	Arch freezing / reboots on Surface Pro 8 solved by setting split_lock_detect=off	sp8	read
+1093	2023-03-15	0	Is the Surface Pro 8 ever going to get camera support?	sp8,cam	read
+1073	2023-02-25	4	Surface Pro 9 2nd Display	sp9	read
+1042	2023-01-24	6	Surface Pro 9 Fedora 37 Touch Screen Not Working	sp9,touch,pkg	read
+1011	2022-12-18	7	Single touch not working anymore after surface kernel upgrade	touch	
+986	2022-11-13	25	Smart Charging Suspension and etc.	power	
+983	2022-11-07	6	Surface Laptop Studio Libwacom (Tablet Definition)	pen	
+981	2022-11-06	14	How to get Signature Keyboard and touchscreen working on Surface Pro 8	sp8,kbd,touch	read
+970	2022-10-26	1	Including precise touch patch into linux-surface	touch	
+908	2022-08-22	0	SP8 Anyway to Enable Cellular by Default?	sp8	
+844	2022-06-02	3	Use touchscreen during boot (in Plymouth)	touch,boot	
+796	2022-04-21	1	Touchscreen support in the upstream kernel	up,touch	read
+665	2021-12-03	1	Failed to find any devices known to libwacom	pen	

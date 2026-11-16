@@ -1,0 +1,146 @@
+# Audio, display, wireless. Source for issues/SP9-5xx-*.md.
+
+- id: SP9-501
+  title: "Internal microphone gain is too high (noisy, clipped recordings)"
+  area: audio
+  kind: upstreaming
+  status: open
+  priority: P2
+  layers: {mainline: broken, linux_surface: broken, fedora: broken}
+  problem: |
+    The SP9 internal microphone is far too loud and noisy with default mixer settings.
+  origin: |
+    Realtek ALC274 (codec 10EC0274, subsystem 10EC1284): the default 'Internal Mic Boost' is too high.
+    A quirk limiting it exists only in CmdrShepardsPie's fork (0016-sound); nothing was posted to alsa-devel.
+    The SP8 shows the same symptom; a SOF developer confirmed lowering the boost fixes it.
+  reports:
+    - "thesofproject/linux#5509 | SP8 mic: Internal Mic Boost 0 fixes it; SP8 has no DMIC"
+    - "CmdrShepardsPie/surface-kernel-copr#10 | COPR carries the SP9 mic gain fix"
+  fixes:
+    - "url:https://github.com/CmdrShepardsPie/linux-surface-contrib | 'ALSA: hda/realtek: Limit internal mic gain on Microsoft Surface Pro 9' (fork patch 0016)"
+  solutions:
+    - "Post the realtek quirk to alsa-devel / linux-sound with Chris Simpson's authorship (Takashi Iwai merges these quickly)."
+    - "Workaround: amixer -c0 sset 'Internal Mic Boost' 0."
+  next:
+    - "Ask CmdrShepardsPie for permission, test on the SP9, send."
+  commands: |
+    amixer -c0 sset 'Internal Mic Boost' 0
+  upstream: ["linux-sound (Takashi Iwai)"]
+  people: [CmdrShepardsPie, ujfalusi]
+  depends_on: []
+  related: [SP9-502]
+  kb: ["docs/subsystems/audio-display-wireless.md", "docs/research/upstream-efforts.md"]
+
+- id: SP9-502
+  title: "Speakers sound thin without the Windows Surface APO tuning"
+  area: audio
+  kind: missing-feature
+  status: open
+  priority: P3
+  layers: {mainline: partial, linux_surface: partial, fedora: partial}
+  problem: |
+    The speakers work but sound tinny compared to Windows. Speaker hiss while headphones play is a separate
+    small issue (Auto-Mute Mode).
+  origin: |
+    Windows applies a Surface audio processing object (SurfaceAPO_1284.json); Linux has no equivalent preset.
+  reports:
+    - "#168 | sound tinny; petm5 posted an SP9 impulse response; StollD suggests an asahi-audio style package"
+    - "antoinecellerier/speaker-tuning-to-easyeffects#113 | SP9 user confirms the converted preset sounds much better"
+  fixes:
+    - "url:https://github.com/antoinecellerier/speaker-tuning-to-easyeffects | converts the Windows APO to a PipeWire filter chain or EasyEffects preset"
+  solutions:
+    - "Ship the converted SP9 preset as an opt-in Fedora package (filter-chain config matched by DMI), in the asahi-audio style."
+    - "Hiss: amixer sset 'Auto-Mute Mode' Disabled."
+  next:
+    - "Try the preset on an SP9; decide whether a package is worth it."
+  upstream: ["Fedora (new package)", "PipeWire"]
+  people: [antoinecellerier, petm5, StollD]
+  depends_on: []
+  related: [SP9-501]
+  kb: ["status.yaml"]
+
+- id: SP9-503
+  title: "Display flicker and resume freezes from Panel Self Refresh"
+  area: display
+  kind: bug
+  status: needs-test
+  priority: P2
+  layers: {mainline: partial, linux_surface: partial, fedora: partial}
+  problem: |
+    Screen flicker and random freezes are worked around with i915.enable_psr=0; in 2022 the SP9 wiki recorded a
+    roughly 50 s frozen screen after resume with an i915 "Selective fetch area calculation failed" message.
+  origin: |
+    i915 PSR / PSR2 selective fetch on this panel; the SP10 wiki still uses i915.enable_psr2_sel_fetch=0.
+  reports:
+    - "#862 | SP8 flicker: i915.enable_psr=0"
+    - "#1208 | SP7 freezes fixed by i915.enable_psr=0"
+    - "NixOS/nixos-hardware#941 | SP9 config disables PSR"
+    - "pop-os/cosmic-comp#1372 | SP9 VRR page flip errors"
+  fixes: []
+  solutions:
+    - "Test the stock Fedora kernel without any PSR parameter; if flicker or resume freezes appear, report to drm/i915 with the panel EDID."
+  next:
+    - "Include in the phase 0 test (SP9-901)."
+  upstream: ["drm/i915 (freedesktop GitLab)"]
+  people: []
+  depends_on: [SP9-901]
+  related: [SP9-504]
+  kb: ["docs/research/wiki-digest.md", "status.yaml"]
+
+- id: SP9-504
+  title: "Display odds and ends: 120 Hz black screen, external 4K at 30 Hz, backlight spots after shutdown"
+  area: display
+  kind: bug
+  status: needs-test
+  priority: P3
+  layers: {mainline: partial, linux_surface: partial, fedora: partial}
+  problem: |
+    Single reports: selecting 120 Hz gave a black screen on one SP9 (2024); external 4K over USB-C limited to
+    30 Hz; white backlight spots after shutdown (SP8/SP9); brightness curve not linear.
+  origin: |
+    Unknown; each has only one or two reports.
+  reports:
+    - "#825 | SP8/SP9 120 Hz (xrandr mode and rate together)"
+    - "#899 | external 4K at 30 Hz (SP9 confirmation)"
+    - "#1725 | SP8/SP9 shutdown backlight spots"
+    - "#1200 | SP9 brightness mapping"
+  fixes: []
+  solutions:
+    - "Retest each on current Fedora; close or report to drm/i915 with data."
+  next:
+    - "Part of phase 0."
+  upstream: ["drm/i915"]
+  people: []
+  depends_on: [SP9-901]
+  related: [SP9-503]
+  kb: ["status.yaml"]
+
+- id: SP9-505
+  title: "Wi-Fi and Bluetooth instability (iwlwifi crash on resume, dropouts, BT device drops)"
+  area: wireless
+  kind: bug
+  status: needs-test
+  priority: P3
+  layers: {mainline: partial, linux_surface: partial, fedora: partial}
+  problem: |
+    Reports of iwlwifi crashing on resume on Alder Lake-P CNVi, Wi-Fi dropping on connect, and Bluetooth mice
+    disconnecting.
+  origin: |
+    Mostly generic Intel AX211 / iwlwifi firmware issues, not Surface-specific; BT mouse drops are autosuspend.
+  reports:
+    - "#1973 | iwlwifi crash on resume (ADL-P CNVi): iwlmvm power_scheme=1 made it rarer"
+    - "#1503 | SP9 Wi-Fi off on connect: pinning linux-firmware 20240610 helped (2024)"
+    - "#1405 | SP9 dropouts: separate 2.4 and 5 GHz SSIDs (closed)"
+    - "#1178 | SP9 BT mouse drops: autosuspend rule"
+    - "#1988 | SP9 BT disconnects: re-pair (closed)"
+    - "#1794 | SP9 Debian 12 AX211 after kernel swap"
+  fixes: []
+  solutions:
+    - "If it reproduces on current Fedora, report to iwlwifi (Intel) with firmware version; not a Surface upstreaming item."
+  next:
+    - "Watch during daily use."
+  upstream: ["iwlwifi (Intel)", "BlueZ"]
+  people: []
+  depends_on: []
+  related: [SP9-110]
+  kb: ["status.yaml"]
